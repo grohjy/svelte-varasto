@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { handleEditorContentAndImages } from '$lib/gfhelpers';
 	import Editor from '@tinymce/tinymce-svelte';
 	let conf = {
 		plugins: 'lists autoresize',
@@ -9,25 +10,18 @@
 		max_height: 800,
 		content_css: '/src/app.css',
 		body_class: 'prose   mx-2 prose-img:max-h-96	'
-		// images_upload_handler: kk
-		// content_style: `
-		//     img {
-		//         display:block;
-		//         width:50%;
-		//         height:auto;
-		//         margin-left:auto;
-		//         margin-right:auto;
-		//     }
-		//     `
 	};
 	// let value=$state()
 	type Props = {
 		value: string;
+		getContentAndImages: (str: string) => string;
 	};
-	let { value = $bindable() }: Props = $props();
-	// function kk(blob, progress) {
-	// 	console.log('immaage upo');
-	// }
+	// let { value = $bindable() }: Props = $props();
+	let value: string = $state('');
+	export async function getContentAndImages(): Promise<{ formdataImages: FormData; html: string }> {
+		const { formData, html } = await handleEditorContentAndImages(value);
+		return { formdataImages: formData, html };
+	}
 </script>
 
 <Editor scriptSrc="/tinymce/tinymce.js" {conf} licenseKey="gpl" bind:value />

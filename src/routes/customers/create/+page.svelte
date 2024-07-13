@@ -14,93 +14,15 @@
 	import DropImage from '$lib/components/DropImage.svelte';
 	let logo = $state();
 	// export let data: PageData;
-	let value = $state();
+	// let value = $state();
+	let editor;
+	// let editor: typeof GfEditor;
 
-	function allowDrop(e) {
-		e.preventDefault();
-		console.log('adopped', e);
-	}
-	function drop(e) {
-		e.preventDefault();
-		console.log('evee', e);
-
-		if (e.dataTransfer.items) {
-			[...e.dataTransfer.items].forEach((item, i) => {
-				if (item.kind === 'file') {
-					const file = item.getAsFile();
-					displayFile(file);
-					// document.getElementById('logo');
-					// const img = document.createElement('img');
-					// img.src = fetchAndConvertImgToBase64();
-					// console.log(`… file[${i}].name = ${file.name}`);
-				}
-				console.log('dopped', item);
-			});
-		}
-	}
-	function displayFile(file) {
-		let fileType = file.type;
-		let validExtensions = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif'];
-		if (validExtensions.includes(fileType)) {
-			let fileReader = new FileReader();
-			fileReader.onload = async () => {
-				let fileURL = fileReader.result as string;
-				console.log('uuu1', fileURL);
-				const u = await fetchAndConvertImgToBase64(fileURL);
-				console.log('uuu', u);
-
-				let imgTag = `<img src="${u}" alt="">`;
-				document.getElementById('logo').innerHTML = imgTag;
-
-				// dropArea.innerHTML = imgTag;
-			};
-			console.log('fiile', file);
-
-			fileReader.readAsDataURL(file);
-		} else {
-			alert('This is not an Image File');
-			// dropArea.classList.remove('active');
-		}
-	}
-	async function selectFile() {
-		const file = await promptFile('image/png, image/jpeg', false);
-		console.log('selefiil', file);
-		let fileReader = new FileReader();
-		fileReader.onload = async () => {
-			let fileURL = fileReader.result as string;
-			console.log('uuu1', fileURL);
-			const u = await fetchAndConvertImgToBase64(fileURL);
-			console.log('uuu', u);
-
-			let imgTag = `<img src="${u}" alt="">`;
-			document.getElementById('logo').innerHTML = imgTag;
-
-			// dropArea.innerHTML = imgTag;
-		};
-		console.log('fiile', file);
-
-		fileReader.readAsDataURL(file);
-	}
-	function promptFile(contentType, multiple) {
-		var input = document.createElement('input');
-		input.type = 'file';
-		input.multiple = multiple;
-		input.accept = contentType;
-		return new Promise(function (resolve) {
-			document.activeElement.onfocus = function () {
-				document.activeElement.onfocus = null;
-				setTimeout(resolve, 500);
-			};
-			input.onchange = function () {
-				var files = Array.from(input.files);
-				if (multiple) return resolve(files);
-				resolve(files[0]);
-			};
-			input.click();
-		});
-	}
 	async function handleOnSubmit({ formData }) {
-		const { formData: formdataImages, html } = await handleEditorContentAndImages(value);
+		// const { formData: formdataImages, html } = await handleEditorContentAndImages(value);
+		const { formdataImages, html } = await editor.getContentAndImages();
+		// console.log('compp2', formdataImages);
+
 		formdataImages.forEach((value, key) => {
 			formData.append(key, value);
 		});
@@ -131,7 +53,7 @@
 				<form method="POST" use:enhance={handleOnSubmit} id="formjg" enctype="multipart/form-data">
 					<div class="grid gap-2">
 						<div class="grid gap-1">
-							<Label for="shortname">Customer shortname</Label>
+							<Label for="shortname">Shortname</Label>
 							<Input
 								id="shortname"
 								name="shortname"
@@ -145,11 +67,11 @@
 						<Label for="logo">Logo</Label>
 						<DropImage onDataUrl={onUrl} />
 						<input type="hidden" name="logo" value={logo} />
+
 						<Label for="editor">Main content</Label>
-						<GfEditor bind:value />
-						<!-- <input name="content" type="hidden" bind:value /> -->
+						<GfEditor bind:this={editor} />
+
 						<div class="flex items-center justify-between space-x-2 p-6 pt-0">
-							<!-- <Button variant="outline" type="button">Cancel</Button> -->
 							<Button variant="ghost">Cancel</Button>
 							<Button type="submit">Create</Button>
 						</div>

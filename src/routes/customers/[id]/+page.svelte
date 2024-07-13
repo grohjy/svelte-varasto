@@ -37,9 +37,10 @@
 			<Card.Root>
 				<Card.Header>
 					<Card.Title>
-						<img src={customer.logo} alt="logo" />
-						{customer.shortname}</Card.Title
-					>
+						JOtrain
+						<!-- <img src={customer.logo} alt="logo" />
+						{customer.shortname} -->
+					</Card.Title>
 					<!-- <Card.Description>Card Description</Card.Description> -->
 				</Card.Header>
 				<Card.Content>
