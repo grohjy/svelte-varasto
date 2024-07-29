@@ -8,25 +8,67 @@ export async function handleEditorContentAndImages(html: string, maxSize = 1024)
 	const formData = new FormData();
 	for (let i = 0; i < imgs.length; i++) {
 		const img = imgs[i];
-		const blob = await imgFetchBlob(img.src);
-		const b2 = await resizeToBlobJPG(blob, { maxSize });
-		const time = dayjs(Date.now()).format('YYYYMMDD[T]HHmmssSSS');
-		formData.append('file', b2, `${time}-${i}`);
-		img.src = `/images/${time}-${i}.jpg`;
+		if (!img.dataset.handled) {
+			// console.log('jg1');
+			// img.setAttribute('crossOrigin', 'anonymous');
+
+			// const jgimg = await jg2(img);
+			// const blob = await jg3(jgimg);
+			// console.log('jg3', jgimg.width);
+			const blob = await imgFetchBlob(img.src);
+			const b2 = await resizeToBlobJPG(blob, { maxSize });
+			const time = dayjs(Date.now()).format('YYYYMMDD[T]HHmmssSSS');
+			formData.append('file', b2, `${time}-${i}`);
+			img.src = `/images/${time}-${i}.jpg`;
+			img.dataset.handled = '1';
+		}
 	}
 	return { formData, html: template.innerHTML };
 }
 export async function fetchAndConvertImgToBase64(src: string, maxSize = 200) {
 	const blob = await imgFetchBlob(src);
-	console.log('vloob1', blob);
+	// console.log('vloob1', blob);
 	const url = await resizeToBase64PNG(blob, { maxSize });
-	console.log('vloob', url);
+	// console.log('vloob', url);
 	return url;
 }
 function imgFetchBlob(src: string): Promise<Blob> {
 	return new Promise((resolve, reject) => {
 		const blob = fetch(src).then((res) => res.blob());
 		resolve(blob);
+	});
+}
+function jg(img: HTMLImageElement): Promise<Blob> {
+	return new Promise((resolve, reject) => {
+		const canvas = document.createElement('canvas');
+		canvas.width = img.width;
+		canvas.height = img.height;
+		const ctx = canvas.getContext('2d');
+		ctx!.drawImage(img, 0, 0, img.width, img.height);
+		canvas.toBlob((blob) => {
+			resolve(blob!);
+		});
+	});
+}
+function jg2(img: HTMLImageElement, options = { maxSize: 1024 }): Promise<HTMLImageElement> {
+	return new Promise((resolve, reject) => {
+		const i = new Image();
+		i.src = img.src;
+		i.onload = function () {
+			resolve(i);
+		};
+	});
+}
+function jg3(img: HTMLImageElement): Promise<Blob> {
+	return new Promise((resolve, reject) => {
+		const canvas = document.createElement('canvas');
+		canvas.width = img.width;
+		canvas.height = img.height;
+		const ctx = canvas.getContext('2d');
+		ctx!.drawImage(img, 0, 0, img.width, img.height);
+		canvas.toBlob((blob) => {
+			resolve(blob!);
+		});
 	});
 }
 

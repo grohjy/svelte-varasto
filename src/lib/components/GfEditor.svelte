@@ -14,10 +14,10 @@
 	// let value=$state()
 	type Props = {
 		value: string;
-		getContentAndImages: (str: string) => string;
+		// getContentAndImages: (str: string) => string;
 	};
-	// let { value = $bindable() }: Props = $props();
-	let value: string = $state('');
+	let { value }: Props = $props();
+	// let value: string = $state('');
 	export async function getContentAndImages(): Promise<{ formdataImages: FormData; html: string }> {
 		const { formData, html } = await handleEditorContentAndImages(value);
 		return { formdataImages: formData, html };

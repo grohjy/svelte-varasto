@@ -9,27 +9,45 @@
 	import { cn } from '$lib/utils';
 	import * as Avatar from '$lib/components/ui/avatar';
 
-	export let data: PageData;
-	console.log('looodata', JSON.stringify(data));
+	const { data }: { data: PageData } = $props();
+	let search = $state('');
+	// let customers = $state();
+	let customers = $derived.by(() => {
+		return data.customers.filter((c) => {
+			let s = search.toLowerCase();
+			return (
+				c.shortname.toLowerCase().includes(s) ||
+				c.name?.toLowerCase().includes(s) ||
+				c.id.toString().includes(s)
+			);
+		});
+	});
+	// console.log('looodata', JSON.stringify(data));
 </script>
 
-<div
-	class=" relative grid grid-cols-1 flex-col items-center justify-center *:h-[800px] lg:max-w-none lg:px-0"
->
+<div class=" relative grid grid-cols-1 flex-col items-center justify-center *:h-[800px] lg:px-0">
 	<div class="lg:p-1">
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6 p-2">
-			<div class="flex flex-col space-y-2 text-center">
-				<h1 class="text-2xl font-semibold tracking-tight">Customers:</h1>
+			<div class="flex flex-row justify-between space-y-2">
+				<h1 class="text-2xl font-semibold tracking-tight">Customers:{search}</h1>
+				<div class="flex gap-2">
+					<Input type="search" placeholder="Search..." bind:value={search} />
+					<Button variant="outline" href="customers/create">New</Button>
+				</div>
 			</div>
-			{#each data.customers as customer}
-				<a href={'customers/' + customer.id}>
+			<pre>{JSON.stringify(customers)}</pre>
+			{#each customers as customer}
+				<a href={'customer/' + customer.id}>
 					<div class="flex items-center p-2 hover:bg-slate-50">
-						<Avatar.Root class="h-12 w-12 rounded-lg">
+						<Avatar.Root class="h-12 w-12  rounded-lg">
 							<Avatar.Image src={customer.logo} alt="Logo" />
 							<Avatar.Fallback>{customer.shortname.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 						</Avatar.Root>
 						<div class="ml-4 space-y-1">
-							<p class="text-sm font-medium leading-none">{customer.shortname}</p>
+							<p class="text-sm font-medium leading-none">
+								{customer.shortname}
+								<span class="text-sm text-muted-foreground">(id:{customer.id})</span>
+							</p>
 							<p class="text-sm text-muted-foreground">{customer.name ? customer.name : '-'}</p>
 						</div>
 						<div class="ml-auto font-medium">+$1,999.00</div>

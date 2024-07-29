@@ -3,14 +3,14 @@ import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 
 export const load = (async () => {
-	const response = await prisma.customer.findMany({
-		where: { parts: { some: {} } },
-		include: { parts: true }
-	});
+	// const response = await prisma.customer.findMany({
+	// 	where: { parts: { some: {} } },
+	// 	include: { parts: true }
+	// });
 
 	// 2.
-	return { data: response };
-	// return {};
+	// return { data: response };
+	return {};
 }) satisfies PageServerLoad;
 
 export const actions = {

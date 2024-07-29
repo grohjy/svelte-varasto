@@ -10,23 +10,80 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Part {
+model Item {
   id        Int      @id @default(autoincrement())
-  Name     String
+  name     String  @default("")
+  thumb String?
   content   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   active Boolean  @default(true)
+  useInSelection Boolean  @default(true)
   customer    Customer?    @relation(fields: [customerId], references: [id])
   customerId  Int?
+  tasks    Task[]  
+  type    typeItem?    @relation(fields: [typeId], references: [id])
+  typeId  Int?
+  childItems ItemChildsAndParents[] //every item where I am parent
+  parentItems ItemChildsAndParents[] @relation("childItem") //every item where I am child
 }
+
+model ItemChildsAndParents {
+  parent       Item @relation(fields: [parentId], references: [id])
+  parentId     Int 
+  child        Item @relation("childItem", fields: [childId], references: [id])
+  childId      Int 
+  itemCount        Int @default(1)
+  unitsCount        Int @default(1)
+  unit         String @default("pcs")
+
+  @@id([parentId, childId])
+}
+
+model typeItem {
+  id        Int      @id @default(autoincrement())
+  type     String?
+  subtype   String?
+  useInSelection Boolean  @default(true)
+  items    Item[]    
+  }
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  name     String  @default("")
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  type    taskType?    @relation(fields: [typeId], references: [id])
+  typeId  Int?
+  item Item? @relation(fields: [itemId],references: [id])
+  itemId Int?
+  status taskStatus? @relation(fields: [statusId],references: [id])
+  statusId Int?
+}
+
+model taskType {
+  id        Int      @id @default(autoincrement())
+  type     String?
+  subtype   String?
+  useInSelection Boolean  @default(true)
+  tasks    Task[]    
+}
+
+model taskStatus {
+  id        Int      @id @default(autoincrement())
+  status     String?
+  tasks    Task[]    
+}
+
+
 model Customer {
   id    Int     @id @default(autoincrement())
   shortname String  @unique
   name  String?
   logo String?
   content String?
-  parts Part[]
+  items Item[]
   active Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fetchAndConvertImgToBase64 } from '$lib/gfhelpers';
-	type Props = { onDataUrl: (url: string) => void };
-	let { onDataUrl }: Props = $props();
+	type Props = { onDataUrl: (url: string) => void; src: string };
+	let { onDataUrl, src }: Props = $props();
 	// let dataUrl = $state();
 	function allowDrop(e) {
 		e.preventDefault();
@@ -33,7 +33,7 @@
 				// console.log('uuu');
 				onDataUrl(u);
 
-				let imgTag = `<img src="${u}" alt="">`;
+				let imgTag = `<img src="${u}" alt="" class="max-h-full max-w-full">`;
 				document.getElementById('logo').innerHTML = imgTag;
 			};
 			console.log('fiile', file);
@@ -53,7 +53,7 @@
 			const u = await fetchAndConvertImgToBase64(fileURL);
 			// console.log('uuu', u);
 			onDataUrl(u);
-			let imgTag = `<img src="${u}" alt="">`;
+			let imgTag = `<img src="${u}" alt="" class="max-h-full max-w-full">`;
 			document.getElementById('logo').innerHTML = imgTag;
 		};
 		// console.log('fiile', file);
@@ -81,10 +81,14 @@
 
 <div
 	id="logo"
-	class="flex h-32 w-32 items-center border-2"
+	class="flex h-32 w-32 items-center justify-center border-2"
 	ondrop={drop}
 	ondragover={allowDrop}
 	onclick={selectFile}
 >
-	<span class=" p-2 text-center">Drop image or click to open</span>
+	{#if src}
+		<img {src} alt="" class="h-full w-full object-contain" />
+	{:else}
+		<span class="m-2">Drop image or click to open</span>
+	{/if}
 </div>
