@@ -6,7 +6,4 @@
 	export let data: PageData;
 </script>
 
-<h1>Create a new task {$page.url.searchParams.get('item')}</h1>
-<form method="post" action="create?item=2">
-	<Button type="submit" variant="outline">Create</Button>
-</form>
+<h2>Create task from item</h2>

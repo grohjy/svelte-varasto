@@ -9,18 +9,18 @@ export const load = (async ({ url }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request, url }) => {
+	item: async ({ request, url }) => {
 		// const kkk = Object.fromEntries(await request.formData());
-		console.log('kkk', url.searchParams.get('item'));
+		// console.log('kkk', url.searchParams.get('item'));
 
-		// const data = await request.formData();
+		const data = await request.formData();
 		// data.forEach((value, key) => console.log('iteemk ey:', key, value));
-		// const id = data.get('id');
+		const item = data.get('item');
 		// const name = data.get('name') ? data.get('name') : '';
 		const newTask = await prisma.task.create({
 			data: {
 				statusId: 1,
-				itemId: parseInt(url.searchParams.get('item'))
+				itemId: parseInt(item)
 				// status: { connect: { id: 2 } },
 				// item: { connect: { id: parseInt(url.searchParams.get('item')) } }
 			}
@@ -28,6 +28,6 @@ export const actions = {
 
 		// console.log('jepure', newItem);
 		// throw redirect(303, `/task/${newItem.id}/edit`);
-		throw redirect(303, `/task`);
+		throw redirect(303, `/task/${newTask.id}/edit?item=${parseInt(item)}`);
 	}
 } satisfies Actions;

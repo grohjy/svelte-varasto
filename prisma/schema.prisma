@@ -54,12 +54,16 @@ model Task {
   content   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  startDate DateTime? 
+  endDate DateTime? 
   type    taskType?    @relation(fields: [typeId], references: [id])
   typeId  Int?
   item Item? @relation(fields: [itemId],references: [id])
   itemId Int?
   status taskStatus? @relation(fields: [statusId],references: [id])
   statusId Int?
+  actions    Action[]  
+
 }
 
 model taskType {
@@ -74,6 +78,28 @@ model taskStatus {
   id        Int      @id @default(autoincrement())
   status     String?
   tasks    Task[]    
+}
+
+
+model Action {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  info     String?
+  qty     Float?
+  type    actionType? @relation(fields: [typeId], references: [id])
+  typeId  Int?
+  task Task?          @relation(fields: [taskId],references: [id])
+  taskId Int?
+  user    User?       @relation(fields: [userId], references: [id])
+  userId  Int?
+}
+
+model actionType {
+  id        Int      @id @default(autoincrement())
+  type     String?
+  subtype   String?
+  useInSelection Boolean  @default(true)
+  actions    Action[]    
 }
 
 
@@ -94,4 +120,5 @@ model User {
   shortname String  @unique
   firstname  String?
   lastname  String?
+  actions Action[]
 }

@@ -68,10 +68,15 @@ export async function getItem(id: string | number) {
 				}
 			},
 			...optionalParentItems,
-			tasks: true
+			tasks: {
+				include: {
+					type: true,
+					status: true
+				}
+			}
 		}
 	});
-	console.log('iiteee', item);
+	// console.log('iiteee', item);
 
 	let fItem: Item | undefined;
 	if (item) {
@@ -91,7 +96,7 @@ export async function getItem(id: string | number) {
 		};
 	}
 
-	// console.log('aee', fItem);
+	// console.log('aee', JSON.stringify(fItem, null, 2));
 	return fItem;
 }
 

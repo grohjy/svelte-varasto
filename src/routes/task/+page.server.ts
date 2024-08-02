@@ -8,12 +8,25 @@ export const load = (async () => {
 				NOT: { status: 'done' }
 			}
 		},
-		include: {
-			// item: true,
+		orderBy: {
+			endDate: 'asc'
+		},
+		select: {
+			id: true,
+			name: true,
+			endDate: true,
 			status: true,
-			type: true
+			type: true,
+			item: {
+				select: {
+					id: true,
+					name: true,
+					thumb: true
+				}
+			}
 		}
 	});
+	// console.log('taasks', tasks);
 
 	return { tasks };
 }) satisfies PageServerLoad;

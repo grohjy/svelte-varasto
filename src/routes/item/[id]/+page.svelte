@@ -100,7 +100,15 @@
 	</Card.Root>
 	<Card.Root>
 		<Card.Header>
-			<Card.Title>Tasks</Card.Title>
+			<Card.Title>
+				<div class="flex justify-between">
+					Tasks
+					<form method="post" action={`/task/create?/item`}>
+						<input hidden name="item" value={$page.params.id} />
+						<Button variant="outline" type="submit">Add</Button>
+					</form>
+				</div>
+			</Card.Title>
 		</Card.Header>
 		<Card.Content class="pt-6">
 			{#if data.item?.tasks.length == 0}
@@ -109,9 +117,11 @@
 				{#each data.item?.tasks as task}
 					<a class="flex items-center p-2 hover:bg-slate-50" href="/task/{task.id}">
 						<div class="ml-4 space-y-1">
-							<p class="text-sm font-medium leading-none">{task.id}</p>
-							<p class="text-sm text-muted-foreground">{task.name ? task.name : '-'}</p>
-							<pre>{JSON.stringify(task, null, 2)}</pre>
+							<p class="text-sm font-medium leading-none">{task.id}-{task.name}</p>
+							<p class="text-sm text-muted-foreground">Status: {task.status?.status}</p>
+							<p class="text-sm text-muted-foreground">
+								Type: {task.type?.type}/{task.type?.subtype}
+							</p>
 						</div>
 					</a>
 				{/each}

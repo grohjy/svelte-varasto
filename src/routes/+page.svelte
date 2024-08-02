@@ -46,10 +46,10 @@
 		<h1>Welcome to SvelteKit</h1>
 		<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 		<!-- <GfCombobox options={opts2} bind:selectedId={jg} /> -->
-		<GfItemeditcombobox bind:item={jg3} options={opts2} />
-		jg3:
-		<pre>{JSON.stringify(jg3)}</pre>
-		<pre onclick={jg2}>b:{jg}</pre>
-		<Button variant="ghost" onclick={add} disabled={!jg3.id}>Add</Button>
+		<!-- <GfItemeditcombobox bind:item={jg3} options={opts2} /> -->
+		<!-- jg3: -->
+		<!-- <pre>{JSON.stringify(jg3)}</pre> -->
+		<!-- <pre onclick={jg2}>b:{jg}</pre> -->
+		<!-- <Button variant="ghost" onclick={add} disabled={!jg3.id}>Add</Button> -->
 	</main>
 </div>
