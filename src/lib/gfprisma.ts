@@ -73,9 +73,36 @@ export async function getItem(id: string | number) {
 					type: true,
 					status: true
 				}
+			},
+			inventory: {
+				where: { active: true },
+				include: {
+					task: true,
+					location: true,
+					inventoryRemove: {
+						include: { task: true }
+					}
+				}
 			}
 		}
 	});
+	const closedInv = await prisma.inventory.findMany({
+		where: {
+			itemId: +id,
+			active: false
+		},
+		orderBy: { updatedAt: 'desc' },
+		take: 4,
+		include: {
+			task: true,
+			location: true,
+			inventoryRemove: {
+				include: { task: true }
+			}
+		}
+	});
+	const storages = await prisma.storageLocation.findMany({});
+
 	// console.log('iiteee', item);
 
 	let fItem: Item | undefined;
@@ -92,11 +119,15 @@ export async function getItem(id: string | number) {
 			parentItemsCount: parentCount,
 			parentItems: formatRelatedItems<typeof parentItems>(parentItems, 'parent'),
 			childItems: formatRelatedItems<typeof childItems>(childItems, 'child'),
-			tasks: item.tasks
+			tasks: item.tasks,
+			inventory: item.inventory,
+			closedInv,
+			storages
 		};
 	}
 
-	// console.log('aee', JSON.stringify(fItem, null, 2));
+	console.log('aee', JSON.stringify(fItem.closedInv, null, 2));
+	// console.log('aee', JSON.stringify(fItem.inventoryRemove, null, 2));
 	return fItem;
 }
 

@@ -26,6 +26,8 @@ model Item {
   typeId  Int?
   childItems ItemChildsAndParents[] //every item where I am parent
   parentItems ItemChildsAndParents[] @relation("childItem") //every item where I am child
+  inventory Inventory[]
+  inventoryRemove InventoryRemove[]
 }
 
 model ItemChildsAndParents {
@@ -63,7 +65,8 @@ model Task {
   status taskStatus? @relation(fields: [statusId],references: [id])
   statusId Int?
   actions    Action[]  
-
+  inventory Inventory[]
+  inventoryRemove InventoryRemove[]
 }
 
 model taskType {
@@ -102,6 +105,43 @@ model actionType {
   actions    Action[]    
 }
 
+model Inventory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  qty     Float?
+  info    String?
+  active  Boolean  @default(true)
+  item    Item? @relation(fields: [itemId],references: [id])
+  itemId  Int? 
+  task    Task? @relation(fields: [taskId],references: [id])
+  taskId  Int?
+  location    StorageLocation?       @relation(fields: [locationId], references: [id])
+  locationId  Int?
+  inventoryRemove InventoryRemove[]
+}
+model InventoryRemove {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  qty     Float?
+  info    String?
+  item    Item? @relation( fields: [itemId],references: [id])
+  itemId  Int?
+  task    Task? @relation(fields: [taskId],references: [id])
+  taskId  Int?
+  inventory    Inventory?       @relation(fields: [inventoryId], references: [id])
+  inventoryId  Int?
+}
+
+
+model StorageLocation {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  rack     String?
+  location String?
+  info     String?
+  inventory Inventory[]
+}
 
 model Customer {
   id    Int     @id @default(autoincrement())

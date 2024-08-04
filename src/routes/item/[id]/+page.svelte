@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GfCombobox from './../../../lib/components/gf-combobox.svelte';
 	import { page } from '$app/stores';
 	import GfContent from '$lib/components/gf-content.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -10,6 +11,7 @@
 	import * as Card from '$lib/components/ui/card';
 
 	let { data } = $props();
+	let selectedStorage = $state();
 
 	function jg() {
 		console.log('jgg', $page.params.id);
@@ -126,6 +128,113 @@
 					</a>
 				{/each}
 			{/if}
+		</Card.Content>
+	</Card.Root>
+	<Card.Root>
+		<Card.Header>
+			<Card.Title>Inventory</Card.Title>
+		</Card.Header>
+		<Card.Content class=" pt-6">
+			{#each data.item?.inventory as inv}
+				<div class="flex justify-between gap-2 p-2 hover:bg-slate-50">
+					<!-- <div class="flex justify-between"> -->
+					<div>
+						<div>
+							<p class="text-sm font-medium leading-none">
+								Location {inv.location?.rack}/{inv.location?.location}:
+								{inv.inventoryRemove.reduce((sum, { qty }) => sum - qty, inv.qty)} pcs
+							</p>
+						</div>
+						<div class="ml-4 grow space-y-1">
+							<p class="text-sm font-medium leading-none">
+								{inv.createdAt.toLocaleDateString('fi')}: {inv.qty} pcs
+								<!-- {inv2.qty - inv2.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs -->
+								<a href="/task/{inv.task?.id}">
+									<span class="text-sm font-normal text-muted-foreground">
+										(task: {inv.task?.id}-{inv.task?.name})
+									</span>
+								</a>
+							</p>
+							{#if inv.info}
+								<p class="text-sm font-normal text-muted-foreground">info: {inv.info}</p>
+							{/if}
+							{#each inv.inventoryRemove as inv2}
+								<p class="text-sm font-medium leading-none">
+									{inv2.createdAt.toLocaleDateString('fi')}: {-inv2.qty} pcs
+									<a href="/task/{inv2.task?.id}">
+										<span class="text-sm font-normal text-muted-foreground">
+											(task: {inv2.task?.id}-{inv2.task?.name})
+										</span>
+									</a>
+								</p>
+								{#if inv2.info}
+									<p class="text-sm font-normal text-muted-foreground">info: {inv2.info}</p>
+								{/if}
+							{/each}
+						</div>
+					</div>
+					<div>
+						<form method="POST" id="formjg" action="/inventory/move?item={inv.itemId}">
+							<div class="flex items-end gap-2">
+								<GfCombobox
+									options={data.item?.storages.map((s) => ({
+										value: s.id,
+										label: `${s.rack}/${s.location}`
+									}))}
+									bind:selectedId={selectedStorage}
+								/>
+								<input type="hidden" name="storage" value={selectedStorage} />
+								<input type="hidden" name="inv" value={inv.id} />
+								<!-- <div class="flex justify-end"> -->
+								<Button variant="outline" type="submit">Move</Button>
+								<!-- </div> -->
+							</div>
+						</form>
+					</div>
+				</div>
+			{/each}
+
+			<div>
+				<p class="mt-4 text-sm font-medium leading-none">Closed locations (4 newest):</p>
+			</div>
+			{#each data.item?.closedInv as inv}
+				<div class="flex justify-between gap-2 p-2 hover:bg-slate-50">
+					<div>
+						<p class="text-sm font-medium leading-none">
+							Location {inv.location?.rack}/{inv.location?.location}:
+							{inv.inventoryRemove.reduce((sum, { qty }) => sum - qty, inv.qty)} pcs
+						</p>
+					</div>
+					<div class="ml-4 grow space-y-1">
+						<p class="text-sm font-medium leading-none">
+							{inv.createdAt.toLocaleDateString('fi')}: {inv.qty} pcs
+							<!-- {inv2.qty - inv2.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs -->
+							<a href="/task/{inv.task?.id}">
+								<span class="text-sm font-normal text-muted-foreground">
+									(task: {inv.task?.id}-{inv.task?.name})
+								</span>
+							</a>
+						</p>
+						{#if inv.info}
+							<p class="text-sm font-normal text-muted-foreground">info: {inv.info}</p>
+						{/if}
+
+						{#each inv.inventoryRemove as inv2}
+							<p class="text-sm font-medium leading-none">
+								{inv2.createdAt.toLocaleDateString('fi')}: {-inv2.qty} pcs
+								<a href="/task/{inv2.task?.id}">
+									<span class="text-sm font-normal text-muted-foreground">
+										(task: {inv2.task?.id}-{inv2.task?.name})
+									</span>
+								</a>
+							</p>
+							{#if inv2.info}
+								<p class="text-sm font-normal text-muted-foreground">info: {inv2.info}</p>
+							{/if}
+						{/each}
+					</div>
+				</div>
+			{/each}
 		</Card.Content>
 	</Card.Root>
 </div>

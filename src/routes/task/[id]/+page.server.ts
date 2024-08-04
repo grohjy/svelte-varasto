@@ -21,10 +21,16 @@ export const load = async ({ params }) => {
 					type: true,
 					user: true
 				}
+			},
+			inventory: {
+				include: { location: true }
+			},
+			inventoryRemove: {
+				include: { item: true }
 			}
 		}
 	});
-	// console.log('task', response);
+	console.log('task', response);
 
 	return { task: response };
 };
