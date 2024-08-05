@@ -11,18 +11,56 @@
 	import GfCombobox from '$lib/components/gf-combobox.svelte';
 	const { data }: { data: PageData } = $props();
 
-	let invIndex = $state();
-	let selectedTaskId = $state();
+	let selectedItemId = $state(data.itemId);
+	let selectedInvId = $state();
+	let selectedTaskId = $state(data.taskId);
+	let qtyInput = $state();
+	let qtyState = $state();
 	let actionType = $state();
-	let locations = data.inv.map((inv, index) => {
-		const loc = `${inv.location?.rack}/${inv.location?.location}`;
-		const task = `${inv.task?.id}-${inv.task?.name}`;
-		const date = `${inv.createdAt.toLocaleDateString('fi')}`;
-		const qty = inv.qty! - inv.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0);
-		let opt = { value: index, label: `${loc}: ${qty}pcs (${date}, ${task})`, qty };
-		return opt;
-		// console.log('inv', JSON.stringify(inv, null, 2));
+	let qty = $derived.by(() => {
+		let i = data.inv.find((inv) => inv.id == selectedInvId);
+		return i?.inventoryRemove.reduce((sum, { qty }) => sum - qty, i.qty);
 	});
+	let button = $derived.by(() => {
+		let ok = !selectedItemId || !selectedInvId || !selectedTaskId || !qtyState;
+
+		// console.log('ww');
+
+		return ok;
+	});
+	$effect(() => {
+		selectedItemId;
+		selectedInvId = undefined;
+		console.log('qq');
+	});
+	$effect(() => {
+		selectedInvId;
+		qtyState = qty;
+		console.log('qq2');
+	});
+	let items = data.inv.map((inv) => {
+		let opt = [inv.itemId, { value: inv.itemId, label: `${inv.itemId}-${inv.item.name}` }];
+		return opt;
+	});
+	items = [...new Map(items).values()];
+	// console.log('set ite', [...new Map(items).values()]);
+
+	let locations = $derived.by(() => {
+		// selectedInvId = undefined;
+		let i = data.inv
+			.filter((inv) => inv.itemId == selectedItemId)
+			.map((inv, index) => {
+				const loc = `${inv.location?.rack}/${inv.location?.location}`;
+				const task = `${inv.task?.id}-${inv.task?.name}`;
+				const date = `${inv.createdAt.toLocaleDateString('fi')}`;
+				const qty = inv.qty! - inv.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0);
+				let opt = { value: inv.id, label: `${loc}: ${qty}pcs (${date}, ${task})`, qty };
+				return opt;
+			});
+
+		return i;
+	});
+	// console.log('inv', JSON.stringify(data.inv, null, 2));
 	let tasks = data.tasks.map((task, index) => {
 		const taskStr = `${task.id}-${task.name}`;
 		const item = `${task.item?.id}-${task.item?.name}`;
@@ -48,21 +86,23 @@
 	<div class="lg:p-1">
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6">
 			<h1 class="text-2xl font-semibold tracking-tight">Remove items from inventory:</h1>
-			<div class="flex items-center gap-2 p-2 hover:bg-slate-50">
-				<Avatar.Root class="h-20 w-20  rounded-lg">
-					<Avatar.Image src={data.inv[0]?.item?.thumb} alt="Thumbnail" />
-					<Avatar.Fallback>{data.inv[0]?.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
-				</Avatar.Root>
-
-				<div class="flex flex-col space-y-2 text-center">
-					{data.inv[0].itemId}-{data.inv[0].item?.name}
-				</div>
-			</div>
 			<div class="grid gap-6">
 				<form method="POST" use:enhance={handleOnSubmit} id="formjg" enctype="multipart/form-data">
 					<div class="grid gap-2">
-						<input type="hidden" name="inv" value={data.inv[invIndex]?.id} />
-						<GfCombobox options={locations} bind:selectedId={invIndex} />
+						<div class="grid gap-1 self-end">
+							<Label for="info">Item</Label>
+							{#if !data.itemId}
+								<input type="hidden" name="item" value={selectedItemId} />
+								<GfCombobox options={items} bind:selectedId={selectedItemId} />
+							{:else}
+								<p>{data.inv[0].itemId}-{data.inv[0].item?.name}</p>
+							{/if}
+						</div>
+						<div class="grid gap-1 self-end">
+							<Label for="info">Location</Label>
+							<input type="hidden" name="location" value={selectedInvId} />
+							<GfCombobox options={locations} bind:selectedId={selectedInvId} />
+						</div>
 						<div class="grid gap-1 self-end">
 							<Label for="info">Qty</Label>
 							<Input
@@ -72,12 +112,12 @@
 								type="text"
 								autocapitalize="none"
 								autocorrect="off"
-								value={locations[invIndex]?.qty}
+								bind:this={qtyInput}
+								onchange={(e) => (qtyState = e.target.value)}
+								bind:value={qtyState}
 							/>
-							<input type="hidden" name="qtyLeft" value={locations[invIndex]?.qty} />
+							<!-- <input type="hidden" name="qtyLeft" value={locations[selectedLocation]?.qty} /> -->
 						</div>
-						<input type="hidden" name="task" value={selectedTaskId} />
-						<GfCombobox options={tasks} bind:selectedId={selectedTaskId} />
 						<div class="grid gap-1">
 							<Label for="info">Info</Label>
 							<Input
@@ -89,11 +129,25 @@
 								autocorrect="off"
 							/>
 						</div>
+						<div class="grid gap-1 self-end">
+							<Label for="info">Task (that removes items from inventory)</Label>
+							<input type="hidden" name="task" value={selectedTaskId} />
+							{#if !data.taskId}
+								<GfCombobox options={tasks} bind:selectedId={selectedTaskId} />
+							{:else}
+								<p>
+									{data.tasks[0].id}-{data.tasks[0].name} ({data.tasks[0].item.id}-{data.tasks[0]
+										.item?.name})
+								</p>
+							{/if}
+						</div>
 
 						<div class="flex items-center justify-end gap-4">
-							<Button variant="ghost" href="/inventory">Cancel</Button>
+							<Button variant="ghost" href={data.itemId ? '/inventory' : `/task/${data.taskId}`}
+								>Cancel</Button
+							>
 
-							<Button type="submit" variant="outline">Remove</Button>
+							<Button type="submit" variant="outline" disabled={button}>Remove</Button>
 						</div>
 					</div>
 				</form>

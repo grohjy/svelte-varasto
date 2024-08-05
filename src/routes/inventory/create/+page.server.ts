@@ -9,55 +9,56 @@ import { redirect } from '@sveltejs/kit';
 // 	url.searchParam
 // }
 export const load = async ({ params, url }) => {
+	// const itemId = parseInt(url.searchParams.get('item'));
 	const taskId = parseInt(url.searchParams.get('task'));
-	const task = await prisma.task.findFirst({
-		where: { id: taskId },
+	let where = {
+		status: {
+			NOT: { status: 'done' }
+		}
+	};
+	if (taskId) {
+		where = { id: taskId };
+	}
+	const tasks = await prisma.task.findMany({
+		where,
 		include: {
-			type: true
+			type: true,
+			item: { select: { name: true } }
 		}
 	});
-	const users = await prisma.user.findMany({});
-	const types = await prisma.actionType.findMany({ where: { useInSelection: true } });
-	console.log('users', task);
+	const storages = await prisma.storageLocation.findMany({});
 
-	return { task, users, types };
-	// return {};
+	// const types = await prisma.actionType.findMany({ where: { useInSelection: true } });
+	console.log('users', tasks);
+
+	// return { task, users, types };
+	return { storages, tasks };
 };
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, url }) => {
+		const taskUrl = url.searchParams.get('task');
+		const redirUrl = taskUrl ? `/task/${taskUrl}` : '/inventory';
 		// const kkk = Object.fromEntries(await request.formData());
 		// console.log('kkk');
 
 		const data = await request.formData();
 		data.forEach((value, key) => console.log('key:', key, value));
-		// const shortname = data.get('shortname') as string;
-		// const logo = data.get('logo') as string;
-		// const content = data.get('content') as string;
-		// console.log('jepu', data);
-		// const files = data.getAll('file') as File[];
-		// if (files && files.length > 0) {
-		// console.log('fiiles:', files);
-		// 	files.forEach(async (file) => {
-		// 		const buffer = await file.arrayBuffer();
-		// 		const data = Buffer.from(buffer);
-		// 		writeFileSync(`static/images/${file.name}.jpg`, data);
-		// 	});
-		// }
-		const qtyTemp = data.get('qty')?.replace(',', '.');
 
-		const qty = parseFloat(qtyTemp);
-		await prisma.action.create({
-			data: {
-				info: data.get('info'),
-				qty,
-				typeId: parseInt(data.get('type')),
-				taskId: parseInt(data.get('task')),
-				userId: parseInt(data.get('user'))
+		const task = await prisma.task.findFirst({
+			where: {
+				id: parseInt(data.get('task'))
 			}
 		});
-
-		// console.log('jepure');
-		throw redirect(303, `/task/${parseInt(data.get('task'))}`);
+		const newI = await prisma.inventory.create({
+			data: {
+				qty: parseFloat(data.get('qty')),
+				info: data.get('info'),
+				itemId: task?.itemId,
+				taskId: task.id,
+				locationId: parseInt(data.get('location'))
+			}
+		});
+		throw redirect(303, redirUrl);
 	}
 };

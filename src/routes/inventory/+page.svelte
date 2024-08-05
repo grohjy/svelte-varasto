@@ -32,11 +32,10 @@
 				<h1 class="text-2xl font-semibold tracking-tight">Inventory:</h1>
 				<div class="flex gap-2">
 					<Input type="search" placeholder="Filter..." bind:value={search} />
-					<!-- <Button variant="outline" href="customers/create">New</Button> -->
+					<Button variant="outline" href="/inventory/create">Add</Button>
 				</div>
 			</div>
 			{#each inventory as inv}
-				<!-- <div class="grid grid-cols-2 gap-2 hover:bg-slate-50"> -->
 				<div class="flex gap-2 p-2 hover:bg-slate-50">
 					<a href="/item/{inv.itemId}">
 						<Avatar.Root class="h-20 w-20  rounded-lg">
@@ -62,12 +61,6 @@
 								</span>
 							</p>
 						{/each}
-						<!-- <a href="/task/{inv.task?.id}">
-								<p class="text-sm text-muted-foreground">
-									Location: {inv.location?.rack}/{inv.location?.location}
-								</p>
-							</a>
-							<p class="text-sm text-muted-foreground">Info: {inv.info}</p> -->
 					</div>
 					<div>
 						<Button class=" " variant="outline" href="inventory/remove?item={inv.itemId}"
@@ -75,32 +68,39 @@
 						>
 					</div>
 				</div>
-				<!-- <div class="flex justify-between space-y-1 p-2">
-						<div>
+			{/each}
+		</div>
+		<div class="mx-auto flex w-full flex-col justify-center space-y-6 p-2">
+			<div class="flex flex-row justify-between space-y-2">
+				<h1 class="text-2xl font-semibold tracking-tight">Recently closed:</h1>
+			</div>
+			{#each data.closedInv as inv}
+				<div class="flex gap-2 p-2 hover:bg-slate-50">
+					<a href="/item/{inv.itemId}">
+						<Avatar.Root class="h-20 w-20  rounded-lg">
+							<Avatar.Image src={inv.item?.thumb} alt="Thumbnail" />
+							<Avatar.Fallback>{inv.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
+						</Avatar.Root>
+					</a>
+					<div class="ml-4 grow space-y-1">
+						<a href="/item/{inv.itemId}">
 							<p class="text-sm font-medium leading-none">
-								{inv.createdAt.toLocaleDateString('fi')}: {inv.qty}pcs
-								<a href="/task/{inv.task?.id}" class="text-sm text-muted-foreground"
-									>(task: {inv.task?.id}-{inv.task?.name})</a
-								>
+								Item: {inv.item?.id}-{inv.item?.name}, {inv.location?.rack}/{inv.location.location}:
 							</p>
-							{#each inv.inventoryRemove as rem}
-								<p class="text-sm font-medium leading-none">
-									{rem.createdAt.toLocaleDateString('fi')}: {-rem.qty}pcs
-									<a href="/task/{rem.task?.id}" class="text-sm text-muted-foreground"
-										>(task: {rem.task?.id}-{rem.task?.name})</a
-									>
-								</p>
-							{/each}
-						</div>
-						<form method="POST" action="?/remove">
-							<div class="flex w-20 flex-col gap-2">
-								<input type="hidden" name="inventory" value={inv.id} />
-								<Input placeholder="qty" name="qty" bind:value={inv.tempqty} />
-								<Button variant="outline" type="submit" disabled={!inv.tempqty}>Remove</Button>
-							</div>
-						</form>
-					</div> -->
-				<!-- </div> -->
+						</a>
+						<p class="text-sm font-normal text-muted-foreground">
+							{inv.createdAt.toLocaleDateString('fi')} (task: {inv.task?.id}-{inv.task?.name}): {inv.qty}
+							pcs
+						</p>
+
+						{#each inv.inventoryRemove as inv2}
+							<p class="text-sm font-normal text-muted-foreground">
+								{inv2.createdAt.toLocaleDateString('fi')} (task: {inv2.task?.id}-{inv2.task?.name}): {-inv2.qty}
+								pcs
+							</p>
+						{/each}
+					</div>
+				</div>
 			{/each}
 		</div>
 	</div>

@@ -135,7 +135,7 @@
 			<Card.Title>Inventory</Card.Title>
 		</Card.Header>
 		<Card.Content class=" pt-6">
-			{#each data.item?.inventory as inv}
+			{#each data.item?.inventory as inv, index}
 				<div class="flex justify-between gap-2 p-2 hover:bg-slate-50">
 					<!-- <div class="flex justify-between"> -->
 					<div>
@@ -149,7 +149,7 @@
 							<p class="text-sm font-medium leading-none">
 								{inv.createdAt.toLocaleDateString('fi')}: {inv.qty} pcs
 								<!-- {inv2.qty - inv2.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs -->
-								<a href="/task/{inv.task?.id}">
+								<a href="/task/{inv.task?.id}" class="hover:underline">
 									<span class="text-sm font-normal text-muted-foreground">
 										(task: {inv.task?.id}-{inv.task?.name})
 									</span>
@@ -161,11 +161,16 @@
 							{#each inv.inventoryRemove as inv2}
 								<p class="text-sm font-medium leading-none">
 									{inv2.createdAt.toLocaleDateString('fi')}: {-inv2.qty} pcs
-									<a href="/task/{inv2.task?.id}">
-										<span class="text-sm font-normal text-muted-foreground">
-											(task: {inv2.task?.id}-{inv2.task?.name})
-										</span>
-									</a>
+									<span class="text-sm font-normal text-muted-foreground">
+										(
+										<a href="/task/{inv2.task?.id}" class="hover:underline"
+											>task: {inv2.task?.id}-{inv2.task?.name}</a
+										>
+										of
+										<a href="/item/{inv2.task?.itemId}" class="hover:underline"
+											>item: {inv2.task?.itemId}-{inv2.task?.item?.name}</a
+										>)
+									</span>
 								</p>
 								{#if inv2.info}
 									<p class="text-sm font-normal text-muted-foreground">info: {inv2.info}</p>
@@ -176,14 +181,19 @@
 					<div>
 						<form method="POST" id="formjg" action="/inventory/move?item={inv.itemId}">
 							<div class="flex items-end gap-2">
-								<GfCombobox
-									options={data.item?.storages.map((s) => ({
-										value: s.id,
-										label: `${s.rack}/${s.location}`
-									}))}
-									bind:selectedId={selectedStorage}
-								/>
-								<input type="hidden" name="storage" value={selectedStorage} />
+								<div class="grid gap-1">
+									<Label for="location">Location</Label>
+									<GfCombobox
+										options={data.item?.storages
+											.filter((s) => s.id != inv.locationId)
+											.map((s) => ({
+												value: s.id,
+												label: `${s.rack}/${s.location}`
+											}))}
+										bind:selectedId={inv.selectedStorage}
+									/>
+								</div>
+								<input type="hidden" name="storage" value={inv.selectedStorage} />
 								<input type="hidden" name="inv" value={inv.id} />
 								<!-- <div class="flex justify-end"> -->
 								<Button variant="outline" type="submit">Move</Button>
@@ -209,7 +219,7 @@
 						<p class="text-sm font-medium leading-none">
 							{inv.createdAt.toLocaleDateString('fi')}: {inv.qty} pcs
 							<!-- {inv2.qty - inv2.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs -->
-							<a href="/task/{inv.task?.id}">
+							<a href="/task/{inv.task?.id}" class="hover:underline">
 								<span class="text-sm font-normal text-muted-foreground">
 									(task: {inv.task?.id}-{inv.task?.name})
 								</span>
@@ -222,11 +232,16 @@
 						{#each inv.inventoryRemove as inv2}
 							<p class="text-sm font-medium leading-none">
 								{inv2.createdAt.toLocaleDateString('fi')}: {-inv2.qty} pcs
-								<a href="/task/{inv2.task?.id}">
-									<span class="text-sm font-normal text-muted-foreground">
-										(task: {inv2.task?.id}-{inv2.task?.name})
-									</span>
-								</a>
+								<span class="text-sm font-normal text-muted-foreground">
+									(
+									<a href="/task/{inv2.task?.id}" class="hover:underline"
+										>task: {inv2.task?.id}-{inv2.task?.name}</a
+									>
+									of
+									<a href="/item/{inv2.task?.itemId}" class="hover:underline"
+										>item: {inv2.task?.itemId}-{inv2.task?.item?.name}</a
+									>)
+								</span>
 							</p>
 							{#if inv2.info}
 								<p class="text-sm font-normal text-muted-foreground">info: {inv2.info}</p>

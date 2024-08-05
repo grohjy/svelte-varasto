@@ -69,16 +69,16 @@
 	<!-- <input type="hidden" {name} use:melt={$hiddenInput} /> -->
 
 	<!-- svelte-ignore a11y-label-has-associated-control - $label contains the 'for' attribute -->
-	<label use:melt={$label}>
+	<!-- <label use:melt={$label}>
 		<span class="text-sm font-medium text-slate-900">Item:</span>
-	</label>
+	</label> -->
 
 	<div class="relative">
 		<input
 			use:melt={$input}
 			class="flex h-10 w-full items-center justify-between rounded-lg
           border border-input bg-white px-3 pr-12 text-black"
-			placeholder="Select item"
+			placeholder="Select..."
 		/>
 		<div class="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-slate-900">
 			{#if $open}

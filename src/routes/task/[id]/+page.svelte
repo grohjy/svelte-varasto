@@ -95,56 +95,72 @@
 			<Card.Title
 				><div class="flex justify-between">
 					<span>Inventory</span>
-				</div></Card.Title
-			>
+				</div>
+			</Card.Title>
 		</Card.Header>
-		<Card.Content class="pt-6">
-			<div>
-				<p class="mb-4 text-sm font-medium leading-none">This task has added items to inventory:</p>
-				{#if data.task?.inventory.length == 0}
-					<p>Nothing added to inventory</p>
-				{:else}
-					{#each data.task?.inventory as inv}
-						<div class="mb-4 space-y-1">
-							<p class="text-sm font-medium leading-none">
-								{inv.createdAt.toLocaleDateString('fi')}:
-								{inv.location?.rack}/{inv.location?.location},
-								{inv.qty} pcs
-							</p>
-							<p class="text-sm text-muted-foreground">Info: {inv.info}</p>
-						</div>
-					{/each}
-				{/if}
-				<p class="mb-4 mt-8 text-sm font-medium leading-none">
-					This task has removed items from inventory:
-				</p>
-				{#if data.task?.inventoryRemove.length == 0}
-					<p>Nothing removed from inventory</p>
-				{:else}
-					{#each data.task?.inventoryRemove as invRemove}
-						<div class="flex items-center gap-2 p-2 hover:bg-slate-50">
-							<Avatar.Root class="h-20 w-20  rounded-lg">
-								<Avatar.Image src={invRemove.item?.thumb} alt="Thumbnail" />
-								<Avatar.Fallback
-									>{invRemove.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback
-								>
-							</Avatar.Root>
-							<div class="flex flex-col space-y-2">
-								<div class="mb-4 space-y-1">
-									<p class="text-sm font-medium leading-none">
-										{invRemove.createdAt.toLocaleDateString('fi')}:
-										<!-- {invRemove.location?.rack}/{invRemove.location?.location}, -->
-										{invRemove.qty} pcs
-										<span class="text-sm text-muted-foreground"
-											>(item: {invRemove.item?.id}-{invRemove.item?.name})</span
-										>
-									</p>
-									<p class="text-sm text-muted-foreground">Info: {invRemove.info}</p>
+		<Card.Content class="space-y-8 pt-6">
+			<div class="flex justify-between">
+				<div>
+					<p class="mb-4 text-sm font-medium leading-none">
+						This task has added items to inventory:
+					</p>
+					{#if data.task?.inventory.length == 0}
+						<p>Nothing added to inventory</p>
+					{:else}
+						{#each data.task?.inventory as inv}
+							<div class="mb-4 space-y-1">
+								<p class="text-sm font-medium leading-none">
+									{inv.createdAt.toLocaleDateString('fi')}:
+									{inv.location?.rack}/{inv.location?.location},
+									{inv.qty} pcs
+								</p>
+								{#if inv.info}
+									<p class="text-sm text-muted-foreground">Info: {inv.info}</p>
+								{/if}
+							</div>
+						{/each}
+					{/if}
+				</div>
+				<Button variant="outline" href="/inventory/create?task={data.task?.id}">Add</Button>
+			</div>
+			<div class="flex justify-between">
+				<div>
+					<p class="mb-4 text-sm font-medium leading-none">
+						This task has removed items from inventory:
+					</p>
+					{#if data.task?.inventoryRemove.length == 0}
+						<p>Nothing removed from inventory</p>
+					{:else}
+						{#each data.task?.inventoryRemove as invRemove}
+							<div class="flex items-center gap-2 p-2 hover:bg-slate-50">
+								<Avatar.Root class="h-20 w-20  rounded-lg">
+									<Avatar.Image src={invRemove.item?.thumb} alt="Thumbnail" />
+									<Avatar.Fallback
+										>{invRemove.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback
+									>
+								</Avatar.Root>
+								<div class="flex flex-col space-y-2">
+									<div class="mb-4 space-y-1">
+										<p class="text-sm font-medium leading-none">
+											{invRemove.createdAt.toLocaleDateString('fi')}:
+											<!-- {invRemove.location?.rack}/{invRemove.location?.location}, -->
+											{invRemove.qty} pcs
+											<span class="text-sm text-muted-foreground">
+												<a href="/item/{invRemove.item?.id}" class="hover:underline"
+													>(item: {invRemove.item?.id}-{invRemove.item?.name})</a
+												></span
+											>
+										</p>
+										{#if invRemove.info}
+											<p class="text-sm text-muted-foreground">Info: {invRemove.info}</p>
+										{/if}
+									</div>
 								</div>
 							</div>
-						</div>
-					{/each}
-				{/if}
+						{/each}
+					{/if}
+				</div>
+				<Button variant="outline" href="/inventory/remove?task={data.task?.id}">Remove</Button>
 			</div>
 		</Card.Content>
 	</Card.Root>

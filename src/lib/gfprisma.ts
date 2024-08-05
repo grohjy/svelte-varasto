@@ -80,7 +80,17 @@ export async function getItem(id: string | number) {
 					task: true,
 					location: true,
 					inventoryRemove: {
-						include: { task: true }
+						include: {
+							task: {
+								include: {
+									item: {
+										select: {
+											name: true
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -97,7 +107,13 @@ export async function getItem(id: string | number) {
 			task: true,
 			location: true,
 			inventoryRemove: {
-				include: { task: true }
+				include: {
+					task: {
+						include: {
+							item: { select: { name: true } }
+						}
+					}
+				}
 			}
 		}
 	});
@@ -126,7 +142,7 @@ export async function getItem(id: string | number) {
 		};
 	}
 
-	console.log('aee', JSON.stringify(fItem.closedInv, null, 2));
+	// console.log('aee', JSON.stringify(fItem.inventory, null, 2));
 	// console.log('aee', JSON.stringify(fItem.inventoryRemove, null, 2));
 	return fItem;
 }
