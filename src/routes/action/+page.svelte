@@ -26,7 +26,7 @@
 	// console.log('looodata', JSON.stringify(data));
 </script>
 
-<div class=" relative grid grid-cols-1 flex-col items-center justify-center *:h-[800px] lg:px-0">
+<div class=" relative grid grid-cols-1 flex-col items-center justify-center lg:px-0">
 	<div class="lg:p-1">
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6 p-2">
 			<div class="flex flex-row justify-between space-y-2">

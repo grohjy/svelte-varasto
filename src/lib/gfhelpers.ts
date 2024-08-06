@@ -1,5 +1,33 @@
 import dayjs from 'dayjs';
 
+import {
+	Box,
+	Boxes,
+	CalendarCheck2,
+	// Check,
+	// ChevronDown,
+	// ChevronUp,
+	ListChecks,
+	Users,
+	type Icon
+} from 'lucide-svelte';
+import { type ComponentType } from 'svelte';
+// import type {Icon} from "lucide-svelte"
+
+type GfNav = {
+	name: string;
+	url: string;
+	icon: ComponentType<Icon>;
+};
+
+export const gfnav: GfNav[] = [
+	{ name: 'Items', url: '/item', icon: Box },
+	{ name: 'Tasks', url: '/task', icon: CalendarCheck2 },
+	{ name: 'Actions', url: '/action', icon: ListChecks },
+	{ name: 'Users', url: '/user', icon: Users },
+	{ name: 'Inventory', url: '/inventory', icon: Boxes }
+];
+
 export async function handleEditorContentAndImages(html: string, maxSize = 1024) {
 	const template = document.createElement('template');
 	template.innerHTML = html;

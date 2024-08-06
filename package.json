@@ -47,7 +47,7 @@
 		"@tinymce/tinymce-svelte": "^3.0.0",
 		"@types/node": "^20.14.10",
 		"bigger-picture": "^1.1.17",
-		"bits-ui": "^0.21.12",
+		"bits-ui": "^0.21.13",
 		"clsx": "^2.1.1",
 		"cmdk-sv": "^0.0.18",
 		"core-js": "^3.37.1",

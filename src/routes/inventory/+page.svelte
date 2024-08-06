@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { search } from '$lib/stores.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import GfEditor from '$lib/components/GfEditor.svelte';
 	import { handleEditorImages } from '$lib/gfhelpers';
@@ -10,11 +11,11 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 
 	const { data }: { data: PageData } = $props();
-	let search = $state('');
+	// let search = $state('');
 	// let customers = $state();
 	let inventory = $derived.by(() => {
 		return data.inventory.filter((c) => {
-			let s = search.toLowerCase();
+			let s = search.value.toLowerCase();
 			return c.invs[0].item?.name.toLowerCase().includes(s);
 			//  ||
 			// c.type?.subtype?.toLowerCase().includes(s) ||
@@ -31,7 +32,7 @@
 			<div class="flex flex-row justify-between space-y-2">
 				<h1 class="text-2xl font-semibold tracking-tight">Inventory:</h1>
 				<div class="flex gap-2">
-					<Input type="search" placeholder="Filter..." bind:value={search} />
+					<!-- <Input type="search" placeholder="Filter..." bind:value={search.value} /> -->
 					<Button variant="outline" href="/inventory/create">Add</Button>
 				</div>
 			</div>
