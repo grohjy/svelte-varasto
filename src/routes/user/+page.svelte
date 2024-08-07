@@ -8,8 +8,11 @@
 	import { Label } from '$lib/components/ui/label/index';
 	import { cn } from '$lib/utils';
 	import * as Avatar from '$lib/components/ui/avatar';
+	import { search } from '$lib/stores.svelte';
 
 	const { data }: { data: PageData } = $props();
+	search.active = false;
+	search.value = '';
 </script>
 
 <div class=" relative grid grid-cols-1 flex-col items-center justify-center lg:px-0">

@@ -5,33 +5,36 @@
 	import { Input } from '$lib/components/ui/input/index';
 
 	import type { PageData } from './$types';
+	import { search } from '$lib/stores.svelte';
 
 	let { data } = $props();
-	// let { openTasks, restTasks } = $state();
-	let taskFilter = $state('');
+	search.active = true;
+	search.value = '';
+
+	// let taskFilter = $state('');
 	let allTasks = $derived(
 		data.tasks.filter((t) => {
-			const normalizedInput = taskFilter.toLowerCase().trim();
-			const inputs = normalizedInput.split(' ');
+			// const normalizedInput = taskFilter.toLowerCase().trim();
+			// const inputs = normalizedInput.split(' ');
 			let found = false;
 
-			found = inputs.every((taskFilter) => {
+			found = search.cleanedValues.every((value) => {
 				return (
-					t.item?.name.toLowerCase().includes(taskFilter) ||
-					t.type?.type.toLowerCase().includes(taskFilter) ||
-					t.type?.subtype.toLowerCase().includes(taskFilter) ||
-					t.status?.status.toLowerCase().includes(taskFilter)
+					t.item?.name.toLowerCase().includes(value) ||
+					t.type?.type.toLowerCase().includes(value) ||
+					t.type?.subtype.toLowerCase().includes(value) ||
+					t.status?.status.toLowerCase().includes(value)
 				);
 
 				// label.toLowerCase().includes(input)
 			});
-			console.log('inpu', inputs);
+			// console.log('inpu', inputs);
 
 			return found;
 		})
 	);
 	// let allTasks = data.tasks;
-	console.log('taassk', allTasks);
+	// console.log('taassk', allTasks);
 
 	let openTasks = $derived(allTasks.filter((t) => t.status?.status == 'open'));
 	let restTasks = $derived(allTasks.filter((t) => t.status?.status != 'open'));
@@ -39,7 +42,7 @@
 
 <div class="flex justify-between">
 	<h1>Tasks:</h1>
-	<Input placeholder="filter" bind:value={taskFilter} class="w-44" />
+	<!-- <Input placeholder="filter" bind:value={search.value} class="w-44" /> -->
 </div>
 
 <div class="">

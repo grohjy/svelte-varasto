@@ -59,7 +59,7 @@ export const load = async () => {
 			}
 		}
 	});
-	console.log('a', closedInv);
+	// console.log('a', closedInv);
 
 	// const grClosed = groupby(closedInv, (inv) => inv.itemId);
 	// let grClosed2 = Object.entries(grClosed).map(([key, value]) => {

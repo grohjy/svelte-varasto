@@ -8,22 +8,29 @@
 	import { Label } from '$lib/components/ui/label/index';
 	import { cn } from '$lib/utils';
 	import * as Avatar from '$lib/components/ui/avatar';
+	import { search } from '$lib/stores.svelte';
 
 	const { data }: { data: PageData } = $props();
-	let search = $state('');
+	search.active = true;
+	search.value = '';
+
 	// let customers = $state();
 	let actions = $derived.by(() => {
 		return data.actions.filter((c) => {
-			let s = search.toLowerCase();
-			return (
-				c.type?.type.toLowerCase().includes(s) ||
-				c.type?.subtype?.toLowerCase().includes(s) ||
-				c.task?.type?.type.toLowerCase().includes(s) ||
-				c.task?.type?.subtype.toLowerCase().includes(s)
-			);
+			let found = false;
+			found = search.cleanedValues.every((value) => {
+				return (
+					c.type?.type.toLowerCase().includes(value) ||
+					c.type?.subtype?.toLowerCase().includes(value) ||
+					c.task?.id.toString().toLowerCase().includes(value) ||
+					c.task?.name.toLowerCase().includes(value)
+					// c.task?.type?.type.toLowerCase().includes(value) ||
+					// c.task?.type?.subtype.toLowerCase().includes(value)
+				);
+			});
+			return found;
 		});
 	});
-	// console.log('looodata', JSON.stringify(data));
 </script>
 
 <div class=" relative grid grid-cols-1 flex-col items-center justify-center lg:px-0">
@@ -32,7 +39,7 @@
 			<div class="flex flex-row justify-between space-y-2">
 				<h1 class="text-2xl font-semibold tracking-tight">Actions:</h1>
 				<div class="flex gap-2">
-					<Input type="search" placeholder="Filter..." bind:value={search} />
+					<!-- <Input type="search" placeholder="Filter..." bind:value={search2} /> -->
 					<!-- <Button variant="outline" href="customers/create">New</Button> -->
 				</div>
 			</div>

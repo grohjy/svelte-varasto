@@ -25,14 +25,8 @@
 
 	let { data, children } = $props();
 	import { page } from '$app/stores';
-	import { writable } from 'svelte/store';
 	import { search } from '$lib/stores.svelte';
-	// let gfsearch = $state({ value: 'aa' });
-	// data.gf = search;
-	// console.log('paage', $page.url.pathname, data.gf);
-	// $page.gfsearch = 'jg';
-	// export let jg = writable('gg');
-	// store
+	console.log('layoout');
 </script>
 
 <div class=" grid min-h-screen w-full lg:grid-cols-[220px_1fr]">
@@ -59,47 +53,7 @@
 					</Button>
 				</Sheet.Trigger>
 				<Sheet.Content side="left" class="flex flex-col">
-					<nav class="grid gap-2 text-lg font-medium">
-						<a href="##" class="flex items-center gap-2 text-lg font-semibold">
-							<img src="/kettu.png" alt="" class="h-8 w-8 object-contain" />
-							<span>Greenfox</span>
-						</a>
-						<a
-							href="##"
-							class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-						>
-							<Box class="h-5 w-5" />
-							Items
-						</a>
-						<a
-							href="##"
-							class="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-						>
-							<CalendarCheck2 class="h-5 w-5" />
-							Tasks
-						</a>
-						<a
-							href="##"
-							class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-						>
-							<ListChecks class="h-5 w-5" />
-							Actions
-						</a>
-						<a
-							href="##"
-							class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-						>
-							<Users class="h-5 w-5" />
-							Users
-						</a>
-						<a
-							href="##"
-							class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-						>
-							<Boxes class="h-5 w-5" />
-							Inventory
-						</a>
-					</nav>
+					<GfNav hamburger url={$page.url.pathname} />
 				</Sheet.Content>
 			</Sheet.Root>
 			<div class="flex flex-grow justify-end gap-4">
@@ -119,7 +73,7 @@
 						</form>
 					</div>
 				{/if}
-				<DropdownMenu.Root>
+				<!-- <DropdownMenu.Root>
 					<DropdownMenu.Trigger asChild let:builder>
 						<Button builders={[builder]} variant="secondary" size="icon" class="rounded-full">
 							<CircleUser class="h-5 w-5" />
@@ -134,7 +88,7 @@
 						<DropdownMenu.Separator />
 						<DropdownMenu.Item>Logout</DropdownMenu.Item>
 					</DropdownMenu.Content>
-				</DropdownMenu.Root>
+				</DropdownMenu.Root> -->
 			</div>
 		</header>
 		<main class="flex flex-1 flex-col gap-4 overflow-auto p-4 lg:gap-6 lg:p-6">

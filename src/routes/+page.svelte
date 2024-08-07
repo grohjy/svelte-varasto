@@ -3,6 +3,8 @@
 	import { search } from '$lib/stores.svelte.js';
 	let { data } = $props();
 	// import { jg } from './+layout.svelte';
+	search.active = false;
+	search.value = '';
 </script>
 
-<p onclick={() => (search.active = false)}>aa aasad {search.value}</p>
+Etusivu

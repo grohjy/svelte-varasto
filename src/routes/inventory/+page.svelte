@@ -15,8 +15,14 @@
 	// let customers = $state();
 	let inventory = $derived.by(() => {
 		return data.inventory.filter((c) => {
-			let s = search.value.toLowerCase();
-			return c.invs[0].item?.name.toLowerCase().includes(s);
+			const found = search.cleanedValues.every((value) => {
+				return c.invs[0].item?.name.toLowerCase().includes(value);
+			});
+
+			return found;
+
+			// let s = search.cleanedValue;
+			// return c.invs[0].item?.name.toLowerCase().includes(s);
 			//  ||
 			// c.type?.subtype?.toLowerCase().includes(s) ||
 			// c.task?.type?.type.toLowerCase().includes(s) ||
@@ -24,6 +30,7 @@
 		});
 	});
 	// console.log('looodata', JSON.stringify(data));
+	search.active = true;
 </script>
 
 <div class=" relative grid grid-cols-1 flex-col items-center justify-center lg:px-0">
