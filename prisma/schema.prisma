@@ -19,8 +19,8 @@ model Item {
   updatedAt DateTime @updatedAt
   active Boolean  @default(true)
   useInSelection Boolean  @default(true)
-  customer    Customer?    @relation(fields: [customerId], references: [id])
-  customerId  Int?
+  // customer    Customer?    @relation(fields: [customerId], references: [id])
+  // customerId  Int?
   tasks    Task[]  
   type    typeItem?    @relation(fields: [typeId], references: [id])
   typeId  Int?
@@ -143,17 +143,17 @@ model StorageLocation {
   inventory Inventory[]
 }
 
-model Customer {
-  id    Int     @id @default(autoincrement())
-  shortname String  @unique
-  name  String?
-  logo String?
-  content String?
-  items Item[]
-  active Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+// model Customer {
+//   id    Int     @id @default(autoincrement())
+//   shortname String  @unique
+//   name  String?
+//   logo String?
+//   content String?
+//   items Item[]
+//   active Boolean  @default(true)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model User {
   id    Int     @id @default(autoincrement())

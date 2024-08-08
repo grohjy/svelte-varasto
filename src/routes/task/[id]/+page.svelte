@@ -30,8 +30,9 @@
 
 			<div class="ml-4 space-y-1">
 				<p class="text-lg font-medium leading-none">
-					Task: {data.task?.id} - {data.task?.name} (<a href="/item/{data.task?.itemId}"
-						>{data.task?.itemId} - {data.task?.item?.name}</a
+					Task: {data.task?.id} - {data.task?.name} (<a
+						href="/item/{data.task?.itemId}"
+						class="hover:underline">{data.task?.itemId} - {data.task?.item?.name}</a
 					>)
 				</p>
 				<p class="text-md text-muted-foreground">Status: {data.task?.status?.status}</p>

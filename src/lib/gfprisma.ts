@@ -61,7 +61,7 @@ export async function getItem(id: string | number) {
 		},
 		include: {
 			type: true,
-			customer: { select: { shortname: true } },
+			// customer: { select: { shortname: true } },
 			childItems: {
 				include: {
 					child: { include: { type: true } }

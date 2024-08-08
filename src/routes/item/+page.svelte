@@ -42,7 +42,7 @@
 			<Card.Title>Customers:</Card.Title>
 		</Card.Header>
 		<Card.Content class="pt-6">
-			{#each items.filter((item) => item.type?.type == 'customer') as item}
+			{#each items.filter((item) => item.type?.subtype == 'customer') as item}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{item.id}">
 						<Avatar.Root class="h-20 w-20  rounded-lg">
@@ -122,7 +122,7 @@
 			<Card.Title>Other:</Card.Title>
 		</Card.Header>
 		<Card.Content class="pt-6">
-			{#each items.filter((item) => !item.type?.type?.includes('product' || 'customer')) as item}
+			{#each items.filter((item) => !(item.type?.type == 'product' || item.type?.subtype == 'customer')) as item}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{item.id}">
 						<Avatar.Root class="h-20 w-20  rounded-lg">
