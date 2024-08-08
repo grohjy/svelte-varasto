@@ -40,8 +40,8 @@ export const load = async ({ params }) => {
 			}
 		}
 	});
-	console.log('loc', JSON.stringify(location, null, 2));
-	console.log('loc clsoed', closedInvs);
+	// console.log('loc', JSON.stringify(location, null, 2));
+	// console.log('loc clsoed', closedInvs);
 
 	return { location, closedInvs };
 

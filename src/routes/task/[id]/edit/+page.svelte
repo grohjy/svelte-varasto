@@ -20,6 +20,9 @@
 	import GfSelect from '$lib/components/gf-select.svelte';
 	import GfItemeditrow from '$lib/components/gf-itemeditrow.svelte';
 	import GfDaterange from '$lib/components/gf-daterange.svelte';
+	import { search } from '$lib/stores.svelte.js';
+	search.active = false;
+	search.value = '';
 
 	type jg = { data: PageData };
 	let { data }: jg = $props();
@@ -28,33 +31,6 @@
 	let dates = $state({ start: data.task?.startDate, end: data.task?.endDate });
 	let typeId = data.task?.typeId;
 	let statusId = data.task?.statusId;
-	// let open = $state(false);
-	// let value2 = $state('');
-	// let thumb = $state(data.item?.thumb);
-
-	// const filteredSelChildren = data.selectableItems.filter((item) => {
-	// 	const ids = data.item?.childItems?.map((item) => item.id);
-	// 	ids?.push(data.item.id);
-	// 	return !ids.includes(item.id);
-	// });
-	// const filteredSelParents = data.selectableItems.filter((item) => {
-	// 	const ids = data.item?.parentItems?.map((item) => item.id);
-	// 	ids?.push(data.item.id);
-	// 	return !ids.includes(item.id);
-	// });
-
-	// const parents = filteredSelParents.map(({ id, name, type }) => {
-	// 	return {
-	// 		value: id,
-	// 		label: `${name} (${type})`
-	// 	};
-	// });
-	// const children = filteredSelChildren.map(({ id, name, type }) => {
-	// 	return {
-	// 		value: id,
-	// 		label: `${name} (${type})`
-	// 	};
-	// });
 
 	const types = data.selectableTypes.map((type) => {
 		return { value: type.id, label: type.type };
@@ -129,25 +105,14 @@
 							<Label for="name">Status</Label>
 							<GfCombobox options={status} bind:selectedId={statusId} />
 						</div>
-
-						<!-- <h3>Parents:</h3>
-						<GfItemedittable
-							bind:items={data.item.parentItems}
-							allItems={data.selectableItems.filter((item) => item.id !== data.item.id)}
-						/> -->
-						<!-- <h3>Children:</h3>
-						<GfItemedittable
-							bind:items={data.item.childItems}
-							allItems={data.selectableItems.filter((item) => item.id !== data.item.id)}
-						/> -->
 						<Label for="">Dates</Label>
 						<GfDaterange bind:value={dates} />
-						<p>{JSON.stringify(dates)}</p>
+						<!-- <p>{JSON.stringify(dates)}</p> -->
 						<Label for="editor">Main content</Label>
 						<GfEditor bind:this={editor} value={data.task?.content || ''} />
 
 						<div class="flex items-center justify-between space-x-2 p-6 pt-0">
-							<Button variant="ghost" href={`/item/${$page.params.id}`}>Cancel</Button>
+							<Button variant="ghost" href={`/task/${$page.params.id}`}>Cancel</Button>
 							<Button type="submit" variant="outline" disabled={!dates || !dates.start}>Save</Button
 							>
 						</div>

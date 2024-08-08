@@ -11,8 +11,6 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 
 	const { data }: { data: PageData } = $props();
-	// let search = $state('');
-	// let customers = $state();
 	let inventory = $derived.by(() => {
 		return data.inventory.filter((c) => {
 			const found = search.cleanedValues.every((value) => {
@@ -20,17 +18,11 @@
 			});
 
 			return found;
-
-			// let s = search.cleanedValue;
-			// return c.invs[0].item?.name.toLowerCase().includes(s);
-			//  ||
-			// c.type?.subtype?.toLowerCase().includes(s) ||
-			// c.task?.type?.type.toLowerCase().includes(s) ||
-			// c.task?.type?.subtype.toLowerCase().includes(s)
 		});
 	});
 	// console.log('looodata', JSON.stringify(data));
 	search.active = true;
+	search.value = '';
 </script>
 
 <div class=" relative grid grid-cols-1 flex-col items-center justify-center lg:px-0">
@@ -45,23 +37,25 @@
 			</div>
 			{#each inventory as inv}
 				<div class="flex gap-2 p-2 hover:bg-slate-50">
-					<a href="/item/{inv.itemId}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+					<Avatar.Root class="h-20 w-20  rounded-lg">
+						<a href="/item/{inv.itemId}">
 							<Avatar.Image src={inv.invs[0].item?.thumb} alt="Thumbnail" />
 							<Avatar.Fallback
 								>{inv.invs[0].item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback
 							>
-						</Avatar.Root>
-					</a>
-					<div class="ml-4 grow space-y-1">
-						<a href="/item/{inv.itemId}">
-							<p class="text-sm font-medium leading-none">
-								item: {inv.invs[0].item?.id}-{inv.invs[0].item?.name}:
-							</p>
 						</a>
+					</Avatar.Root>
+					<div class="ml-4 grow space-y-1">
+						<p class="text-sm font-medium leading-none hover:underline">
+							<a href="/item/{inv.itemId}">
+								item: {inv.invs[0].item?.id}-{inv.invs[0].item?.name}:
+							</a>
+						</p>
 						{#each inv.invs as inv2}
 							<p class="text-sm font-medium leading-none">
-								{inv2.location?.rack}/{inv2.location?.location}:
+								<a class="hover:underline" href="/storage/{inv2.location?.id}">
+									{inv2.location?.rack}/{inv2.location?.location}:
+								</a>
 								{inv2.qty - inv2.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs
 								<span class="text-sm font-normal text-muted-foreground">
 									({inv2.createdAt.toLocaleDateString('fi')}, task: {inv2.task?.id}-{inv2.task
@@ -84,18 +78,18 @@
 			</div>
 			{#each data.closedInv as inv}
 				<div class="flex gap-2 p-2 hover:bg-slate-50">
-					<a href="/item/{inv.itemId}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+					<Avatar.Root class="h-20 w-20  rounded-lg">
+						<a href="/item/{inv.itemId}">
 							<Avatar.Image src={inv.item?.thumb} alt="Thumbnail" />
 							<Avatar.Fallback>{inv.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
-						</Avatar.Root>
-					</a>
-					<div class="ml-4 grow space-y-1">
-						<a href="/item/{inv.itemId}">
-							<p class="text-sm font-medium leading-none">
-								Item: {inv.item?.id}-{inv.item?.name}, {inv.location?.rack}/{inv.location.location}:
-							</p>
 						</a>
+					</Avatar.Root>
+					<div class="ml-4 grow space-y-1">
+						<p class="text-sm font-medium leading-none hover:underline">
+							<a href="/item/{inv.itemId}">
+								Item: {inv.item?.id}-{inv.item?.name}, {inv.location?.rack}/{inv.location.location}:
+							</a>
+						</p>
 						<p class="text-sm font-normal text-muted-foreground">
 							{inv.createdAt.toLocaleDateString('fi')} (task: {inv.task?.id}-{inv.task?.name}): {inv.qty}
 							pcs

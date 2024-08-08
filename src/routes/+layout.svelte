@@ -18,15 +18,11 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
 	import GfNav from '$lib/components/gf-nav.svelte';
-
-	// import type { PageData } from './$types';
-	// export let data: PageData;
-	// import type { LayoutData } from './$types';
+	import { gfnav } from '$lib/gfhelpers';
 
 	let { data, children } = $props();
 	import { page } from '$app/stores';
 	import { search } from '$lib/stores.svelte';
-	console.log('layoout');
 </script>
 
 <div class=" grid min-h-screen w-full lg:grid-cols-[220px_1fr]">
@@ -43,6 +39,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="flex max-h-screen flex-col">
 		<header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
 			<Sheet.Root>
@@ -56,7 +53,13 @@
 					<GfNav hamburger url={$page.url.pathname} />
 				</Sheet.Content>
 			</Sheet.Root>
-			<div class="flex flex-grow justify-end gap-4">
+			<div class="flex flex-grow items-center justify-between gap-4">
+				<a href={gfnav.find((nav) => $page.url.pathname.includes(nav.url))?.url}>
+					<p class="text-lg font-medium leading-none">
+						{gfnav.find((nav) => $page.url.pathname.includes(nav.url))?.name}
+					</p>
+				</a>
+
 				{#if search.active}
 					<div class="w-40">
 						<!-- <div class="w-full flex-1"> -->

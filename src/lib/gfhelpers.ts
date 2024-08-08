@@ -9,6 +9,7 @@ import {
 	// ChevronUp,
 	ListChecks,
 	Users,
+	Settings,
 	type Icon
 } from 'lucide-svelte';
 import { type ComponentType } from 'svelte';
@@ -21,11 +22,12 @@ type GfNav = {
 };
 
 export const gfnav: GfNav[] = [
-	{ name: 'Items', url: '/item', icon: Box },
+	{ name: 'Items', url: '/item', icon: Settings },
 	{ name: 'Tasks', url: '/task', icon: CalendarCheck2 },
 	{ name: 'Actions', url: '/action', icon: ListChecks },
 	{ name: 'Users', url: '/user', icon: Users },
-	{ name: 'Inventory', url: '/inventory', icon: Boxes }
+	{ name: 'Inventory', url: '/inventory', icon: Box },
+	{ name: 'Storage', url: '/storage', icon: Boxes }
 ];
 
 export async function handleEditorContentAndImages(html: string, maxSize = 1024) {

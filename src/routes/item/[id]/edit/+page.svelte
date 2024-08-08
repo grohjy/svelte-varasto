@@ -19,6 +19,9 @@
 	import { Command as Cmd } from 'cmdk-sv';
 	import GfSelect from '$lib/components/gf-select.svelte';
 	import GfItemeditrow from '$lib/components/gf-itemeditrow.svelte';
+	import { search } from '$lib/stores.svelte.js';
+	search.active = false;
+	search.value = '';
 
 	type jg = { data: PageData };
 	let { data }: jg = $props();

@@ -30,7 +30,7 @@ export const load = async ({ params }) => {
 			}
 		}
 	});
-	console.log('task', response);
+	// console.log('task', response);
 
 	return { task: response };
 };

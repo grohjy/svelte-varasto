@@ -7,6 +7,9 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import GfCombobox from '$lib/components/gf-combobox.svelte';
+	import { search } from '$lib/stores.svelte.js';
+	search.active = false;
+	search.value = '';
 	const { data }: { data: PageData } = $props();
 
 	let user = $state();

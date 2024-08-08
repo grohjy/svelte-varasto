@@ -9,6 +9,9 @@
 	import type { PageData } from './$types';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import * as Card from '$lib/components/ui/card';
+	import { search } from '$lib/stores.svelte';
+	search.active = false;
+	search.value = '';
 
 	let { data } = $props();
 	let selectedStorage = $state();
@@ -16,19 +19,20 @@
 	function jg() {
 		console.log('jgg', $page.params.id);
 	}
-	let dlgOpen: boolean = $state();
+	// let dlgOpen: boolean = $state();
+	// console.log('item2', search.value, search.active);
 </script>
 
 <div class="flex flex-col gap-2">
 	<div class="flex justify-between">
-		<div class="flex items-center p-2 hover:bg-slate-50">
-			<Avatar.Root class="h-20 w-20  rounded-lg">
-				<Avatar.Image src={data.item.thumb} alt="Thumbnail" />
-				<Avatar.Fallback>{data.item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
+		<div class="flex hover:bg-slate-50">
+			<Avatar.Root class="h-56 w-56  rounded-lg">
+				<Avatar.Image src={data.item?.thumb} alt="Thumbnail" />
+				<Avatar.Fallback>{data.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 			</Avatar.Root>
 			<div class="ml-4 space-y-1">
-				<p class="text-sm font-medium leading-none">{data.item.name}</p>
-				<p class="text-sm text-muted-foreground">{data.item.type ? data.item.type : '-'}</p>
+				<p class="text-lg font-medium leading-none">{data.item?.name}</p>
+				<p class="text-md text-muted-foreground">{data.item?.type ? data.item?.type : '-'}</p>
 			</div>
 		</div>
 
@@ -39,7 +43,7 @@
 			<Card.Title>Content</Card.Title>
 		</Card.Header>
 		<Card.Content class="pt-6">
-			<GfContent content={data.item.content} />
+			<GfContent content={data.item?.content} />
 		</Card.Content>
 	</Card.Root>
 	<Card.Root>

@@ -14,7 +14,6 @@
 	search.active = true;
 	search.value = '';
 
-	// let customers = $state();
 	let actions = $derived.by(() => {
 		return data.actions.filter((c) => {
 			let found = false;
@@ -24,8 +23,6 @@
 					c.type?.subtype?.toLowerCase().includes(value) ||
 					c.task?.id.toString().toLowerCase().includes(value) ||
 					c.task?.name.toLowerCase().includes(value)
-					// c.task?.type?.type.toLowerCase().includes(value) ||
-					// c.task?.type?.subtype.toLowerCase().includes(value)
 				);
 			});
 			return found;
@@ -38,19 +35,20 @@
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6 p-2">
 			<div class="flex flex-row justify-between space-y-2">
 				<h1 class="text-2xl font-semibold tracking-tight">Actions:</h1>
-				<div class="flex gap-2">
-					<!-- <Input type="search" placeholder="Filter..." bind:value={search2} /> -->
-					<!-- <Button variant="outline" href="customers/create">New</Button> -->
-				</div>
+				<div class="flex gap-2"></div>
 			</div>
-			<!-- <pre>{JSON.stringify(actions)}</pre> -->
 			{#each actions as action}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<div class="ml-4 space-y-1">
 						<p class="text-sm font-medium leading-none">
-							{action.createdAt.toLocaleDateString()}, {action.createdAt.toLocaleTimeString([], {
-								timeStyle: 'short'
-							})} / <a href="/user/{action.user?.id}">{action.user?.shortname}</a>:
+							{action.createdAt.toLocaleDateString('fi')}, {action.createdAt.toLocaleTimeString(
+								'fi',
+								{
+									timeStyle: 'short'
+								}
+							)} /
+							<a href="/user/{action.user?.id}" class="hover:underline">{action.user?.shortname}</a
+							>:
 							{#if action.type?.type == 'work'}
 								{action.qty}h
 							{:else if action.type?.type == 'purchase'}
@@ -58,7 +56,7 @@
 							{/if}
 
 							{action.type?.type}/{action.type?.subtype}
-							<a href="/task/{action.task?.id}">
+							<a href="/task/{action.task?.id}" class="hover:underline">
 								<span class="text-sm text-muted-foreground"
 									>(task:{action.task?.id}-{action.task?.name})</span
 								>

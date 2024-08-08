@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import type { PageData } from './$types';
+	import { search } from '$lib/stores.svelte.js';
+	search.active = false;
+	search.value = '';
 
 	export let data: PageData;
 </script>

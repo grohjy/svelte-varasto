@@ -7,6 +7,10 @@
 	// import 'bigger-picture/css';
 	// import { onMount } from 'svelte';
 	import GfContent from '$lib/components/gf-content.svelte';
+	import { search } from '$lib/stores.svelte.js';
+	search.active = false;
+	search.value = '';
+
 	export let data: PageData;
 	const user = data.user;
 </script>

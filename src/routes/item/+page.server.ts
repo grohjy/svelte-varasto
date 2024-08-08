@@ -1,45 +1,31 @@
 import prisma from '$lib/prisma';
-import type { PageServerLoad } from './$types';
+import { search } from '$lib/stores.svelte';
 
-export const load = (async () => {
+export const load = async () => {
 	const items = await prisma.item.findMany({
 		where: {
-			type: {
-				OR: [{ type: 'plastic' }, { type: 'product' }]
-			}
+			active: true
+			// type: {
+			// 	OR: [{ type: 'plastic' }, { type: 'product' }]
+			// }
 		},
-		include: {
+		select: {
+			id: true,
+			name: true,
+			thumb: true,
 			type: true,
-			childItems: {
+			parentItems: {
+				orderBy: { parent: { updatedAt: 'asc' } },
+				take: 1,
 				include: {
-					child: { include: { type: { select: { type: true, subtype: true } } } }
+					parent: {
+						select: { id: true, name: true, type: true }
+					}
 				}
 			}
-			// parentItems: {
-			// 	include: {
-			// 		parent: true
-			// 	}
-			// }
 		}
 	});
-	// console.log('childp', JSON.stringify(item, null, 2));
-	items.forEach((item) => {
-		item.subtype = item.type?.subtype;
-		item.type = item.type?.type;
-		const childs: {}[] = [];
-		item?.childItems.forEach((i) => {
-			const id = i.childId;
-			const name = i.child.name;
-			const type = i.child.type?.type;
-			const subtype = i.child.type?.subtype;
-			const unitsCount = i.unitsCount;
-			const itemCount = i.itemCount;
-			const unit = i.unit;
-			childs.push({ id, name, type, subtype, itemCount, unitsCount, unit });
-		});
-		item.childItems = childs;
-		// console.log('chiild', item);
-	});
+	// console.log('chiild', items);
 
 	return { items };
-}) satisfies PageServerLoad;
+};

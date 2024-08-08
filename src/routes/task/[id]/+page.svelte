@@ -8,34 +8,37 @@
 	import type { PageData } from './$types';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import * as Card from '$lib/components/ui/card';
+	import { search } from '$lib/stores.svelte.js';
+	search.active = false;
+	search.value = '';
 
 	let { data } = $props();
 
 	function jg() {
 		console.log('jgg', $page.params.id);
 	}
-	let dlgOpen: boolean = $state();
+	// let dlgOpen: boolean = $state();
 </script>
 
 <div class="flex flex-col gap-2">
 	<div class="flex justify-between">
-		<div class="flex items-center p-2 hover:bg-slate-50">
-			<Avatar.Root class="h-20 w-20  rounded-lg">
-				<Avatar.Image src={data.task.item.thumb} alt="Thumbnail" />
-				<Avatar.Fallback>{data.task.item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
+		<div class="flex hover:bg-slate-50">
+			<Avatar.Root class="h-56 w-56  rounded-lg">
+				<Avatar.Image src={data.task?.item?.thumb} alt="Thumbnail" />
+				<Avatar.Fallback>{data.task?.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 			</Avatar.Root>
 
 			<div class="ml-4 space-y-1">
-				<p class="text-sm font-medium leading-none">
-					Task: {data.task.id} - {data.task.name} (<a href="/item/{data.task?.itemId}"
-						>{data.task?.itemId} - {data.task?.item.name}</a
+				<p class="text-lg font-medium leading-none">
+					Task: {data.task?.id} - {data.task?.name} (<a href="/item/{data.task?.itemId}"
+						>{data.task?.itemId} - {data.task?.item?.name}</a
 					>)
 				</p>
-				<p class="text-sm text-muted-foreground">Status: {data.task.status?.status}</p>
-				<p class="text-sm text-muted-foreground">
-					Type: {data.task.type?.type}/{data.task.type?.subtype}
+				<p class="text-md text-muted-foreground">Status: {data.task?.status?.status}</p>
+				<p class="text-md text-muted-foreground">
+					Type: {data.task?.type?.type}/{data.task?.type?.subtype}
 				</p>
-				<p class="text-sm text-muted-foreground">
+				<p class="text-md text-muted-foreground">
 					Date: {data.task?.startDate?.toLocaleDateString()} - {data.task?.endDate?.toLocaleDateString()}
 					({(data.task?.endDate - data.task?.startDate) / (24 * 60 * 60 * 1000) + 1} days)
 				</p>
@@ -49,7 +52,7 @@
 			<Card.Title>Content</Card.Title>
 		</Card.Header>
 		<Card.Content class="pt-6">
-			<GfContent content={data.task.content} />
+			<GfContent content={data.task?.content} />
 		</Card.Content>
 	</Card.Root>
 	<Card.Root>
