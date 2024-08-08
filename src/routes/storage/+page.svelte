@@ -43,12 +43,12 @@
 					</p>
 					{#each sto.inventory as inv}
 						<div class="flex gap-2 p-2 hover:bg-slate-50">
-							<Avatar.Root class="h-20 w-20  rounded-lg">
-								<a href="/item/{inv.itemId}">
+							<a href="/item/{inv.itemId}">
+								<Avatar.Root class="h-20 w-20  rounded-lg">
 									<Avatar.Image src={inv.item?.thumb} alt="Thumbnail" />
 									<Avatar.Fallback>{inv.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
-								</a>
-							</Avatar.Root>
+								</Avatar.Root>
+							</a>
 							<div class="ml-4 grow space-y-1">
 								<p class="text-sm font-medium leading-none hover:underline">
 									<a href="/item/{inv.itemId}">

@@ -39,12 +39,12 @@
 	<h1>Open tasks:</h1>
 	{#each openTasks as task}
 		<div class="flex items-center p-2 hover:bg-slate-50">
-			<Avatar.Root class="h-20 w-20  rounded-lg">
-				<a href="/task/{task.id}">
+			<a href="/task/{task.id}">
+				<Avatar.Root class="h-20 w-20  rounded-lg">
 					<Avatar.Image src={task.item?.thumb} alt="Thumbnail" />
 					<Avatar.Fallback>{task.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
-				</a>
-			</Avatar.Root>
+				</Avatar.Root>
+			</a>
 			<div class="ml-4 space-y-1">
 				<p class="text-sm font-medium leading-none">
 					<a href="/task/{task.id}" class="hover:underline">
@@ -71,12 +71,12 @@
 	<h1>Other tasks:</h1>
 	{#each restTasks as task}
 		<div class="flex items-center p-2 hover:bg-slate-50">
-			<Avatar.Root class="h-20 w-20  rounded-lg">
-				<a href="/task/{task.id}">
+			<a href="/task/{task.id}">
+				<Avatar.Root class="h-20 w-20  rounded-lg">
 					<Avatar.Image src={task.item?.thumb} alt="Thumbnail" />
 					<Avatar.Fallback>{task.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
-				</a>
-			</Avatar.Root>
+				</Avatar.Root>
+			</a>
 			<div class="ml-4 space-y-1">
 				<p class="text-sm font-medium leading-none">
 					<a href="/task/{task.id}" class="hover:underline">
