@@ -4,6 +4,7 @@ import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 import { formatType, getItem } from '$lib/gfprisma';
 import { writeFileSync } from 'fs';
+import { writePath } from '$lib/gfhelpers';
 // import { writeFileSync } from 'fs';
 
 export const load = (async ({ params }) => {
@@ -48,7 +49,7 @@ export const actions = {
 		// console.log('kkk');
 
 		const data = await request.formData();
-		data.forEach((value, key) => console.log('itemkey:', key, value));
+		// data.forEach((value, key) => console.log('itemkey:', key, value));
 
 		let c = JSON.parse(data.get('children'));
 		c = c.map((item) => {
@@ -71,13 +72,18 @@ export const actions = {
 
 		const content = data.get('content') as string;
 		const files = data.getAll('file') as File[];
+		console.log('fiile1');
 		if (files && files.length > 0) {
 			files.forEach(async (file) => {
 				const buffer = await file.arrayBuffer();
 				const data = Buffer.from(buffer);
-				writeFileSync(`static/images/${file.name}.jpg`, data);
+				writeFileSync(`${writePath()}img/${file.name}.jpg`, data);
+
+				// writeFileSync(`/app/build/client/images/${file.name}.jpg`, data);
+				// writeFileSync(`data/static/images/${file.name}.jpg`, data);
 			});
 		}
+		console.log('fiile2');
 
 		const result = await prisma.item.update({
 			where: {
@@ -107,28 +113,6 @@ export const actions = {
 
 		// console.log('parents', JSON.stringify(data.getAll('parents')));
 		const customerId = data.get('customer2') as string;
-		// const logo = data.get('logo') as string;
-		// const content = data.get('content') as string;
-		// console.log('jepu', data);
-		// const files = data.getAll('file') as File[];
-		// if (files && files.length > 0) {
-		// console.log('fiiles:', files);
-		// 	files.forEach(async (file) => {
-		// 		const buffer = await file.arrayBuffer();
-		// 		const data = Buffer.from(buffer);
-		// 		writeFileSync(`static/images/${file.name}.jpg`, data);
-		// 	});
-		// }
-		// await prisma.item.update({
-		// 	where: {
-		// 		id: parseInt(params.id)
-		// 	},
-		// 	data: {
-		// 		customerId: parseInt(customerId)
-		// 	}
-		// });
-
-		// console.log('jepure');
 		throw redirect(303, `/item/${params.id}`);
 	}
 } satisfies Actions;

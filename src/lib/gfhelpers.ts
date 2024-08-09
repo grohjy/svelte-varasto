@@ -1,3 +1,4 @@
+// import { NODE_ENV } from '$env/static/public';
 import dayjs from 'dayjs';
 
 import {
@@ -30,6 +31,10 @@ export const gfnav: GfNav[] = [
 	{ name: 'Storage', url: '/storage', icon: Boxes }
 ];
 
+export function writePath() {
+	// return 'data/';
+	return '/data/'; //deploy
+}
 export async function handleEditorContentAndImages(html: string, maxSize = 1024) {
 	const template = document.createElement('template');
 	template.innerHTML = html;
@@ -49,7 +54,7 @@ export async function handleEditorContentAndImages(html: string, maxSize = 1024)
 			const b2 = await resizeToBlobJPG(blob, { maxSize });
 			const time = dayjs(Date.now()).format('YYYYMMDD[T]HHmmssSSS');
 			formData.append('file', b2, `${time}-${i}`);
-			img.src = `/images/${time}-${i}.jpg`;
+			img.src = `/img/${time}-${i}.jpg`;
 			img.dataset.handled = '1';
 		}
 	}

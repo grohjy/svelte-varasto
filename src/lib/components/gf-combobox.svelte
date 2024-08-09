@@ -49,7 +49,7 @@
 		return next;
 	}
 	function onSel({ curr, next }) {
-		console.log('whaat', selectedId, next);
+		// console.log('whaat', selectedId, next);
 		// console.log('whaat', selectedId, next);
 
 		changeFromParent = false;

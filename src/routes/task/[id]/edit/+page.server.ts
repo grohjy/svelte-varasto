@@ -3,6 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { formatType, getItem } from '$lib/gfprisma';
 import { writeFileSync } from 'fs';
 import { parseDate } from '@internationalized/date';
+import { writePath } from '$lib/gfhelpers.js';
 // import { writeFileSync } from 'fs';
 
 export const load = async ({ params }) => {
@@ -60,7 +61,7 @@ export const load = async ({ params }) => {
 export const actions = {
 	default: async ({ request, params, url }) => {
 		const data = await request.formData();
-		data.forEach((value, key) => console.log('itemkey:', key, value));
+		// data.forEach((value, key) => console.log('itemkey:', key, value));
 
 		// let c = JSON.parse(data.get('children'));
 		// c = c.map((item) => {
@@ -87,7 +88,7 @@ export const actions = {
 			files.forEach(async (file) => {
 				const buffer = await file.arrayBuffer();
 				const data = Buffer.from(buffer);
-				writeFileSync(`static/images/${file.name}.jpg`, data);
+				writeFileSync(`${writePath()}img/${file.name}.jpg`, data);
 			});
 		}
 

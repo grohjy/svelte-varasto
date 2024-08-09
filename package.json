@@ -5,6 +5,8 @@
 	"scripts": {
 		"dev": "vite dev --host",
 		"devts": "nodemon test.ts",
+		"start": "node build",
+		"start2": "node imageserver.js",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -13,10 +15,12 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@flydotio/dockerfile": "^0.5.8",
 		"@internationalized/date": "^3.5.5",
 		"@melt-ui/pp": "^0.3.2",
 		"@melt-ui/svelte": "^0.83.0",
 		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-node": "^5.2.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tailwindcss/typography": "^0.5.13",
@@ -52,6 +56,7 @@
 		"cmdk-sv": "^0.0.18",
 		"core-js": "^3.37.1",
 		"dayjs": "^1.11.11",
+		"express": "^4.19.2",
 		"lucide-svelte": "^0.408.0",
 		"pell": "^1.0.6",
 		"tailwind-merge": "^2.4.0",
