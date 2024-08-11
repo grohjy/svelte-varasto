@@ -43,7 +43,7 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y openssl && \
+    apt-get install --no-install-recommends -y openssl sqlite3 nano && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built application
@@ -56,8 +56,8 @@ COPY  imageserver.js /app
 
 
 # Setup sqlite3 on a separate volume
-RUN mkdir -p /data
-VOLUME /data
+RUN mkdir -p /app/data
+VOLUME /app/data
 #RUN mv /app/build/client/images /app/build/client/images2
 #RUN ln -s /data/static/images /app/build/client/images
 
@@ -66,6 +66,6 @@ ENTRYPOINT [ "/app/docker-entrypoint.js" ]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-ENV DATABASE_URL="file:///data/dev.db"
+ENV DATABASE_URL="file:///app/data/dev.db"
 #ENV PORT=3100
 CMD [ "npm", "run", "start2" ]

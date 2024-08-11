@@ -1,0 +1,7 @@
+fly ssh sftp shell 
+
+put siirtää tiedostot local-koneelta remoteen.
+
+fly ssh console '
+
+node run dev -- --host

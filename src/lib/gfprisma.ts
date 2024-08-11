@@ -119,7 +119,7 @@ export async function getItem(id: string | number) {
 	});
 	const storages = await prisma.storageLocation.findMany({});
 
-	// console.log('iiteee', item);
+	// console.log('iiteee', closedInv);
 
 	let fItem: Item | undefined;
 	if (item) {

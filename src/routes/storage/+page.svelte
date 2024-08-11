@@ -44,7 +44,7 @@
 					{#each sto.inventory as inv}
 						<div class="flex gap-2 p-2 hover:bg-slate-50">
 							<a href="/item/{inv.itemId}">
-								<Avatar.Root class="h-20 w-20  rounded-lg">
+								<Avatar.Root class="h-20 w-20  rounded-sm">
 									<Avatar.Image src={inv.item?.thumb} alt="Thumbnail" />
 									<Avatar.Fallback>{inv.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 								</Avatar.Root>

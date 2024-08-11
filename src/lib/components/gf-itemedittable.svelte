@@ -7,11 +7,11 @@
 	import GfItemeditrow from './gf-itemeditrow.svelte';
 	import { Button } from '$lib/components/ui/button/index';
 
-	let { items = $bindable(), allItems } = $props();
+	let { items = $bindable(), allItems, parent = false } = $props();
 	let newItem = $state({
 		id: undefined,
 		itemCount: 1,
-		unitsCount: 1,
+		unitsCount: 0,
 		unit: 'pcs'
 	});
 
@@ -46,7 +46,7 @@
 		newItem = {
 			id: undefined,
 			itemCount: 1,
-			unitsCount: 1,
+			unitsCount: 0,
 			unit: 'pcs'
 		};
 	}
@@ -56,20 +56,22 @@
 	}
 </script>
 
-<Card.Root class="w-[350px] w-full pt-6">
+<Card.Root class=" w-full ">
 	<!-- <Card.Header>
 		<Card.Title>Parents:</Card.Title>
 	</Card.Header> -->
 	<Card.Content>
-		{#each items as item, index}
-			<div class="grid grid-cols-6 gap-2">
-				<GfItemeditrow {item} class="col-span-5" />
-				<Button variant="ghost" onclick={() => del(index)}>Del</Button>
+		<div class="space-y-4">
+			{#each items as item, index}
+				<div class="grid grid-cols-6 items-end gap-2 p-4 hover:bg-slate-50">
+					<GfItemeditrow {item} class="col-span-5" {parent} />
+					<Button variant="ghost" onclick={() => del(index)}>Del</Button>
+				</div>
+			{/each}
+			<div class="grid grid-cols-6 items-end gap-2 p-4 hover:bg-slate-50">
+				<GfItemeditcombobox bind:item={newItem} options={parents} class="col-span-5" {parent} />
+				<Button variant="ghost" onclick={add} disabled={!newItem.id}>Add</Button>
 			</div>
-		{/each}
-		<div class="grid grid-cols-6 gap-2">
-			<GfItemeditcombobox bind:item={newItem} options={parents} class="col-span-5" />
-			<Button variant="ghost" onclick={add} disabled={!newItem.id}>Add</Button>
 		</div>
 	</Card.Content>
 </Card.Root>

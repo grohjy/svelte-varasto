@@ -9,6 +9,7 @@
 	import { cn } from '$lib/utils';
 	import { applyAction, enhance } from '$app/forms';
 	import DropImage from '$lib/components/DropImage.svelte';
+	import * as Avatar from '$lib/components/ui/avatar';
 	import { page } from '$app/stores';
 
 	import Check from 'lucide-svelte/icons/check';
@@ -26,7 +27,7 @@
 	type jg = { data: PageData };
 	let { data }: jg = $props();
 	let open = $state(false);
-	let value2 = $state('');
+	// let value2 = $state('');
 	let thumb = $state(data.item?.thumb);
 
 	// let selectedType = $state();
@@ -39,14 +40,14 @@
 	// });
 	const filteredSelChildren = data.selectableItems.filter((item) => {
 		const ids = data.item?.childItems?.map((item) => item.id);
-		ids?.push(data.item.id);
-		return !ids.includes(item.id);
+		ids?.push(data.item?.id);
+		return !ids?.includes(item.id);
 	});
 	// console.log('filt', filtSelItems.length, data.selectableItems.length);
 	const filteredSelParents = data.selectableItems.filter((item) => {
 		const ids = data.item?.parentItems?.map((item) => item.id);
-		ids?.push(data.item.id);
-		return !ids.includes(item.id);
+		ids?.push(data.item?.id);
+		return !ids?.includes(item.id);
 	});
 
 	const parents = filteredSelParents.map(({ id, name, type }) => {
@@ -75,7 +76,7 @@
 	let editor;
 
 	async function handleOnSubmit({ formData }) {
-		console.log('alll', JSON.stringify(data.item));
+		// console.log('alll', JSON.stringify(data.item));
 
 		// const { formData: formdataImages, html } = await handleEditorContentAndImages(value);
 		const { formdataImages, html } = await editor.getContentAndImages();
@@ -86,7 +87,7 @@
 		});
 
 		formData.append('content', html);
-		formData.append('type', data.item.typeId);
+		formData.append('type', data.item?.typeId);
 
 		formData.append('parents', JSON.stringify(data.item?.parentItems));
 		formData.append('children', JSON.stringify(data.item?.childItems));
@@ -104,13 +105,13 @@
 </script>
 
 <div
-	class=" relative mx-auto grid max-w-3xl grid-cols-1 flex-col items-center justify-center lg:px-0"
+	class=" relative mx-auto grid max-w-5xl grid-cols-1 flex-col items-center justify-center lg:px-0"
 >
 	<div class="lg:p-1">
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6">
 			<div class="flex flex-col space-y-2 text-center">
 				<h1 class="text-2xl font-semibold tracking-tight">
-					Edit an item {data.item?.id} - {value2}
+					Edit an item {data.item?.id} - {data.item?.name}
 				</h1>
 				<!-- <p class="text-sm text-muted-foreground">Enter your email below to create your account</p> -->
 			</div>
@@ -140,21 +141,43 @@
 							<Label for="name">Type</Label>
 							<GfCombobox options={types} bind:selectedId={data.item.typeId} />
 						</div>
+						<Label for="editor">Main content</Label>
+						<GfEditor bind:this={editor} value={data.item?.content || ''} />
 
 						<h3>Parents:</h3>
-						<GfItemedittable
-							bind:items={data.item.parentItems}
-							allItems={data.selectableItems.filter((item) => item.id !== data.item.id)}
-						/>
+						{#if data.item?.parentItemsCount == 0}
+							<p class="p-4 text-sm text-muted-foreground">No parents</p>
+						{:else if data.item?.parentItems?.length == 0}
+							<p class="p-4 text-sm text-muted-foreground">
+								Too many parents, quantity: {data.item?.parentItemsCount}
+							</p>
+						{:else}
+							{#each data.item?.parentItems as item}
+								<div class="flex items-center p-4 hover:bg-slate-50">
+									<Avatar.Root class="h-12 w-12  rounded-sm">
+										<Avatar.Image src={item.thumb} alt="Thumbnail" />
+										<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
+									</Avatar.Root>
+									<div class="ml-4 space-y-1">
+										<p class="text-sm font-medium leading-none">{item.name}</p>
+										<p class="text-sm text-muted-foreground">{item.type}</p>
+									</div>
+								</div>
+							{/each}
+						{/if}
+						<!-- <div class="">
+							<GfItemedittable
+								parent
+								bind:items={data.item.parentItems}
+								allItems={data.selectableItems.filter((item) => item.id !== data.item.id)}
+							/>
+						</div> -->
 						<!-- value={parents.find((item) => item.value == parents.value)} -->
 						<h3>Children:</h3>
 						<GfItemedittable
 							bind:items={data.item.childItems}
-							allItems={data.selectableItems.filter((item) => item.id !== data.item.id)}
+							allItems={data.selectableItems.filter((item) => item.id !== data.item?.id)}
 						/>
-
-						<Label for="editor">Main content</Label>
-						<GfEditor bind:this={editor} value={data.item?.content || ''} />
 
 						<div class="flex items-center justify-between space-x-2 p-6 pt-0">
 							<Button variant="ghost" href={`/item/${$page.params.id}`}>Cancel</Button>

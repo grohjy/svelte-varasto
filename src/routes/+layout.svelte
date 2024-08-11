@@ -23,15 +23,18 @@
 	let { data, children } = $props();
 	import { page } from '$app/stores';
 	import { search } from '$lib/stores.svelte';
+	import { Overlay } from '$lib/components/ui/dialog';
+	// let jg=$derived
+	let menuOpen = $state(false);
 </script>
 
-<div class=" grid min-h-screen w-full lg:grid-cols-[220px_1fr]">
+<div class=" grid min-h-dvh w-full overflow-auto lg:grid-cols-[220px_1fr]">
 	<div class=" hidden border-r bg-muted/40 lg:block">
 		<div class="flex max-h-screen flex-col gap-2">
 			<div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
 				<a href="/" class="flex items-center gap-2 font-semibold">
 					<img src="/kettu.png" alt="" class="h-8 w-8 object-contain" />
-					<span class="">Greenfox</span>
+					<span class="">GF Vihko</span>
 				</a>
 			</div>
 			<div class="flex-1">
@@ -40,18 +43,21 @@
 		</div>
 	</div>
 
-	<div class="flex max-h-screen flex-col">
+	<div class="flex max-h-dvh flex-col">
 		<header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-			<Sheet.Root>
+			<Sheet.Root bind:open={menuOpen}>
 				<Sheet.Trigger asChild let:builder>
 					<Button variant="outline" size="icon" class="shrink-0 lg:hidden" builders={[builder]}>
 						<Menu class="h-5 w-5" />
 						<span class="sr-only">Toggle navigation menu</span>
 					</Button>
 				</Sheet.Trigger>
-				<Sheet.Content side="left" class="flex flex-col">
-					<GfNav hamburger url={$page.url.pathname} />
-				</Sheet.Content>
+				<Sheet.Portal>
+					<Sheet.Overlay class="bg-background/50 backdrop-blur-sm" />
+					<Sheet.Content side="left" class="flex flex-col">
+						<GfNav hamburger url={$page.url.pathname} onclick={() => (menuOpen = false)} />
+					</Sheet.Content>
+				</Sheet.Portal>
 			</Sheet.Root>
 			<div class="flex flex-grow items-center justify-between gap-4">
 				<a href={gfnav.find((nav) => $page.url.pathname.includes(nav.url))?.url}>
@@ -94,9 +100,11 @@
 				</DropdownMenu.Root> -->
 			</div>
 		</header>
-		<main class="flex flex-1 flex-col gap-4 overflow-auto p-4 lg:gap-6 lg:p-6">
+		<main class="flex flex-1 flex-col gap-4 overflow-auto">
 			<!-- <slot></slot> -->
-			{@render children()}
+			<div class="p-2">
+				{@render children()}
+			</div>
 		</main>
 	</div>
 </div>

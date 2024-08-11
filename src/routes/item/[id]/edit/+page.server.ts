@@ -60,19 +60,20 @@ export const actions = {
 				unit: item.unit
 			};
 		});
-		let p = JSON.parse(data.get('parents'));
-		p = p.map((item) => {
-			return {
-				parentId: parseInt(item.id),
-				itemCount: parseInt(item.itemCount),
-				unitsCount: parseInt(item.unitsCount),
-				unit: item.unit
-			};
-		});
+		// let p = JSON.parse(data.get('parents'));
+		// p = p.map((item) => {
+		// 	return {
+		// 		parentId: parseInt(item.id),
+		// 		// unitsCount: 0
+		// 		itemCount: parseInt(item.itemCount),
+		// 		unitsCount: parseInt(item.unitsCount),
+		// 		unit: item.unit
+		// 	};
+		// });
 
 		const content = data.get('content') as string;
 		const files = data.getAll('file') as File[];
-		console.log('fiile1');
+		// console.log('fiile1');
 		if (files && files.length > 0) {
 			files.forEach(async (file) => {
 				const buffer = await file.arrayBuffer();
@@ -83,7 +84,7 @@ export const actions = {
 				// writeFileSync(`data/static/images/${file.name}.jpg`, data);
 			});
 		}
-		console.log('fiile2');
+		// console.log('fiile2');
 
 		const result = await prisma.item.update({
 			where: {
@@ -98,18 +99,18 @@ export const actions = {
 				childItems: {
 					deleteMany: {},
 					create: c
-				},
-				parentItems: {
-					deleteMany: {},
-					create: p
 				}
+				// parentItems: {
+				// 	deleteMany: {},
+				// 	create: p
+				// }
 			},
 			include: {
 				childItems: true,
 				parentItems: true
 			}
 		});
-		console.log('rees', result);
+		// console.log('rees', result);
 
 		// console.log('parents', JSON.stringify(data.getAll('parents')));
 		const customerId = data.get('customer2') as string;

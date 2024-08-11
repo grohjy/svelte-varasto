@@ -19,7 +19,10 @@
 	<div class="lg:p-1">
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6 p-2">
 			<div class="flex flex-row justify-between space-y-2">
-				<h1 class="text-2xl font-semibold tracking-tight">User: {user?.shortname}</h1>
+				<h1 class="text-2xl font-semibold tracking-tight">
+					{user?.firstname}
+					{user?.lastname} ({user?.shortname})
+				</h1>
 			</div>
 
 			<Card.Root>
@@ -27,12 +30,12 @@
 					<Card.Title>Actions (last 20)</Card.Title>
 					<!-- <Card.Description>Card Description</Card.Description> -->
 				</Card.Header>
-				<Card.Content class="pt-6">
+				<Card.Content>
 					{#if user?.actions.length == 0}
-						<p>No actions</p>
+						<p class="p-4">No actions</p>
 					{:else}
 						{#each user?.actions as action}
-							<div class="grid grid-cols-2 p-2 hover:bg-slate-50">
+							<div class="grid p-4 hover:bg-slate-50 sm:grid-cols-2">
 								<div class=" space-y-1">
 									<p class="text-sm font-medium leading-none">
 										{action.createdAt.toLocaleDateString('fi')}, {action.createdAt.toLocaleTimeString(
@@ -52,7 +55,7 @@
 									<p class="text-sm text-muted-foreground">Info: {action.info}</p>
 								</div>
 								<div class="flex gap-2">
-									<Avatar.Root class="h-20 w-20  rounded-lg ">
+									<Avatar.Root class="h-20 w-20  rounded-sm ">
 										<Avatar.Image src={action.task.item.thumb} alt="Thumbnail" />
 										<Avatar.Fallback
 											>{action.task.item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback

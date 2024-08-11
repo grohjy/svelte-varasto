@@ -70,13 +70,13 @@
 </script>
 
 <div
-	class=" relative mx-auto grid max-w-3xl grid-cols-1 flex-col items-center justify-center lg:px-0"
+	class=" relative mx-auto grid max-w-5xl grid-cols-1 flex-col items-center justify-center lg:px-0"
 >
 	<div class="lg:p-1">
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6">
 			<div class="flex flex-col space-y-2 text-center">
 				<h1 class="text-2xl font-semibold tracking-tight">
-					Edit task {data.task?.id}
+					Edit task {data.task?.id}-{data.task?.name}
 				</h1>
 				<!-- <p class="text-sm text-muted-foreground">Enter your email below to create your account</p> -->
 			</div>

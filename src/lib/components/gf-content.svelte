@@ -33,4 +33,10 @@
 
 <!-- <svelte:body bind:this={body} /> -->
 
-<div id="content" class="content prose">{@html content}</div>
+<div id="content" class="content prose p-4 prose-img:max-h-40 sm:prose-img:max-h-96">
+	{#if content}
+		{@html content}
+	{:else}
+		No content{/if}
+</div>
+<!-- /images/20240808T185011379-1.jpg -->

@@ -30,7 +30,7 @@
 </script>
 
 <form method="post" action={`${$page.url}/create`}>
-	<div class="flex justify-between">
+	<div class="flex justify-between pb-2">
 		<p class="text-lg font-medium leading-none">Items:</p>
 		<Button type="submit" variant="outline">Create</Button>
 	</div>
@@ -41,11 +41,11 @@
 		<Card.Header>
 			<Card.Title>Customers:</Card.Title>
 		</Card.Header>
-		<Card.Content class="pt-6">
+		<Card.Content>
 			{#each items.filter((item) => item.type?.subtype == 'customer') as item}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{item.id}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={item.thumb} alt="Thumbnail" />
 							<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 						</Avatar.Root>
@@ -66,13 +66,16 @@
 								>
 							</p>
 						</a>
-						<a href="/item/{item.parentItems[0]?.parent?.id}">
+						{#if item.parentItems[0]}
 							<p class="text-sm text-muted-foreground">
-								Parent: {item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}
+								Parent:
+								<a href="/item/{item.parentItems[0]?.parent?.id}">
+									<span>{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}</span>
+								</a>
 								({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type
 									?.subtype})
 							</p>
-						</a>
+						{/if}
 					</div>
 				</div>
 			{:else}
@@ -84,11 +87,11 @@
 		<Card.Header>
 			<Card.Title>Products:</Card.Title>
 		</Card.Header>
-		<Card.Content class="pt-6">
+		<Card.Content>
 			{#each items.filter((item) => item.type?.type == 'product') as item}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{item.id}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={item.thumb} alt="Thumbnail" />
 							<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 						</Avatar.Root>
@@ -103,13 +106,16 @@
 								>
 							</p>
 						</a>
-						<a href="/item/{item.parentItems[0]?.parent?.id}">
+						{#if item.parentItems[0]}
 							<p class="text-sm text-muted-foreground">
-								Parent: {item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}
+								Parent:
+								<a href="/item/{item.parentItems[0]?.parent?.id}">
+									<span>{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}</span>
+								</a>
 								({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type
 									?.subtype})
 							</p>
-						</a>
+						{/if}
 					</div>
 				</div>
 			{:else}
@@ -121,11 +127,11 @@
 		<Card.Header>
 			<Card.Title>Other:</Card.Title>
 		</Card.Header>
-		<Card.Content class="pt-6">
+		<Card.Content>
 			{#each items.filter((item) => !(item.type?.type == 'product' || item.type?.subtype == 'customer')) as item}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{item.id}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={item.thumb} alt="Thumbnail" />
 							<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 						</Avatar.Root>
@@ -140,13 +146,16 @@
 								>
 							</p>
 						</a>
-						<a href="/item/{item.parentItems[0]?.parent?.id}">
+						{#if item.parentItems[0]}
 							<p class="text-sm text-muted-foreground">
-								Parent: {item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}
+								Parent:
+								<a href="/item/{item.parentItems[0]?.parent?.id}">
+									<span>{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}</span>
+								</a>
 								({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type
 									?.subtype})
 							</p>
-						</a>
+						{/if}
 					</div>
 				</div>
 			{:else}

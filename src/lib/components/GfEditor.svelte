@@ -9,7 +9,8 @@
 		min_height: 300,
 		max_height: 800,
 		content_css: '/src/app.css',
-		body_class: 'prose   mx-2 prose-img:max-h-96	'
+		content_style: 'img { max-height:160px; } '
+		// body_class: 'prose   mx-2 prose-img:max-h-40 sm:prose-img:max-h-96	'
 	};
 	// let value=$state()
 	type Props = {
@@ -25,3 +26,4 @@
 </script>
 
 <Editor scriptSrc="/tinymce/tinymce.js" {conf} licenseKey="gpl" bind:value />
+<!-- <div class="max-h-40"></div> -->

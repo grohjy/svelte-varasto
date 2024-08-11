@@ -32,7 +32,7 @@ export const gfnav: GfNav[] = [
 ];
 
 export function writePath() {
-	// return 'data/';
+	return 'data/';
 	return '/data/'; //deploy
 }
 export async function handleEditorContentAndImages(html: string, maxSize = 1024) {

@@ -53,7 +53,7 @@
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6">
 			<h1 class="text-2xl font-semibold tracking-tight">Remove items from inventory:</h1>
 			<div class="flex items-center gap-2 p-2 hover:bg-slate-50">
-				<Avatar.Root class="h-20 w-20  rounded-lg">
+				<Avatar.Root class="h-20 w-20  rounded-sm">
 					<Avatar.Image src={data.inv[0]?.item?.thumb} alt="Thumbnail" />
 					<Avatar.Fallback>{data.inv[0]?.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 				</Avatar.Root>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { gfnav } from '$lib/gfhelpers';
-	let { url, hamburger = false } = $props();
+	let { url, hamburger = false, onclick } = $props();
 </script>
 
 {#snippet navItem({ name, url, icon, selected })}
@@ -20,6 +20,7 @@
 		class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground {selected
 			? 'bg-muted text-foreground'
 			: ' text-muted-foreground'}"
+		{onclick}
 	>
 		<svelte:component this={icon} />
 		{name}
@@ -33,13 +34,15 @@
 	</nav>
 {:else}
 	<nav class="grid gap-2 text-lg font-medium">
-		<a href="/" class="flex items-center gap-2 text-lg font-semibold">
-			<img src="/kettu.png" alt="" class="h-8 w-8 object-contain" />
-			<span>Greenfox</span>
-		</a>
+		<div>
+			<a href="/" class="flex items-center gap-2 text-lg font-semibold" {onclick}>
+				<img src="/kettu.png" alt="" class="h-8 w-8 object-contain" />
+				<span>GF Vihko</span>
+			</a>
 
-		{#each gfnav as n}
-			{@render hamItem({ url: n.url, name: n.name, icon: n.icon, selected: url.includes(n.url) })}
-		{/each}
+			{#each gfnav as n}
+				{@render hamItem({ url: n.url, name: n.name, icon: n.icon, selected: url.includes(n.url) })}
+			{/each}
+		</div>
 	</nav>
 {/if}

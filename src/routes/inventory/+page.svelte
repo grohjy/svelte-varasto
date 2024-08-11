@@ -36,33 +36,39 @@
 				</div>
 			</div>
 			{#each inventory as inv}
-				<div class="flex gap-2 p-2 hover:bg-slate-50">
-					<a href="/item/{inv.itemId}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
-							<Avatar.Image src={inv.invs[0].item?.thumb} alt="Thumbnail" />
-							<Avatar.Fallback
-								>{inv.invs[0].item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback
-							>
-						</Avatar.Root>
-					</a>
-					<div class="ml-4 grow space-y-1">
-						<p class="text-sm font-medium leading-none hover:underline">
+				<div class="flex justify-between hover:bg-slate-50">
+					<div class="flex flex-col gap-2 sm:flex-row">
+						<div>
 							<a href="/item/{inv.itemId}">
-								item: {inv.invs[0].item?.id}-{inv.invs[0].item?.name}:
+								<Avatar.Root class="h-20 w-20  rounded-sm">
+									<Avatar.Image src={inv.invs[0].item?.thumb} alt="Thumbnail" />
+									<Avatar.Fallback
+										>{inv.invs[0].item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback
+									>
+								</Avatar.Root>
 							</a>
-						</p>
-						{#each inv.invs as inv2}
-							<p class="text-sm font-medium leading-none">
-								<a class="hover:underline" href="/storage/{inv2.location?.id}">
-									{inv2.location?.rack}/{inv2.location?.location}:
-								</a>
-								{inv2.qty - inv2.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs
-								<span class="text-sm font-normal text-muted-foreground">
-									({inv2.createdAt.toLocaleDateString('fi')}, task: {inv2.task?.id}-{inv2.task
-										?.name})
-								</span>
-							</p>
-						{/each}
+						</div>
+						<div>
+							<div class=" grow space-y-1">
+								<p class=" text-sm font-medium leading-none hover:underline">
+									<a href="/item/{inv.itemId}">
+										{inv.invs[0].item?.id}-{inv.invs[0].item?.name}:
+									</a>
+								</p>
+								{#each inv.invs as inv2}
+									<p class="text-sm font-medium leading-none">
+										<a class="hover:underline" href="/storage/{inv2.location?.id}">
+											{inv2.location?.rack}/{inv2.location?.location}:
+										</a>
+										{inv2.qty - inv2.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs
+										<span class="text-sm font-normal text-muted-foreground">
+											({inv2.createdAt.toLocaleDateString('fi')}, task: {inv2.task?.id}-{inv2.task
+												?.name})
+										</span>
+									</p>
+								{/each}
+							</div>
+						</div>
 					</div>
 					<div>
 						<Button class=" " variant="outline" href="inventory/remove?item={inv.itemId}"
@@ -79,7 +85,7 @@
 			{#each data.closedInv as inv}
 				<div class="flex gap-2 p-2 hover:bg-slate-50">
 					<a href="/item/{inv.itemId}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={inv.item?.thumb} alt="Thumbnail" />
 							<Avatar.Fallback>{inv.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 						</Avatar.Root>

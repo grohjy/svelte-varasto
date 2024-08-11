@@ -40,7 +40,7 @@
 	{#each openTasks as task}
 		<div class="flex items-center p-2 hover:bg-slate-50">
 			<a href="/task/{task.id}">
-				<Avatar.Root class="h-20 w-20  rounded-lg">
+				<Avatar.Root class="h-20 w-20  rounded-sm">
 					<Avatar.Image src={task.item?.thumb} alt="Thumbnail" />
 					<Avatar.Fallback>{task.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 				</Avatar.Root>
@@ -72,7 +72,7 @@
 	{#each restTasks as task}
 		<div class="flex items-center p-2 hover:bg-slate-50">
 			<a href="/task/{task.id}">
-				<Avatar.Root class="h-20 w-20  rounded-lg">
+				<Avatar.Root class="h-20 w-20  rounded-sm">
 					<Avatar.Image src={task.item?.thumb} alt="Thumbnail" />
 					<Avatar.Fallback>{task.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 				</Avatar.Root>

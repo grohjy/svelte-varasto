@@ -24,11 +24,11 @@
 		<Card.Header>
 			<Card.Title>Items</Card.Title>
 		</Card.Header>
-		<Card.Content class="pt-6">
+		<Card.Content>
 			{#each data.items as item}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{item.id}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={item.thumb} alt="Thumbnail" />
 							<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 						</Avatar.Root>
@@ -65,11 +65,11 @@
 		<Card.Header>
 			<Card.Title>Tasks</Card.Title>
 		</Card.Header>
-		<Card.Content class="pt-6">
+		<Card.Content>
 			{#each data.tasks as task}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{task.item?.id}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={task.item?.thumb} alt="Thumbnail" />
 							<Avatar.Fallback>{task.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 						</Avatar.Root>
@@ -107,11 +107,11 @@
 		<Card.Header>
 			<Card.Title>Actions</Card.Title>
 		</Card.Header>
-		<Card.Content class="pt-6">
+		<Card.Content>
 			{#each data.actions as action}
 				<div class="flex items-center p-2 hover:bg-slate-50">
 					<a href="/item/{action.task?.item?.id}">
-						<Avatar.Root class="h-20 w-20  rounded-lg">
+						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={action.task?.item?.thumb} alt="Thumbnail" />
 							<Avatar.Fallback
 								>{action.task?.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback

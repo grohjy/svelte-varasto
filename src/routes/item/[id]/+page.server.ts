@@ -21,6 +21,9 @@ export const load = (async ({ params }) => {
 	// console.log('oold', JSON.stringify(old, null, 2));
 	// const j = await updateParentsAndChilds();
 	// console.log('reessult', JSON.stringify(item, null, 2));
+	const nbItems = 1000;
+	// const nbItems = item?.childItems?.length;
+	// console.log('nbiitems', nbItems);
 
-	return { item };
+	return { item, nbItems };
 }) satisfies PageServerLoad;

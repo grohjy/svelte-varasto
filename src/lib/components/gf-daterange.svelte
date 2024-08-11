@@ -56,8 +56,8 @@
 </script>
 
 <section class="w-full">
-	<div use:melt={$calendar}>
-		<header class="flex">
+	<div use:melt={$calendar} class="w-52">
+		<header class="mx-2 flex justify-between">
 			<button use:melt={$prevButton}>
 				<ChevronLeft />
 			</button>
@@ -68,9 +68,9 @@
 				<ChevronRight />
 			</button>
 		</header>
-		<div class="w-full">
+		<div class="">
 			{#each $months as month}
-				<table use:melt={$grid}>
+				<table use:melt={$grid} class="w-full">
 					<thead aria-hidden="true">
 						<tr>
 							{#each $weekdays as day}
@@ -90,7 +90,7 @@
 										role="gridcell"
 										aria-disabled={$isDateDisabled(date) || $isDateUnavailable(date)}
 									>
-										<div use:melt={$cell(date, month.value)}>
+										<div use:melt={$cell(date, month.value)} class="text-center">
 											{date.day}
 										</div>
 									</td>
@@ -199,6 +199,10 @@
 </!-->
 
 <style>
+	[data-melt-calendar-cell][data-today] {
+		border: 2px solid red;
+		border-radius: 5px;
+	}
 	[data-melt-calendar-cell] {
 		border: 1px solid black;
 		border-radius: 5px;

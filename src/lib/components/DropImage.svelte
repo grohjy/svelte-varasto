@@ -81,7 +81,7 @@
 
 <div
 	id="logo"
-	class="flex h-32 w-32 items-center justify-center border-2"
+	class="flex h-32 w-32 items-center justify-center rounded-md border-2"
 	ondrop={drop}
 	ondragover={allowDrop}
 	onclick={selectFile}
