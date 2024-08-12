@@ -40,7 +40,9 @@
 					Type: {data.task?.type?.type}/{data.task?.type?.subtype}
 				</p>
 				<p class="text-sm text-muted-foreground">
-					Date: {data.task?.startDate?.toLocaleDateString()} - {data.task?.endDate?.toLocaleDateString()}
+					Date: {data.task?.startDate?.toLocaleDateString('fi')} - {data.task?.endDate?.toLocaleDateString(
+						'fi'
+					)}
 					({(data.task?.endDate - data.task?.startDate) / (24 * 60 * 60 * 1000) + 1} days)
 				</p>
 			</div>
@@ -76,14 +78,19 @@
 		</Card.Header>
 		<Card.Content>
 			{#if data.task?.actions.length == 0}
-				<p>No actions</p>
+				<p class="p-4">No actions</p>
 			{:else}
 				{#each data.task?.actions as action}
 					<div class="mb-4 ml-4 space-y-1">
 						<p class="text-sm font-medium leading-none">
-							{action.createdAt.toLocaleDateString()}, {action.createdAt.toLocaleTimeString([], {
-								timeStyle: 'short'
-							})} / <a href="/user/{action.user?.id}">{action.user?.shortname}</a>:
+							{action.createdAt.toLocaleDateString('fi')}, {action.createdAt.toLocaleTimeString(
+								'fi',
+								{
+									timeStyle: 'short'
+								}
+							)} /
+							<a href="/user/{action.user?.id}" class="hover:underline">{action.user?.shortname}</a
+							>:
 							{#if action.type?.type == 'work'}
 								{action.qty}h
 							{:else if action.type?.type == 'purchase'}
@@ -92,7 +99,9 @@
 
 							{action.type?.type}/{action.type?.subtype}
 						</p>
-						<p class="text-sm text-muted-foreground">Info: {action.info}</p>
+						{#if action.info}
+							<p class="text-sm text-muted-foreground">Info: {action.info}</p>
+						{/if}
 					</div>
 				{/each}
 			{/if}

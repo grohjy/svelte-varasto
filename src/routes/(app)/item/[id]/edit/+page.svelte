@@ -1,6 +1,6 @@
 <script lang="ts">
-	import GfItemedittable from './../../../../lib/components/gf-itemedittable.svelte';
-	import GfCombobox from './../../../../lib/components/gf-combobox.svelte';
+	import GfItemedittable from '$lib/components/gf-itemedittable.svelte';
+	import GfCombobox from '$lib/components/gf-combobox.svelte';
 	import GfEditor from '$lib/components/GfEditor.svelte';
 	import type { PageData } from './$types';
 	import { Button } from '$lib/components/ui/button/index';
@@ -173,7 +173,20 @@
 							/>
 						</div> -->
 						<!-- value={parents.find((item) => item.value == parents.value)} -->
+						<!-- <div class="flex justify-between"> -->
 						<h3>Children:</h3>
+						<div class="grid gap-1">
+							<Label for="name">default qty</Label>
+							<Input
+								id="defQty"
+								name="defQty"
+								placeholder="default qty"
+								type="number"
+								value={data.item?.recipeDefQty}
+							/>
+						</div>
+						<!-- </div> -->
+
 						<GfItemedittable
 							bind:items={data.item.childItems}
 							allItems={data.selectableItems.filter((item) => item.id !== data.item?.id)}

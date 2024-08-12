@@ -25,5 +25,5 @@ export const load = (async ({ params }) => {
 	// const nbItems = item?.childItems?.length;
 	// console.log('nbiitems', nbItems);
 
-	return { item, nbItems };
+	return { item };
 }) satisfies PageServerLoad;

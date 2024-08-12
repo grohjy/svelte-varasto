@@ -10,5 +10,5 @@ export const load = async () => {
 
 	// 2.
 	// return { data: response };
-	return {};
+	return { gf: 'layouta' };
 };

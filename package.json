@@ -50,6 +50,7 @@
 		"@prisma/client": "^5.16.1",
 		"@tinymce/tinymce-svelte": "^3.0.0",
 		"@types/node": "^20.14.10",
+		"bcrypt": "^5.1.1",
 		"bigger-picture": "^1.1.17",
 		"bits-ui": "^0.21.13",
 		"clsx": "^2.1.1",

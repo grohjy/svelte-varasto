@@ -8,7 +8,7 @@ import { writePath } from '$lib/gfhelpers';
 // import { writeFileSync } from 'fs';
 
 export const load = (async ({ params }) => {
-	console.log('paraa', params.id);
+	// console.log('paraa', params.id);
 	const item = await getItem(params.id);
 	let selectableItemsTemp = await prisma.item.findMany({
 		where: { active: true },
@@ -96,6 +96,7 @@ export const actions = {
 				typeId: parseInt(data.get('type')),
 				content,
 				thumb: data.get('thumb'),
+				recipeDefQty: parseInt(data.get('defQty')),
 				childItems: {
 					deleteMany: {},
 					create: c

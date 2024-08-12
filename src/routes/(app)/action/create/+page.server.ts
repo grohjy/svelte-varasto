@@ -44,9 +44,15 @@ export const actions = {
 		// 		writeFileSync(`static/images/${file.name}.jpg`, data);
 		// 	});
 		// }
-		const qtyTemp = data.get('qty')?.replace(',', '.');
+		// const qtyTemp = data.get('qty')?.replace(',', '.');
 
-		const qty = parseFloat(qtyTemp);
+		// const qty = parseFloat(qtyTemp);
+		let qty = 0;
+		if (data.get('qty')) {
+			qty = parseFloat(data.get('qty'));
+		}
+		// console.log('qtyy', qty);
+
 		await prisma.action.create({
 			data: {
 				info: data.get('info'),

@@ -32,8 +32,8 @@
 						</Avatar.Root>
 					</a>
 					<div class="ml-4 space-y-1">
-						<p class=" flex justify-between gap-2 text-sm font-medium leading-none hover:underline">
-							<a href="/item/{inv.itemId}">
+						<p class=" flex justify-between gap-2 text-sm font-medium leading-none">
+							<a href="/item/{inv.itemId}" class="hover:underline">
 								Item: {inv.item?.id}-{inv.item?.name}:
 								<span
 									>{inv.qty - inv.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs</span
@@ -74,8 +74,8 @@
 						</Avatar.Root>
 					</a>
 					<div class="ml-4 space-y-1">
-						<p class=" flex justify-between gap-2 text-sm font-medium leading-none hover:underline">
-							<a href="/item/{inv.itemId}">
+						<p class=" flex justify-between gap-2 text-sm font-medium leading-none">
+							<a href="/item/{inv.itemId}" class="hover:underline">
 								Item: {inv.item?.id}-{inv.item?.name}:
 								<span
 									>{inv.qty - inv.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs</span

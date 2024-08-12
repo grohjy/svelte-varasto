@@ -50,8 +50,8 @@
 						</div>
 						<div>
 							<div class=" grow space-y-1">
-								<p class=" text-sm font-medium leading-none hover:underline">
-									<a href="/item/{inv.itemId}">
+								<p class=" text-sm font-medium leading-none">
+									<a href="/item/{inv.itemId}" class="hover:underline">
 										{inv.invs[0].item?.id}-{inv.invs[0].item?.name}:
 									</a>
 								</p>
@@ -91,10 +91,11 @@
 						</Avatar.Root>
 					</a>
 					<div class="ml-4 grow space-y-1">
-						<p class="text-sm font-medium leading-none hover:underline">
-							<a href="/item/{inv.itemId}">
-								Item: {inv.item?.id}-{inv.item?.name}, {inv.location?.rack}/{inv.location.location}:
+						<p class="text-sm font-medium leading-none">
+							<a href="/item/{inv.itemId}" class="hover:underline">
+								Item: {inv.item?.id}-{inv.item?.name},
 							</a>
+							{inv.location?.rack}/{inv.location.location}:
 						</p>
 						<p class="text-sm font-normal text-muted-foreground">
 							{inv.createdAt.toLocaleDateString('fi')} (task: {inv.task?.id}-{inv.task?.name}): {inv.qty}

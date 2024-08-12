@@ -132,6 +132,7 @@ export async function getItem(id: string | number) {
 			typeId: item.typeId,
 			type: formatType(item.type?.type, item.type?.subtype),
 			content: item.content,
+			recipeDefQty: item.recipeDefQty,
 			parentItemsCount: parentCount,
 			parentItems: formatRelatedItems<typeof parentItems>(parentItems, 'parent'),
 			childItems: formatRelatedItems<typeof childItems>(childItems, 'child'),

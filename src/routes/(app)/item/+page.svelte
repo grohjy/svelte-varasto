@@ -1,5 +1,4 @@
 <script lang="ts">
-	// import GfCombobox from './../../../lib/components/gf-combobox.svelte';
 	import { page } from '$app/stores';
 	import GfContent from '$lib/components/gf-content.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -57,7 +56,7 @@
 								timeStyle: 'short'
 							})}:
 						</p> -->
-						<a href="/item/{item.id}">
+						<a href="/item/{item.id}" class="hover:underline">
 							<p class="text-sm font-medium leading-none">
 								{item.id}-{item.name}
 
@@ -69,7 +68,7 @@
 						{#if item.parentItems[0]}
 							<p class="text-sm text-muted-foreground">
 								Parent:
-								<a href="/item/{item.parentItems[0]?.parent?.id}">
+								<a href="/item/{item.parentItems[0]?.parent?.id}" class="hover:underline">
 									<span>{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}</span>
 								</a>
 								({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type
@@ -97,7 +96,7 @@
 						</Avatar.Root>
 					</a>
 					<div class="ml-4 space-y-1">
-						<a href="/item/{item.id}">
+						<a href="/item/{item.id}" class="hover:underline">
 							<p class="text-sm font-medium leading-none">
 								{item.id}-{item.name}
 
@@ -109,7 +108,7 @@
 						{#if item.parentItems[0]}
 							<p class="text-sm text-muted-foreground">
 								Parent:
-								<a href="/item/{item.parentItems[0]?.parent?.id}">
+								<a href="/item/{item.parentItems[0]?.parent?.id}" class="hover:underline">
 									<span>{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}</span>
 								</a>
 								({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type
@@ -137,7 +136,7 @@
 						</Avatar.Root>
 					</a>
 					<div class="ml-4 space-y-1">
-						<a href="/item/{item.id}">
+						<a href="/item/{item.id}" class="hover:underline">
 							<p class="text-sm font-medium leading-none">
 								{item.id}-{item.name}
 
@@ -149,7 +148,7 @@
 						{#if item.parentItems[0]}
 							<p class="text-sm text-muted-foreground">
 								Parent:
-								<a href="/item/{item.parentItems[0]?.parent?.id}">
+								<a href="/item/{item.parentItems[0]?.parent?.id}" class="hover:underline">
 									<span>{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}</span>
 								</a>
 								({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type

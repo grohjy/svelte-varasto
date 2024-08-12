@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -19,6 +20,7 @@ model Item {
   updatedAt DateTime @updatedAt
   active Boolean  @default(true)
   useInSelection Boolean  @default(true)
+  recipeDefQty Int? @default(0) 
   // customer    Customer?    @relation(fields: [customerId], references: [id])
   // customerId  Int?
   tasks    Task[]  
@@ -160,5 +162,6 @@ model User {
   shortname String  @unique
   firstname  String?
   lastname  String?
+  hashedPassword String?
   actions Action[]
 }

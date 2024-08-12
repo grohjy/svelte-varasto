@@ -59,7 +59,7 @@
 					Type: {task.type?.type}/{task.type?.subtype}
 				</p>
 				<p class="text-sm text-muted-foreground">
-					End date: {task.endDate?.toLocaleDateString()}
+					End date: {task.endDate?.toLocaleDateString('fi')}
 				</p>
 			</div>
 		</div>
@@ -91,7 +91,7 @@
 					Type: {task.type?.type}/{task.type?.subtype}
 				</p>
 				<p class="text-sm text-muted-foreground">
-					End date: {task.endDate?.toLocaleDateString()}
+					End date: {task.endDate?.toLocaleDateString('fi')}
 				</p>
 			</div>
 		</div>

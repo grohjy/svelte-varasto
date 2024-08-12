@@ -9,6 +9,16 @@
 		parseDate,
 		parseDateTime
 	} from '@internationalized/date';
+	import dayjs from 'dayjs';
+	import isoWeek from 'dayjs/plugin/isoWeek';
+	dayjs.extend(isoWeek);
+
+	// dayjs().isoWeek();
+	// dayjs().isoWeekday();
+	// dayjs().isoWeekYear();
+	// const time = dayjs(Date.now()).isoWeekYear();
+	// format('YYYYMMDD[T]HHmmssSSS');
+	// console.log('dayyjs', time);
 
 	let { value = $bindable() } = $props();
 	let defaultValue = value;
@@ -56,7 +66,7 @@
 </script>
 
 <section class="w-full">
-	<div use:melt={$calendar} class="w-52">
+	<div use:melt={$calendar} class="w-56">
 		<header class="mx-2 flex justify-between">
 			<button use:melt={$prevButton}>
 				<ChevronLeft />
@@ -73,9 +83,12 @@
 				<table use:melt={$grid} class="w-full">
 					<thead aria-hidden="true">
 						<tr>
+							<th>
+								<div class="pr-6"></div>
+							</th>
 							{#each $weekdays as day}
 								<th>
-									<div>
+									<div class="text-center font-normal text-muted-foreground">
 										{day}
 									</div>
 								</th>
@@ -85,6 +98,11 @@
 					<tbody>
 						{#each month.weeks as dates}
 							<tr>
+								<td role="gridcell" aria-disabled={false}>
+									<div class="text-center font-normal text-muted-foreground">
+										{dayjs(dates[0]).isoWeek()}
+									</div>
+								</td>
 								{#each dates as date}
 									<td
 										role="gridcell"

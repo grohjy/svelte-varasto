@@ -37,7 +37,7 @@
 			{#each storage as sto}
 				<div class="flex flex-col gap-2 p-2 hover:bg-slate-50">
 					<p class="text-sm font-medium leading-none hover:underline">
-						<a href="/storage/{sto.id}">
+						<a href="/storage/{sto.id}" class="hover:underline">
 							{sto.rack}/{sto.location}:
 						</a>
 					</p>
@@ -50,8 +50,8 @@
 								</Avatar.Root>
 							</a>
 							<div class="ml-4 grow space-y-1">
-								<p class="text-sm font-medium leading-none hover:underline">
-									<a href="/item/{inv.itemId}">
+								<p class="text-sm font-medium leading-none">
+									<a href="/item/{inv.itemId}" class="hover:underline">
 										item: {inv.item?.id}-{inv.item?.name}:
 										{inv.qty - inv.inventoryRemove.reduce((sum, { qty }) => sum + qty, 0)} pcs
 									</a>

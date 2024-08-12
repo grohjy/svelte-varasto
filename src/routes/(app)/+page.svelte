@@ -1,5 +1,4 @@
 <script lang="ts">
-	// import GfCombobox from './../../../lib/components/gf-combobox.svelte';
 	import { page } from '$app/stores';
 	import GfContent from '$lib/components/gf-content.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -40,7 +39,7 @@
 								timeStyle: 'short'
 							})}:
 						</p>
-						<a href="/item/{item.id}">
+						<a href="/item/{item.id}" class="hover:underline">
 							<p class="text-sm font-medium leading-none">
 								{item.id}-{item.name}
 
@@ -49,13 +48,14 @@
 								>
 							</p>
 						</a>
-						<a href="/item/{item.parentItems[0]?.parent?.id}">
-							<p class="text-sm text-muted-foreground">
-								Parent: {item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}
-								({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type
-									?.subtype})
-							</p>
-						</a>
+						<p class="text-sm text-muted-foreground">
+							Parent:
+							<a href="/item/{item.parentItems[0]?.parent?.id}" class="hover:underline">
+								{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}
+							</a>
+							({item.parentItems[0]?.parent?.type?.type}/{item.parentItems[0]?.parent?.type
+								?.subtype})
+						</p>
 					</div>
 				</div>
 			{/each}
@@ -82,7 +82,7 @@
 							})}:
 						</p>
 
-						<a href="/task/{task.id}">
+						<a href="/task/{task.id}" class="hover:underline">
 							<p class="text-sm font-medium leading-none">
 								{task.id}-{task.name}
 
@@ -92,12 +92,13 @@
 								>
 							</p>
 						</a>
-						<a href="/item/{task.item?.id}">
-							<p class="text-sm text-muted-foreground">
-								Item: {task.item?.id}-{task.item?.name}
-								({task.item?.type?.type}/{task.item?.type?.subtype})
-							</p>
-						</a>
+						<p class="text-sm text-muted-foreground">
+							Item:
+							<a href="/item/{task.item?.id}" class="hover:underline">
+								{task.item?.id}-{task.item?.name}
+							</a>
+							({task.item?.type?.type}/{task.item?.type?.subtype})
+						</p>
 					</div>
 				</div>
 			{/each}
@@ -110,7 +111,7 @@
 		<Card.Content>
 			{#each data.actions as action}
 				<div class="flex items-center p-2 hover:bg-slate-50">
-					<a href="/item/{action.task?.item?.id}">
+					<a href="/task/{action.task?.id}">
 						<Avatar.Root class="h-20 w-20  rounded-sm">
 							<Avatar.Image src={action.task?.item?.thumb} alt="Thumbnail" />
 							<Avatar.Fallback
@@ -125,7 +126,9 @@
 								{
 									timeStyle: 'short'
 								}
-							)} / <a href="/user/{action.user?.id}">{action.user?.shortname}</a>:
+							)} /
+							<a href="/user/{action.user?.id}" class="hover:underline">{action.user?.shortname}</a
+							>:
 							{#if action.type?.type == 'work'}
 								{action.qty}h
 							{:else if action.type?.type == 'purchase'}
@@ -135,12 +138,13 @@
 							{action.type?.type}/{action.type?.subtype}
 						</p>
 						<p class="text-sm text-muted-foreground">
-							<a href="/task/{action.task?.id}">
+							<a href="/task/{action.task?.id}" class="hover:underline">
 								task: {action.task?.id}-{action.task?.name} ({action.task?.type?.type}/{action.task
 									?.type?.subtype}),
 							</a>
-							<a href="/item/{action.task?.item?.id}">
-								item:{action.task?.item?.id}-{action.task?.item?.name}
+							item:
+							<a href="/item/{action.task?.item?.id}" class="hover:underline">
+								{action.task?.item?.id}-{action.task?.item?.name}
 							</a>
 						</p>
 						<p class="text-sm text-muted-foreground">Info: {action.info}</p>

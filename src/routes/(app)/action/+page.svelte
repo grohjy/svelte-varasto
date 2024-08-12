@@ -32,7 +32,7 @@
 
 <div class=" relative grid grid-cols-1 flex-col items-center justify-center lg:px-0">
 	<div class="lg:p-1">
-		<div class="mx-auto flex w-full flex-col justify-center space-y-6 p-2">
+		<div class="mx-auto flex w-full flex-col justify-center p-2">
 			<div class="flex flex-row justify-between space-y-2">
 				<h1 class="text-2xl font-semibold tracking-tight">Actions:</h1>
 				<div class="flex gap-2"></div>
@@ -62,7 +62,9 @@
 								>
 							</a>
 						</p>
-						<p class="text-sm text-muted-foreground">Info: {action.info}</p>
+						{#if action.info}
+							<p class="text-sm text-muted-foreground">Info: {action.info}</p>
+						{/if}
 					</div>
 					<!-- <div class="ml-auto font-medium">+$1,999.00</div> -->
 				</div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GfCombobox from './../../../lib/components/gf-combobox.svelte';
+	import GfCombobox from '$lib/components/gf-combobox.svelte';
 	import { page } from '$app/stores';
 	import GfContent from '$lib/components/gf-content.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -18,7 +18,7 @@
 	// let nbItems;
 	let nbItems = $state();
 	$effect(() => {
-		nbItems = data.nbItems;
+		nbItems = data.item?.recipeDefQty;
 	});
 	function jg() {
 		console.log('jgg', $page.params.id);
@@ -61,8 +61,8 @@
 				<Avatar.Fallback>{data.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 			</Avatar.Root>
 			<div class="ml-4 space-y-1 p-2">
-				<p class="text-lg font-medium leading-none">{data.item?.name}</p>
-				<p class="text-sm text-muted-foreground">{data.item?.type ? data.item?.type : '-'}</p>
+				<p class="text-lg font-medium leading-none">{data.item?.id}-{data.item?.name}</p>
+				<p class="text-sm text-muted-foreground">{data.item?.type}</p>
 			</div>
 		</div>
 
@@ -107,7 +107,7 @@
 		<Card.Header>
 			<div class="flex items-center justify-between">
 				<Card.Title>Children</Card.Title>
-				{#if data.item?.childItems[0]}
+				{#if data.item?.childItems[0] && data.item?.recipeDefQty != 0}
 					<div class="">
 						<Label>Nb of items</Label>
 						<Input
@@ -139,7 +139,7 @@
 							<tr class="hover:bg-slate-50">
 								<td class=" p-2 text-sm font-medium text-gray-800">
 									<a href="/item/{item.id}">
-										<div class="flex flex-col items-center gap-2 sm:flex-row">
+										<div class="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
 											<Avatar.Root class="h-12 w-12  rounded-sm">
 												<Avatar.Image src={item.thumb} alt="Thumbnail" />
 												<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>

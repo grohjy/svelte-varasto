@@ -12,7 +12,7 @@
 	search.value = '';
 	const { data }: { data: PageData } = $props();
 
-	let user = $state();
+	// let user = $state();
 	let actionType = $state();
 	async function handleOnSubmit({ formData }) {
 		// formData.append('content', html);
@@ -41,31 +41,45 @@
 					<div class="grid gap-2">
 						<div class="grid grid-cols-3 gap-2">
 							<input type="hidden" name="task" value={data.task?.id} />
-							<GfCombobox
-								options={data.users.map((u) => ({ value: u.id, label: u.shortname }))}
-								bind:selectedId={user}
-							/>
-							<input type="hidden" name="user" value={user} />
-							<GfCombobox
-								options={data.types.map((t) => ({ value: t.id, label: `${t.type}/${t.subtype}` }))}
-								bind:selectedId={actionType}
-							/>
-							<input type="hidden" name="type" value={actionType} />
+							<!-- <div class="grid gap-1 self-end">
+								<Label for="">User</Label>
+								<GfCombobox
+									options={data.users.map((u) => ({ value: u.id, label: u.shortname }))}
+									bind:selectedId={user}
+								/>
+							</div> -->
+							<input type="hidden" name="user" value={data.user?.id} />
 							<div class="grid gap-1 self-end">
-								<Label for="info">Qty</Label>
-								<Input
-									id="qty"
-									name="qty"
-									placeholder="qty (h or €)"
-									type="text"
-									autocapitalize="none"
-									autocorrect="off"
-									disabled={!(
+								<Label for="">Type</Label>
+								<GfCombobox
+									options={data.types.map((t) => ({
+										value: t.id,
+										label: `${t.type}/${t.subtype}`
+									}))}
+									bind:selectedId={actionType}
+								/>
+								<input type="hidden" name="type" value={actionType} />
+							</div>
+							{#if data.types.find((t) => t.id == actionType)?.type == 'purchase' || data.types.find((t) => t.id == actionType)?.type == 'work'}
+								<div class="grid gap-1 self-end">
+									<Label for="info">Qty</Label>
+									<Input
+										id="qty"
+										name="qty"
+										placeholder="qty (h or €)"
+										type="number"
+										step="any"
+										autocapitalize="none"
+										autocorrect="off"
+										autocomplete="off"
+									/>
+									<!-- disabled={!(
 										data.types.find((t) => t.id == actionType)?.type == 'purchase' ||
 										data.types.find((t) => t.id == actionType)?.type == 'work'
-									)}
-								/>
-							</div>
+									)} -->
+								</div>
+								<!-- {:else} -->
+							{/if}
 						</div>
 						<div class="grid gap-1">
 							<Label for="info">Info</Label>
@@ -82,7 +96,7 @@
 						<div class="flex items-center justify-end gap-4">
 							<Button variant="ghost" href="/task/{data.task.id}">Cancel</Button>
 
-							<Button type="submit" variant="outline" disabled={!(user && actionType)}>Save</Button>
+							<Button type="submit" variant="outline" disabled={!actionType}>Save</Button>
 						</div>
 					</div>
 				</form>
