@@ -18,17 +18,20 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request }) => {
-		// const kkk = Object.fromEntries(await request.formData());
-		console.log('kkk');
-
-		const data = await request.formData();
-		data.forEach((value, key) => console.log('iteemk ey:', key, value));
-		const id = data.get('id');
-		const name = data.get('name') ? data.get('name') : '';
+	default: async ({ request, url }) => {
+		const parentId = parseInt(url.searchParams.get('parent'));
 		const newItem = await prisma.item.create({
 			data: {
-				name
+				parentItems: parentId
+					? {
+							create: {
+								parentId,
+								itemCount: 1,
+								unitsCount: 0,
+								unit: 'pcs'
+							}
+						}
+					: {}
 			}
 		});
 

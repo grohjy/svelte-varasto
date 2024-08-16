@@ -13,6 +13,6 @@
 <AvatarPrimitive.Image
 	{src}
 	{alt}
-	class={cn('h-full w-full object-contain', className)}
+	class={cn('h-full w-full  object-contain', className)}
 	{...$$restProps}
 />

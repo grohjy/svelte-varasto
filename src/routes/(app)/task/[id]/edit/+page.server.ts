@@ -103,6 +103,7 @@ export const actions = {
 				statusId: parseInt(data.get('status')),
 				startDate: new Date(data.get('startDate')).toISOString(),
 				endDate: new Date(data.get('endDate')).toISOString(),
+				qty: parseFloat(data.get('qty')),
 				// startDate: Date.parse(data.get('startDate')),
 				// endDate: Date.parse(data.get('endDate')),
 				content
@@ -129,6 +130,7 @@ export const actions = {
 		console.log('reestask', result);
 		console.log('reestask url', url);
 		if (url.searchParams.get('item')) throw redirect(303, `/item/${url.searchParams.get('item')}`);
+		if (url.searchParams.get('href')) throw redirect(303, url.searchParams.get('href'));
 		throw redirect(303, `/task/${params.id}`);
 	}
 };

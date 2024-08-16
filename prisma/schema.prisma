@@ -60,6 +60,7 @@ model Task {
   updatedAt DateTime @updatedAt
   startDate DateTime? 
   endDate DateTime? 
+  qty Float? @default(0)
   type    taskType?    @relation(fields: [typeId], references: [id])
   typeId  Int?
   item Item? @relation(fields: [itemId],references: [id])

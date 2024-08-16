@@ -28,10 +28,11 @@
 	// let jg=$derived
 	let menuOpen = $state(false);
 	let logoutForm;
+	console.log('a', JSON.stringify($page.url.href, null, 2));
 </script>
 
 <!-- a{JSON.stringify(data, null, 2)} -->
-<div class=" grid min-h-dvh w-full overflow-auto lg:grid-cols-[220px_1fr]">
+<div class=" grid min-h-dvh w-full lg:grid-cols-[220px_1fr]">
 	<div class=" hidden border-r bg-muted/40 lg:block">
 		<div class="flex max-h-screen flex-col gap-2">
 			<div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
@@ -46,7 +47,7 @@
 		</div>
 	</div>
 
-	<div class="flex max-h-dvh flex-col">
+	<div class=" flex max-h-dvh min-w-full flex-col">
 		<header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
 			<Sheet.Root bind:open={menuOpen}>
 				<Sheet.Trigger asChild let:builder>
@@ -63,9 +64,9 @@
 				</Sheet.Portal>
 			</Sheet.Root>
 			<div class="flex flex-grow items-center justify-between gap-4">
-				<a href={gfnav.find((nav) => $page.url.pathname.includes(nav.url))?.url}>
+				<a href={gfnav.find((nav) => $page.url.href.includes(nav.url))?.url}>
 					<p class="text-lg font-medium leading-none">
-						{gfnav.find((nav) => $page.url.pathname.includes(nav.url))?.name}
+						{gfnav.find((nav) => $page.url.href.includes(nav.url))?.name}
 					</p>
 				</a>
 				<div class="flex items-center gap-4">

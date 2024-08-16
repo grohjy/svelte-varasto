@@ -5,3 +5,22 @@ put siirtää tiedostot local-koneelta remoteen.
 fly ssh console '
 
 node run dev -- --host
+
+
+
+sqlite3 data/dev.db
+.header on
+.mode column
+
+select id from _prisma_migrations where started_at <1723323688758 ;
+
+select * from typeItem order by type, subtype;
+
+update item set name = 'aasdf' where id=13;
+
+delete from _prisma_migrations where started_at<1723323688757;
+
+INSERT INTO typeItem (type, subtype)
+VALUES 
+   ('gf-system', 'frame'),
+   ('gf-system', 'other');

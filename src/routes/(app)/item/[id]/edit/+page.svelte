@@ -104,9 +104,7 @@
 	}
 </script>
 
-<div
-	class=" relative mx-auto grid max-w-5xl grid-cols-1 flex-col items-center justify-center lg:px-0"
->
+<div class=" relative grid max-w-5xl grid-cols-1 flex-col items-center justify-center lg:px-0">
 	<div class="lg:p-1">
 		<div class="mx-auto flex w-full flex-col justify-center space-y-6">
 			<div class="flex flex-col space-y-2 text-center">
@@ -192,9 +190,9 @@
 							allItems={data.selectableItems.filter((item) => item.id !== data.item?.id)}
 						/>
 
-						<div class="flex items-center justify-between space-x-2 p-6 pt-0">
+						<div class="flex items-center justify-end space-x-2 p-6 pt-0">
 							<Button variant="ghost" href={`/item/${$page.params.id}`}>Cancel</Button>
-							<Button type="submit">Save</Button>
+							<Button type="submit" variant="outline">Save</Button>
 						</div>
 					</div>
 				</form>

@@ -172,6 +172,12 @@
 				<p class="p-4 text-sm text-muted-foreground">No children</p>
 			{/if}
 		</Card.Content>
+		<Card.Footer class="justify-end pt-2">
+			<form method="post" action="/item/create?parent={data.item?.id}">
+				<!-- <input hidden name="item" value={$page.params.id} /> -->
+				<Button variant="outline" type="submit">Create</Button>
+			</form>
+		</Card.Footer>
 	</Card.Root>
 	<Card.Root>
 		<Card.Header>

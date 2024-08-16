@@ -69,56 +69,64 @@
 	// }
 </script>
 
-<div
-	class=" relative mx-auto grid max-w-5xl grid-cols-1 flex-col items-center justify-center lg:px-0"
->
-	<div class="lg:p-1">
-		<div class="mx-auto flex w-full flex-col justify-center space-y-6">
-			<div class="flex flex-col space-y-2 text-center">
-				<h1 class="text-2xl font-semibold tracking-tight">
-					Edit task {data.task?.id}-{data.task?.name}
-				</h1>
-				<!-- <p class="text-sm text-muted-foreground">Enter your email below to create your account</p> -->
-			</div>
+<div class=" relative grid max-w-5xl grid-cols-1 flex-col items-center justify-center lg:px-0">
+	<!-- <div class="lg:p-1"> -->
+	<div class="mx-auto flex w-full flex-col justify-center space-y-6">
+		<div class="flex flex-col space-y-2 text-center">
+			<h1 class="text-2xl font-semibold tracking-tight">
+				Edit task {data.task?.id}-{data.task?.name}
+			</h1>
+			<!-- <p class="text-sm text-muted-foreground">Enter your email below to create your account</p> -->
+		</div>
 
-			<div class="grid gap-6">
-				<form method="POST" use:enhance={handleOnSubmit} id="formjg" enctype="multipart/form-data">
-					<div class="grid gap-2">
-						<div class="grid gap-1">
-							<Label for="name">Name</Label>
-							<Input
-								id="name"
-								name="name"
-								placeholder="name"
-								type="text"
-								autocapitalize="none"
-								autocorrect="off"
-								value={data.task?.name}
-							/>
-						</div>
-
-						<div class="grid gap-1">
-							<Label for="name">Type</Label>
-							<GfCombobox options={types} bind:selectedId={typeId} />
-						</div>
-						<div class="grid gap-1">
-							<Label for="name">Status</Label>
-							<GfCombobox options={status} bind:selectedId={statusId} />
-						</div>
-						<Label for="">Dates</Label>
-						<GfDaterange bind:value={dates} />
-						<!-- <p>{JSON.stringify(dates)}</p> -->
-						<Label for="editor">Main content</Label>
-						<GfEditor bind:this={editor} value={data.task?.content || ''} />
-
-						<div class="flex items-center justify-between space-x-2 p-6 pt-0">
-							<Button variant="ghost" href={`/task/${$page.params.id}`}>Cancel</Button>
-							<Button type="submit" variant="outline" disabled={!dates || !dates.start}>Save</Button
-							>
-						</div>
+		<div class="grid gap-6">
+			<form method="POST" use:enhance={handleOnSubmit} id="formjg" enctype="multipart/form-data">
+				<div class="grid gap-2">
+					<div class="grid gap-1">
+						<Label for="name">Name</Label>
+						<Input
+							id="name"
+							name="name"
+							placeholder="name"
+							type="text"
+							autocapitalize="none"
+							autocorrect="off"
+							value={data.task?.name}
+						/>
 					</div>
-				</form>
-			</div>
+
+					<div class="grid gap-1">
+						<Label for="name">Type</Label>
+						<GfCombobox options={types} bind:selectedId={typeId} />
+					</div>
+					<div class="grid gap-1">
+						<Label for="name">Status</Label>
+						<GfCombobox options={status} bind:selectedId={statusId} />
+					</div>
+					<Label for="">Dates</Label>
+					<GfDaterange bind:value={dates} />
+					<div class="grid gap-1">
+						<Label for="name">Qty</Label>
+						<Input
+							id="qty"
+							name="qty"
+							placeholder="qty (pcs or h)"
+							type="number"
+							value={data.task?.qty}
+						/>
+					</div>
+
+					<!-- <p>{JSON.stringify(dates)}</p> -->
+					<Label for="editor">Main content</Label>
+					<GfEditor bind:this={editor} value={data.task?.content || ''} />
+
+					<div class="flex items-center justify-end space-x-2 p-6 pt-0">
+						<Button variant="ghost" href={`/task/${$page.params.id}`}>Cancel</Button>
+						<Button type="submit" variant="outline" disabled={!dates || !dates.start}>Save</Button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
+	<!-- </div> -->
 </div>
