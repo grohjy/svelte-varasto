@@ -28,7 +28,7 @@
 	// let jg=$derived
 	let menuOpen = $state(false);
 	let logoutForm;
-	console.log('a', JSON.stringify($page.url.href, null, 2));
+	// console.log('a', JSON.stringify($page.url.href, null, 2));
 </script>
 
 <!-- a{JSON.stringify(data, null, 2)} -->

@@ -13,11 +13,31 @@
 	search.value = '';
 
 	let { data } = $props();
-
-	function jg() {
-		console.log('jgg', $page.params.id);
+	let nbItems = $state();
+	$effect(() => {
+		nbItems = data.task?.qty;
+	});
+	function childText(itemCount, unitsCount, unit) {
+		let nbItemsTemp = nbItems;
+		if (itemCount == 0) {
+			itemCount = 1;
+			nbItemsTemp = 1;
+		}
+		let startStr = '';
+		let endStr;
+		let totalUnits = (unitsCount * nbItemsTemp) / itemCount;
+		if (unit == 'g' && totalUnits > 1000) {
+			const nb = Math.round((totalUnits / 1000 + Number.EPSILON) * 10) / 10;
+			endStr = `${nb.toLocaleString('fi')} kg`;
+		} else if (unit == 's' && totalUnits >= 60) {
+			const nb = Math.round((totalUnits / 3600 + Number.EPSILON) * 10) / 10;
+			endStr = `${nb.toLocaleString('fi')} h`;
+		} else {
+			const nb = Math.round((totalUnits + Number.EPSILON) * 100) / 100;
+			endStr = `${nb.toLocaleString('fi')} ${unit}`;
+		}
+		return `${startStr}${endStr}`;
 	}
-	// let dlgOpen: boolean = $state();
 </script>
 
 <div class="flex flex-col gap-2">
@@ -62,6 +82,90 @@
 			{/if} -->
 		</Card.Content>
 	</Card.Root>
+	<Card.Root>
+		<Card.Header>
+			<div class="flex items-center justify-between">
+				<Card.Title>Children / Recipe</Card.Title>
+				{#if data.task?.childItems[0] && data.task?.qty != 0}
+					<div class="">
+						<p class="text-sm font-medium leading-none">
+							Qty: {nbItems}pcs
+						</p>
+
+						<!-- <Label>Nb of items</Label>
+						<Input
+							type="number"
+							placeholder="nb of items"
+							bind:value={nbItems}
+							class="w-28 text-end"
+						/> -->
+					</div>
+				{/if}
+			</div>
+		</Card.Header>
+		<Card.Content>
+			{#if data.task?.childItems[0]}
+				<table class="w-full divide-y divide-gray-200">
+					<thead>
+						<tr>
+							<th scope="col" class="p-2 text-start text-xs font-medium uppercase text-gray-500"
+								>Item</th
+							>
+							<th scope="col" class="p-2 text-end text-xs font-medium uppercase text-gray-500"></th>
+							<th scope="col" class="p-2 text-end text-xs font-medium uppercase text-gray-500"
+								>Total</th
+							>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-gray-200">
+						{#each data.task?.childItems as item}
+							<tr class="hover:bg-slate-50">
+								<td class=" p-2 text-sm font-medium text-gray-800">
+									<a href="/item/{item.childId}">
+										<div class="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
+											<Avatar.Root class="h-12 w-12  rounded-sm">
+												<Avatar.Image src={item.child.thumb} alt="Thumbnail" />
+												<Avatar.Fallback
+													>{item.child.name?.substring(0, 3).toUpperCase()}</Avatar.Fallback
+												>
+											</Avatar.Root>
+											<div class=" space-y-1">
+												<p class="text-sm font-medium leading-none">
+													{item.child.id}-{item.child.name}
+												</p>
+												<p class="text-sm text-muted-foreground">
+													{item.child.type?.type}/{item.child.type?.subtype}
+												</p>
+											</div>
+										</div>
+									</a>
+								</td>
+								{#if item.unitsCount != 0}
+									<td class=" p-2 text-end text-sm text-gray-800"
+										>{item.itemCount}pcs / {item.unitsCount}{item.unit}</td
+									>
+									<td class="whitespace-nowrap p-2 text-end text-sm text-gray-800">
+										{childText(item.itemCount, item.unitsCount, item.unit)}</td
+									>
+								{:else}
+									<td></td>
+									<td></td>
+									<!-- <td class=" p-2 text-end text-sm text-gray-800"></td>
+									<td class="whitespace-nowrap p-2 text-end text-sm text-gray-800"></td> -->
+								{/if}
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			{:else}
+				<p class="p-4 text-sm text-muted-foreground">No children / recipe</p>
+			{/if}
+		</Card.Content>
+		<Card.Footer class="justify-end gap-2 pt-2">
+			<Button variant="outline" href="/copyrecipe?task={data.task?.id}">Copy recipe</Button>
+		</Card.Footer>
+	</Card.Root>
+
 	<Card.Root>
 		<Card.Header>
 			<Card.Title

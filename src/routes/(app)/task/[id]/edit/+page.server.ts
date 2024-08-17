@@ -17,24 +17,15 @@ export const load = async ({ params }) => {
 				}
 			},
 			type: true,
-			status: true
+			status: true,
+			childItems: {
+				include: {
+					child: { include: { type: true } }
+				}
+			}
 		}
 	});
-	// console.log('task', response);
 
-	// console.log('paraa', params.id);
-	// const item = await getItem(params.id);
-	// let selectableItemsTemp = await prisma.item.findMany({
-	// 	where: { active: true },
-	// 	select: {
-	// 		id: true,
-	// 		name: true,
-	// 		type: true
-	// 	}
-	// });
-	// const selectableItems = selectableItemsTemp.map((item) => {
-	// 	return { ...item, type: formatType(item.type?.type, item.type?.subtype) };
-	// });
 	const selectableStatus = await prisma.taskStatus.findMany({
 		select: {
 			id: true,
@@ -53,34 +44,21 @@ export const load = async ({ params }) => {
 	const selectableTypes = selectableTypesTemp.map((type) => {
 		return { id: type.id, type: formatType(type.type, type.subtype) };
 	});
-	return { task: response, selectableTypes, selectableStatus };
+	const selectableItems = await prisma.item.findMany({
+		where: { active: true },
+		select: {
+			id: true,
+			name: true,
+			type: true
+		}
+	});
 
-	// return { item, selectableItems, selectableTypes };
+	return { task: response, selectableTypes, selectableStatus, selectableItems };
 };
 
 export const actions = {
 	default: async ({ request, params, url }) => {
 		const data = await request.formData();
-		// data.forEach((value, key) => console.log('itemkey:', key, value));
-
-		// let c = JSON.parse(data.get('children'));
-		// c = c.map((item) => {
-		// 	return {
-		// 		childId: parseInt(item.id),
-		// 		itemCount: parseInt(item.itemCount),
-		// 		unitsCount: parseInt(item.unitsCount),
-		// 		unit: item.unit
-		// 	};
-		// });
-		// let p = JSON.parse(data.get('parents'));
-		// p = p.map((item) => {
-		// 	return {
-		// 		parentId: parseInt(item.id),
-		// 		itemCount: parseInt(item.itemCount),
-		// 		unitsCount: parseInt(item.unitsCount),
-		// 		unit: item.unit
-		// 	};
-		// });
 
 		const content = data.get('content') as string;
 		const files = data.getAll('file') as File[];
@@ -91,6 +69,16 @@ export const actions = {
 				writeFileSync(`${writePath()}img/${file.name}.jpg`, data);
 			});
 		}
+		let c = JSON.parse(data.get('children'));
+		c = c.map((item) => {
+			return {
+				childId: parseInt(item.id),
+				itemCount: parseInt(item.itemCount),
+				unitsCount: parseInt(item.unitsCount),
+				unit: item.unit
+			};
+		});
+		// console.log('childitemm', c);
 
 		const result = await prisma.task.update({
 			where: {
@@ -106,12 +94,12 @@ export const actions = {
 				qty: parseFloat(data.get('qty')),
 				// startDate: Date.parse(data.get('startDate')),
 				// endDate: Date.parse(data.get('endDate')),
-				content
+				content,
 				// thumb: data.get('thumb'),
-				// childItems: {
-				// 	deleteMany: {},
-				// 	create: c
-				// },
+				childItems: {
+					deleteMany: {},
+					create: c
+				}
 				// parentItems: {
 				// 	deleteMany: {},
 				// 	create: p
@@ -127,8 +115,8 @@ export const actions = {
 				status: true
 			}
 		});
-		console.log('reestask', result);
-		console.log('reestask url', url);
+		// console.log('reestask', result);
+		// console.log('reestask url', url);
 		if (url.searchParams.get('item')) throw redirect(303, `/item/${url.searchParams.get('item')}`);
 		if (url.searchParams.get('href')) throw redirect(303, url.searchParams.get('href'));
 		throw redirect(303, `/task/${params.id}`);

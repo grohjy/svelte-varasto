@@ -106,7 +106,7 @@
 	<Card.Root>
 		<Card.Header>
 			<div class="flex items-center justify-between">
-				<Card.Title>Children</Card.Title>
+				<Card.Title>Children / Recipe</Card.Title>
 				{#if data.item?.childItems[0] && data.item?.recipeDefQty != 0}
 					<div class="">
 						<Label>Nb of items</Label>
@@ -169,13 +169,13 @@
 					</tbody>
 				</table>
 			{:else}
-				<p class="p-4 text-sm text-muted-foreground">No children</p>
+				<p class="p-4 text-sm text-muted-foreground">No children / recipe</p>
 			{/if}
 		</Card.Content>
-		<Card.Footer class="justify-end pt-2">
+		<Card.Footer class="justify-end gap-2 pt-2">
+			<Button variant="outline" href="/copyrecipe?parent={data.item?.id}">Copy recipe</Button>
 			<form method="post" action="/item/create?parent={data.item?.id}">
-				<!-- <input hidden name="item" value={$page.params.id} /> -->
-				<Button variant="outline" type="submit">Create</Button>
+				<Button variant="outline" type="submit">Create new item</Button>
 			</form>
 		</Card.Footer>
 	</Card.Root>

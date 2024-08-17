@@ -14,6 +14,7 @@
 		unitsCount: 0,
 		unit: 'pcs'
 	});
+	// console.log('swa', allItems);
 
 	let filteredSelParents = $derived(
 		allItems.filter((item) => {

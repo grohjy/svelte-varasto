@@ -30,6 +30,8 @@ model Item {
   parentItems ItemChildsAndParents[] @relation("childItem") //every item where I am child
   inventory Inventory[]
   inventoryRemove InventoryRemove[]
+  parentTasks TaskAndChildItems[]  //every task where I am child
+
 }
 
 model ItemChildsAndParents {
@@ -52,6 +54,18 @@ model typeItem {
   items    Item[]    
   }
 
+model TaskAndChildItems {
+  parent       Task @relation(fields: [parentId], references: [id])
+  parentId     Int 
+  child        Item @relation( fields: [childId], references: [id])
+  childId      Int 
+  itemCount        Int @default(1)
+  unitsCount        Int @default(1)
+  unit         String @default("pcs")
+
+  @@id([parentId, childId])
+}
+
 model Task {
   id        Int      @id @default(autoincrement())
   name     String  @default("")
@@ -70,6 +84,8 @@ model Task {
   actions    Action[]  
   inventory Inventory[]
   inventoryRemove InventoryRemove[]
+  childItems TaskAndChildItems[] //every item where I am parent
+
 }
 
 model taskType {

@@ -27,10 +27,11 @@ export const load = async ({ params }) => {
 			},
 			inventoryRemove: {
 				include: { item: true }
-			}
+			},
+			childItems: { include: { child: { include: { type: true } } } }
 		}
 	});
-	// console.log('task', response);
+	// console.log('task', JSON.stringify(response, null, 2));
 
 	return { task: response };
 };

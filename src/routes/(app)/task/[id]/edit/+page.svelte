@@ -40,7 +40,17 @@
 	});
 
 	let editor;
-
+	let childItems = $state(
+		data.task?.childItems.map((item) => ({
+			id: item.child.id,
+			name: item.child.name,
+			type: `${item.child.type?.type}/${item.child.type?.subtype}`,
+			itemCount: item.itemCount,
+			unitsCount: item.unitsCount,
+			unit: item.unit
+		}))
+	);
+	console.log('alll', JSON.stringify(childItems, null, 2));
 	async function handleOnSubmit({ formData }) {
 		// console.log('alll', JSON.stringify(data.item));
 
@@ -55,6 +65,8 @@
 		formData.append('status', statusId);
 		formData.append('startDate', dates.start);
 		formData.append('endDate', dates.end);
+		formData.append('children', JSON.stringify(childItems));
+		console.log('kokoe', data.task?.childItems);
 
 		// formData.append('parents', JSON.stringify(data.item?.parentItems));
 		// formData.append('children', JSON.stringify(data.item?.childItems));
@@ -105,20 +117,25 @@
 					</div>
 					<Label for="">Dates</Label>
 					<GfDaterange bind:value={dates} />
-					<div class="grid gap-1">
-						<Label for="name">Qty</Label>
-						<Input
-							id="qty"
-							name="qty"
-							placeholder="qty (pcs or h)"
-							type="number"
-							value={data.task?.qty}
-						/>
-					</div>
 
 					<!-- <p>{JSON.stringify(dates)}</p> -->
 					<Label for="editor">Main content</Label>
 					<GfEditor bind:this={editor} value={data.task?.content || ''} />
+
+					<h3>Children / Recipe:</h3>
+					<div class="grid gap-1">
+						<Label for="name">Qty</Label>
+						<Input id="qty" name="qty" placeholder="qty" type="number" value={data.task?.qty} />
+					</div>
+					<!-- </div> -->
+
+					<GfItemedittable
+						bind:items={childItems}
+						allItems={data.selectableItems.map((item) => ({
+							...item,
+							type: `${item.type?.type}/${item.type?.subtype}`
+						}))}
+					/>
 
 					<div class="flex items-center justify-end space-x-2 p-6 pt-0">
 						<Button variant="ghost" href={`/task/${$page.params.id}`}>Cancel</Button>
