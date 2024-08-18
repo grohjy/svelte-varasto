@@ -37,7 +37,7 @@
 			</div>
 
 			<div class="grid gap-6">
-				<form method="POST" use:enhance={handleOnSubmit} id="formjg" enctype="multipart/form-data">
+				<form method="POST" use:enhance={handleOnSubmit} id="formjg">
 					<div class="grid gap-2">
 						<div class="grid grid-cols-3 gap-2">
 							<input type="hidden" name="task" value={data.task?.id} />
@@ -60,26 +60,26 @@
 								/>
 								<input type="hidden" name="type" value={actionType} />
 							</div>
-							{#if data.types.find((t) => t.id == actionType)?.type == 'purchase' || data.types.find((t) => t.id == actionType)?.type == 'work'}
-								<div class="grid gap-1 self-end">
-									<Label for="info">Qty</Label>
-									<Input
-										id="qty"
-										name="qty"
-										placeholder="qty (h or €)"
-										type="number"
-										step="any"
-										autocapitalize="none"
-										autocorrect="off"
-										autocomplete="off"
-									/>
-									<!-- disabled={!(
+							<!-- {#if data.types.find((t) => t.id == actionType)?.type == 'purchase' || data.types.find((t) => t.id == actionType)?.type == 'work'} -->
+							<div class="grid gap-1 self-end">
+								<Label for="info">Qty</Label>
+								<Input
+									id="qty"
+									name="qty"
+									placeholder="qty (h / € / pcs)"
+									type="number"
+									step="any"
+									autocapitalize="none"
+									autocorrect="off"
+									autocomplete="off"
+								/>
+								<!-- disabled={!(
 										data.types.find((t) => t.id == actionType)?.type == 'purchase' ||
 										data.types.find((t) => t.id == actionType)?.type == 'work'
 									)} -->
-								</div>
-								<!-- {:else} -->
-							{/if}
+							</div>
+							<!-- {:else} -->
+							<!-- {/if} -->
 						</div>
 						<div class="grid gap-1">
 							<Label for="info">Info</Label>

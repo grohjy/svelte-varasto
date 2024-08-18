@@ -42,7 +42,7 @@
 				</a>
 			</div>
 			<div class="flex-1">
-				<GfNav url={$page.url.pathname} />
+				<GfNav url={$page.url.href} />
 			</div>
 		</div>
 	</div>
@@ -59,7 +59,7 @@
 				<Sheet.Portal>
 					<Sheet.Overlay class="bg-background/50 backdrop-blur-sm" />
 					<Sheet.Content side="left" class="flex flex-col">
-						<GfNav hamburger url={$page.url.pathname} onclick={() => (menuOpen = false)} />
+						<GfNav hamburger url={$page.url.href} onclick={() => (menuOpen = false)} />
 					</Sheet.Content>
 				</Sheet.Portal>
 			</Sheet.Root>

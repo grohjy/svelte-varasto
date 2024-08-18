@@ -13,7 +13,8 @@ import {
 	Settings,
 	type Icon,
 	BarChartBig,
-	BarChartHorizontalBigIcon
+	BarChartHorizontalBigIcon,
+	Factory
 } from 'lucide-svelte';
 import { type ComponentType } from 'svelte';
 // import type {Icon} from "lucide-svelte"
@@ -26,6 +27,7 @@ type GfNav = {
 
 export const gfnav: GfNav[] = [
 	{ name: 'Sales', url: '/sales?w=10&wb=3', icon: BarChartHorizontalBigIcon },
+	{ name: 'Production', url: '/production?w=3&wb=1', icon: Factory },
 	{ name: 'Items', url: '/item', icon: Settings },
 	{ name: 'Tasks', url: '/task', icon: CalendarCheck2 },
 	{ name: 'Actions', url: '/action', icon: ListChecks },

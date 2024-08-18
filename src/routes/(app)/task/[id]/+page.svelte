@@ -199,6 +199,8 @@
 								{action.qty}h
 							{:else if action.type?.type == 'purchase'}
 								{action.qty}€
+							{:else if action.type?.type == 'inspection'}
+								{action.qty}pcs
 							{/if}
 
 							{action.type?.type}/{action.type?.subtype}

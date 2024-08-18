@@ -107,7 +107,7 @@ model Action {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   info     String?
-  qty     Float?
+  qty     Float?      @default(0)
   type    actionType? @relation(fields: [typeId], references: [id])
   typeId  Int?
   task Task?          @relation(fields: [taskId],references: [id])

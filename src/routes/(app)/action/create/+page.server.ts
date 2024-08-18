@@ -18,40 +18,20 @@ export const load = async ({ params, url }) => {
 	});
 	const users = await prisma.user.findMany({});
 	const types = await prisma.actionType.findMany({ where: { useInSelection: true } });
-	console.log('users', task);
+	// console.log('users', task);
 
 	return { task, users, types };
 	// return {};
 };
 
 export const actions = {
-	default: async ({ request }) => {
-		// const kkk = Object.fromEntries(await request.formData());
-		// console.log('kkk');
-
+	default: async ({ request, url }) => {
 		const data = await request.formData();
 		data.forEach((value, key) => console.log('key:', key, value));
-		// const shortname = data.get('shortname') as string;
-		// const logo = data.get('logo') as string;
-		// const content = data.get('content') as string;
-		// console.log('jepu', data);
-		// const files = data.getAll('file') as File[];
-		// if (files && files.length > 0) {
-		// console.log('fiiles:', files);
-		// 	files.forEach(async (file) => {
-		// 		const buffer = await file.arrayBuffer();
-		// 		const data = Buffer.from(buffer);
-		// 		writeFileSync(`static/images/${file.name}.jpg`, data);
-		// 	});
-		// }
-		// const qtyTemp = data.get('qty')?.replace(',', '.');
-
-		// const qty = parseFloat(qtyTemp);
 		let qty = 0;
 		if (data.get('qty')) {
 			qty = parseFloat(data.get('qty'));
 		}
-		// console.log('qtyy', qty);
 
 		await prisma.action.create({
 			data: {
@@ -64,6 +44,8 @@ export const actions = {
 		});
 
 		// console.log('jepure');
+		if (url.searchParams.get('href')) throw redirect(303, url.searchParams.get('href'));
+
 		throw redirect(303, `/task/${parseInt(data.get('task'))}`);
 	}
 };
