@@ -2,10 +2,14 @@ fly ssh sftp shell
 
 put siirtää tiedostot local-koneelta remoteen.
 
-fly ssh console '
+fly ssh console 
+
+fly deploy
 
 node run dev -- --host
 
+
+prisma migrate deploy
 
 
 sqlite3 data/dev.db

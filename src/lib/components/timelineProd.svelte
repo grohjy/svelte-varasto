@@ -17,7 +17,7 @@
 	dayjs.extend(isoWeek);
 	let { tasks, nbWeeks, nbWeeksBefore } = $props();
 	let width = $state(1000);
-	let minWidth = 400;
+	let minWidth = 399;
 
 	let container;
 	let lineHeight = 60;
@@ -25,6 +25,7 @@
 	let startOfWeek = dayjs().startOf('isoWeek').toDate();
 	let startOfTimeline = dayjs(startOfWeek).add(-nbWeeksBefore, 'w').toDate();
 	let endOfTimeline = dayjs(startOfWeek).add(nbWeeks, 'w').toDate();
+	let titleWidth = 130;
 	// console.log('eend', endOfTimeline);
 
 	let timelineLength = (nbWeeksBefore + nbWeeks) * 7;
@@ -70,14 +71,14 @@
 	<div
 		bind:clientWidth={width}
 		style="
-		min-width: {(nbWeeks + nbWeeksBefore) * minWidth}px; 
+		min-width: {(nbWeeks + nbWeeksBefore) * minWidth + titleWidth}px; 
 		"
 		class="relative"
 	>
 		<div
 			style="
 				display: grid; 
-				grid-template-columns: 130px repeat({nbWeeks + nbWeeksBefore},1fr);
+				grid-template-columns: {titleWidth}px repeat({nbWeeks + nbWeeksBefore},1fr);
 			"
 			class="overflow-hidden"
 		>
@@ -108,7 +109,7 @@
 					class="-my-2 mx-1 bg-red-200 bg-opacity-30"
 				></div>
 				{#each tasks as tasktype, i}
-					{#each tasktype.tasks as task, j}
+					{#each tasktype.tasks as task (task.id)}
 						<TimeElementProd
 							start={dayjs(task.startDate).diff(startOfTimeline, 'd')}
 							end={dayjs(endOfTimeline).diff(task.endDate, 'd') > 0
@@ -158,10 +159,14 @@
 				grid-template-rows: repeat({tasks.length},minmax(0, 1fr));
 				grid-column:1;grid-row:2;
 				left:{xScroll}px"
-				class="relative"
+				class="relative border-b-2"
 			>
 				{#each tasks as tasktype, i}
-					<div class="flex items-center border border-l-0 bg-white bg-opacity-90 p-2">
+					<div
+						class="flex items-center border-r-2 {tasktype.type != ''
+							? 'border-t-2'
+							: ''}  bg-white bg-opacity-90 p-2"
+					>
 						<p class="text-md font-medium leading-none">
 							{tasktype.type}
 						</p>
@@ -170,75 +175,4 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="absolute h-full w-full">
-			{#each Array(nbWeeks + nbWeeksBefore) as w, i}
-				<TimeWeekSales
-					dayLength={dayLen}
-					start={dayLen * 7 * i}
-					height={height + headerHeight * 2}
-					{headerHeight}
-					even={evenMonth(dayjs(startOfWeek).add(-nbWeeksBefore + i, 'w'))}
-					text=>{`${addDays(startOfWeek, (i - nbWeeksBefore) * 7).toLocaleDateString('fi', { day: 'numeric', month: 'numeric' })} w${dayjs(addDays(startOfWeek, (i - 1) * 7)).isoWeek()}`}
-				/>
-			{/each}
-			<TimeToday length={dayLen} height={height + headerHeight * 2} x={x(today)} />
-		</div> -->
-	<!-- <div
-			class="absolute w-full"
-			style="height:{lineHeight * items.length}px; top:{headerHeight}px; "
-		>
-			{#each items as item, j}
-				{#each item.tasks as task, i}
-					<a href="/task/{task.id}/edit?href=/sales">
-						<TimeElementSales
-							start={x(dayjs(task.startDate).startOf('date'))}
-							length={x(addDays(new Date(task.endDate), 1)) - x(new Date(task.startDate))}
-							height={lineHeight}
-							y={lineHeight * j}
-							type={task.type?.type}
-							subtype={task.type?.subtype}
-							status={task.status?.status}
-							id={task.id}
-						>
-							<div class="space-y-1">
-								<p class="text-sm font-medium leading-none">
-									{task.id}-{task.name}
-								</p>
-								{#if task.qty}
-									<p class="text-sm text-muted-foreground">
-										{task.qty.toLocaleString('fi')}pcs
-									</p>
-								{/if}
-							</div>
-						</TimeElementSales>
-					</a>
-				{/each}
-				<TimeTitleSales x={xScroll} y={lineHeight * j} height={lineHeight}>
-					<div class="flex h-full items-center p-1 pr-2 hover:bg-slate-50">
-						<a href="/item/{item.id}">
-							<Avatar.Root class="h-12 w-12  rounded-sm ">
-								<Avatar.Image src={item.thumb} alt="Thumbnail" />
-								<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
-							</Avatar.Root>
-						</a>
-						<div class="ml-2 space-y-1">
-							<a href="/item/{item.id}" class="hover:underline">
-								<p class="text-sm font-medium leading-none">
-									{item.id}-{item.name}
-								</p>
-							</a>
-							{#if item.parentItems[0]}
-								<p class="text-sm text-muted-foreground">
-									<a href="/item/{item.parentItems[0]?.parent?.id}" class="hover:underline">
-										<span
-											>{item.parentItems[0]?.parent?.id}-{item.parentItems[0]?.parent?.name}</span
-										>
-									</a>
-								</p>
-							{/if}
-						</div>
-					</div>
-				</TimeTitleSales>
-			{/each}
-		</div> -->
 </div>

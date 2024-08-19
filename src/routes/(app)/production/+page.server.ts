@@ -21,26 +21,26 @@ export const load = async ({ url }) => {
 			NOT: { status: { status: 'done' } }
 			// ]
 		},
-		orderBy: [{ type: { type: 'desc' } }, { type: { subtype: 'asc' } }],
+		orderBy: [{ type: { type: 'desc' } }, { type: { subtype: 'asc' } }, { startDate: 'asc' }],
 		omit: {
 			content: true
 		},
 		include: {
 			item: {
-				omit: { content: true }
+				omit: { content: true, thumb: false }
 			},
 			status: true,
 			type: true
 		}
 	});
 
-	const tasksByType = groupby(tasks, ({ type }) => type.subtype);
-	const tasksByType2 = Object.entries(tasksByType).map(([key, value]) => {
-		return { type: key, tasks: value };
-	});
+	// const tasksByType = groupby(tasks, ({ type }) => type.subtype);
+	// const tasksByType2 = Object.entries(tasksByType).map(([key, value]) => {
+	// 	return { type: key, tasks: value };
+	// });
 
 	// console.log('sale ite', JSON.stringify(tasksByType2, null, 2));
 	// console.log('loppuu');
 
-	return { tasksByType2, nbWeeksBefore, nbWeeks };
+	return { tasks, nbWeeksBefore, nbWeeks };
 };
