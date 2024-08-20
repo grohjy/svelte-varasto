@@ -16,7 +16,7 @@
 
 	dayjs.extend(isoWeek);
 	let { tasks, nbWeeks, nbWeeksBefore } = $props();
-	let width = $state(1000);
+	// let width = $state(1000);
 	let minWidth = 399;
 
 	let container;
@@ -67,112 +67,116 @@
 	}
 </script>
 
-<div bind:this={container} onscroll={onScroll} class="w-full overflow-x-auto">
+<!-- <div bind:this={container} onscroll={onScroll} class="w-full overflow-x-auto"> -->
+<!-- bind:clientWidth={width} -->
+<div class="relative w-full overflow-x-auto">
 	<div
-		bind:clientWidth={width}
 		style="
 		min-width: {(nbWeeks + nbWeeksBefore) * minWidth + titleWidth}px; 
+		display: grid; 
+		grid-template-columns: {titleWidth}px repeat({nbWeeks + nbWeeksBefore},1fr);
 		"
 		class="relative"
 	>
-		<div
-			style="
-				display: grid; 
-				grid-template-columns: {titleWidth}px repeat({nbWeeks + nbWeeksBefore},1fr);
-			"
-			class="overflow-hidden"
-		>
-			{#each Array(nbWeeksBefore + nbWeeks) as w, i}
-				<div style="grid-column:{i + 2};grid-row:1;" class="">
-					<div class=" p-2">{titleStr(startOfWeek, i - nbWeeksBefore)}</div>
-				</div>
-				<div
-					style="display: grid;grid-template-columns: 5fr 2fr;grid-column:{i + 2};
-						grid-row:2;"
-					class="border border-r-0"
-				>
-					<div class=" col-start-2 border bg-slate-100"></div>
-				</div>
-				<div style="grid-column:{i + 2};grid-row:3;" class="">
-					<div class=" p-2">{titleStr(startOfWeek, i - nbWeeksBefore)}</div>
-				</div>
-			{/each}
+		{#each Array(nbWeeksBefore + nbWeeks) as w, i}
+			<div style="grid-column:{i + 2};grid-row:1;" class="">
+				<div class=" p-2">{titleStr(startOfWeek, i - nbWeeksBefore)}</div>
+			</div>
 			<div
-				style="display: grid; 
+				style="display: grid;grid-template-columns: 5fr 2fr;grid-column:{i + 2}; grid-row:2;"
+				class="border border-r-0"
+			>
+				<div class=" col-start-2 border bg-slate-100"></div>
+			</div>
+			<div style="grid-column:{i + 2};grid-row:3;" class="">
+				<div class=" p-2">{titleStr(startOfWeek, i - nbWeeksBefore)}</div>
+			</div>
+		{/each}
+		<div
+			style="display: grid; 
 					grid-template-columns: repeat({(nbWeeks + nbWeeksBefore) * 7},minmax(0, 1fr));
 					grid-template-rows: repeat({tasks.length},minmax(0, 1fr));
 					grid-column:2/{nbWeeks + nbWeeksBefore + 2};grid-row:2;"
-				class=""
-			>
-				<div
-					style="grid-column:{dayjs().diff(startOfTimeline, 'd') + 1}/span 1; grid-row:1/-1;"
-					class="-my-2 mx-1 bg-red-200 bg-opacity-30"
-				></div>
-				{#each tasks as tasktype, i}
-					{#each tasktype.tasks as task (task.id)}
-						<TimeElementProd
-							start={dayjs(task.startDate).diff(startOfTimeline, 'd')}
-							end={dayjs(endOfTimeline).diff(task.endDate, 'd') > 0
-								? dayjs(task.endDate).diff(startOfTimeline, 'd')
-								: -timelineLength}
-							row={i + 1}
-							status={task.status.status}
-						>
-							<div class="flex h-full flex-col">
-								<div class="flex gap-2">
-									<a href="/task/{task.id}">
-										<Avatar.Root class="h-14 w-14  rounded-sm ">
-											<Avatar.Image src={task.item?.thumb} alt="Thumbnail" />
-											<Avatar.Fallback
-												>{task.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback
-											>
-										</Avatar.Root>
-									</a>
-									{#if task.status.status == 'open'}
-										<a href="/action/create?task={task.id}&href=/production?w=3%26wb=1">
-											<SquarePen class="h-8 w-8 p-1" />
-										</a>
-									{/if}
-								</div>
-								<div class="  p-1">
-									<p class="text-sm font-medium">
-										<a href="/task/{task.id}" class="hover:underline">
-											{task.id}-{task.name}
-										</a>
-									</p>
-									<p class="text-sm text-muted-foreground">
-										<a href="/item/{task.item.id}" class="hover:underline">
-											{task.item.id}-{task.item.name}
-										</a>
-									</p>
-									<p class="text-sm text-muted-foreground">
-										qty:{task.qty}
-									</p>
-								</div>
-							</div>
-						</TimeElementProd>
-					{/each}
-				{/each}
-			</div>
+			class=""
+		>
 			<div
-				style="display: grid; 
+				style="grid-column:{dayjs().diff(startOfTimeline, 'd') + 1}/span 1; grid-row:1/-1;"
+				class="-my-2 mx-1 bg-red-200 bg-opacity-30"
+			></div>
+			{#each tasks as tasktype, i}
+				{#each tasktype.tasks as task (task.id)}
+					<TimeElementProd
+						start={dayjs(task.startDate).diff(startOfTimeline, 'd')}
+						end={dayjs(endOfTimeline).diff(task.endDate, 'd') > 0
+							? dayjs(task.endDate).diff(startOfTimeline, 'd')
+							: -timelineLength}
+						row={i + 1}
+						status={task.status.status}
+					>
+						<div class="flex h-full flex-col">
+							<div class="flex gap-2">
+								<a href="/task/{task.id}">
+									<Avatar.Root class="h-14 w-14  rounded-sm ">
+										<Avatar.Image src={task.item?.thumb} alt="Thumbnail" />
+										<Avatar.Fallback
+											>{task.item?.name.substring(0, 3).toUpperCase()}</Avatar.Fallback
+										>
+									</Avatar.Root>
+								</a>
+								{#if task.status.status == 'open'}
+									<a href="/action/create?task={task.id}&href=/production?w=3%26wb=1">
+										<SquarePen class="h-8 w-8 p-1" />
+									</a>
+								{/if}
+							</div>
+							<div class="  p-1">
+								<p class="text-sm font-medium">
+									<a href="/task/{task.id}" class="hover:underline">
+										{task.id}-{task.name}
+									</a>
+								</p>
+								<p class="text-sm text-muted-foreground">
+									<a href="/item/{task.item.id}" class="hover:underline">
+										{task.item.id}-{task.item.name}
+									</a>
+								</p>
+								<p class="text-sm text-muted-foreground">
+									qty:{task.qty}
+								</p>
+							</div>
+						</div>
+					</TimeElementProd>
+				{/each}
+			{/each}
+		</div>
+		<div
+			style="display: grid; 
 				grid-template-rows: repeat({tasks.length},minmax(0, 1fr));
 				grid-column:1;grid-row:2;
-				left:{xScroll}px"
-				class="relative border-b-2"
-			>
-				{#each tasks as tasktype, i}
-					<div
-						class="flex items-center border-r-2 {tasktype.type != ''
-							? 'border-t-2'
-							: ''}  bg-white bg-opacity-90 p-2"
-					>
-						<p class="text-md font-medium leading-none">
-							{tasktype.type}
-						</p>
-					</div>
-				{/each}
-			</div>
+				position:sticky;
+				left:0px
+				"
+			class="relative border-b-2"
+		>
+			<!-- <div
+				style="
+			position:sticky;
+			left:20px"
+				class="h-full w-full border border-red-400"
+			> -->
+			{#each tasks as tasktype, i}
+				<div
+					class="flex items-center border-r-2 {tasktype.type != ''
+						? 'border-t-2'
+						: ''}  bg-white bg-opacity-90 p-2"
+				>
+					<p class="text-md font-medium leading-none">
+						{tasktype.type}
+					</p>
+				</div>
+			{/each}
 		</div>
 	</div>
 </div>
+<!-- </div> -->
+<!-- </div> -->
