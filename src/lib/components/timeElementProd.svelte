@@ -24,12 +24,12 @@
 <div
 	style="grid-column:{start + 1}/{end + 2};
     grid-row:{row}; "
-	class="px-1 py-2 {start == 0 && 'pl-0'} {endOver && 'pr-0'}"
+	class="z-10 px-1 py-2 {start == 0 ? 'pl-[1px]' : ''} {endOver ? 'pr-0' : ''}"
 >
 	<div
-		class="h-full whitespace-nowrap rounded-sm
-        {start == 0 && 'rounded-l-none border-l-0'} 
-        {endOver && 'rounded-r-none border-r-0'} 
+		class=" h-full whitespace-nowrap rounded-sm
+        {start == 0 ? 'rounded-l-none border-l-0' : ''} 
+        {endOver ? 'rounded-r-none border-r-0' : ''} 
         border border-black {bgColor} bg-opacity-80 hover:outline hover:outline-1"
 	>
 		{@render children()}

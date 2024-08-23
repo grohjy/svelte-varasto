@@ -54,7 +54,7 @@
 	});
 </script>
 
-<div class="border-2">
+<div class="relative h-full border-2">
 	<!-- <pre>{JSON.stringify(tasksByType2, null, 2)}</pre> -->
 	<TimelineProd tasks={tasksByType2} nbWeeks={data.nbWeeks} nbWeeksBefore={data.nbWeeksBefore} />
 </div>

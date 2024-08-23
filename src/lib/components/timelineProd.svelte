@@ -69,29 +69,48 @@
 
 <!-- <div bind:this={container} onscroll={onScroll} class="w-full overflow-x-auto"> -->
 <!-- bind:clientWidth={width} -->
-<div class="relative w-full overflow-x-auto">
+<div class="absolute bottom-0 top-0 w-full overflow-auto">
 	<div
 		style="
 		min-width: {(nbWeeks + nbWeeksBefore) * minWidth + titleWidth}px; 
 		display: grid; 
-		grid-template-columns: {titleWidth}px repeat({nbWeeks + nbWeeksBefore},1fr);
+		grid-template-columns: auto 1fr;
 		"
 		class="relative"
 	>
-		{#each Array(nbWeeksBefore + nbWeeks) as w, i}
-			<div style="grid-column:{i + 2};grid-row:1;" class="">
-				<div class=" p-2">{titleStr(startOfWeek, i - nbWeeksBefore)}</div>
-			</div>
-			<div
-				style="display: grid;grid-template-columns: 5fr 2fr;grid-column:{i + 2}; grid-row:2;"
-				class="border border-r-0"
-			>
-				<div class=" col-start-2 border bg-slate-100"></div>
-			</div>
-			<div style="grid-column:{i + 2};grid-row:3;" class="">
-				<div class=" p-2">{titleStr(startOfWeek, i - nbWeeksBefore)}</div>
-			</div>
-		{/each}
+		<div
+			style="
+		grid-column:2; 
+		grid-row:1;
+		display: grid; 
+		grid-template-columns:repeat({nbWeeks + nbWeeksBefore},1fr);
+		
+		"
+			class="sticky top-0 z-20 border-b bg-white bg-opacity-90"
+		>
+			{#each Array(nbWeeksBefore + nbWeeks) as w, i}
+				<div style="grid-column:{i + 1};" class="border-l">
+					<div class=" p-2">{titleStr(startOfWeek, i - nbWeeksBefore)}</div>
+				</div>
+			{/each}
+		</div>
+
+		<div
+			style="
+			grid-column:2; 
+			grid-row:2;
+			display: grid; 
+			grid-template-columns:repeat({nbWeeks + nbWeeksBefore},1fr);
+		"
+			class="relative border"
+		>
+			{#each Array(nbWeeksBefore + nbWeeks) as w, i}
+				<div style="display: grid;grid-template-columns: 5fr 2fr;grid-column:{i + 1};" class="">
+					<div class=" col-start-2 bg-slate-100"></div>
+				</div>
+			{/each}
+		</div>
+
 		<div
 			style="display: grid; 
 					grid-template-columns: repeat({(nbWeeks + nbWeeksBefore) * 7},minmax(0, 1fr));
@@ -101,7 +120,7 @@
 		>
 			<div
 				style="grid-column:{dayjs().diff(startOfTimeline, 'd') + 1}/span 1; grid-row:1/-1;"
-				class="-my-2 mx-1 bg-red-200 bg-opacity-30"
+				class=" mx-1 bg-red-300 bg-opacity-30"
 			></div>
 			{#each tasks as tasktype, i}
 				{#each tasktype.tasks as task (task.id)}
@@ -140,9 +159,11 @@
 										{task.item.id}-{task.item.name}
 									</a>
 								</p>
-								<p class="text-sm text-muted-foreground">
-									qty:{task.qty}
-								</p>
+								{#if task.qty > 0}
+									<p class="text-sm text-muted-foreground">
+										qty:{task.qty}
+									</p>
+								{/if}
 							</div>
 						</div>
 					</TimeElementProd>
@@ -151,25 +172,15 @@
 		</div>
 		<div
 			style="display: grid; 
-				grid-template-rows: repeat({tasks.length},minmax(0, 1fr));
+				grid-template-rows: repeat({tasks.length},minmax(0,1fr));
 				grid-column:1;grid-row:2;
 				position:sticky;
 				left:0px
 				"
-			class="relative border-b-2"
+			class="relative z-20 border-b border-r bg-white bg-opacity-90"
 		>
-			<!-- <div
-				style="
-			position:sticky;
-			left:20px"
-				class="h-full w-full border border-red-400"
-			> -->
 			{#each tasks as tasktype, i}
-				<div
-					class="flex items-center border-r-2 {tasktype.type != ''
-						? 'border-t-2'
-						: ''}  bg-white bg-opacity-90 p-2"
-				>
+				<div class="flex items-center {tasktype.type != '' ? 'border-t-2' : ''} p-2">
 					<p class="text-md font-medium leading-none">
 						{tasktype.type}
 					</p>
@@ -178,5 +189,3 @@
 		</div>
 	</div>
 </div>
-<!-- </div> -->
-<!-- </div> -->

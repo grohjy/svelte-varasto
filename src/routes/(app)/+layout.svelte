@@ -118,11 +118,11 @@
 				</div>
 			</div>
 		</header>
-		<main class="flex flex-1 flex-col gap-4 overflow-auto">
+		<main class="flex flex-auto flex-col gap-4 overflow-auto p-2">
 			<!-- <slot></slot> -->
-			<div class="p-2">
-				{@render children()}
-			</div>
+			<!-- <div class="p-2"> -->
+			{@render children()}
+			<!-- </div> -->
 		</main>
 	</div>
 </div>
