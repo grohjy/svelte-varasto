@@ -82,7 +82,7 @@
 			style="height:{lineHeight * items.length}px; top:{headerHeight}px; "
 		>
 			{#each items as item, j}
-				{#each item.tasks as task, i}
+				{#each item.tasks as task (task.id)}
 					<a href="/task/{task.id}/edit?href=/sales">
 						<TimeElementSales
 							start={x(dayjs(task.startDate).startOf('date'))}
@@ -112,7 +112,7 @@
 						<a href="/item/{item.id}">
 							<Avatar.Root class="h-12 w-12  rounded-sm ">
 								<Avatar.Image src={item.thumb} alt="Thumbnail" />
-								<Avatar.Fallback>{item.name.substring(0, 3).toUpperCase()}</Avatar.Fallback>
+								<Avatar.Fallback>{item.name?.substring(0, 3).toUpperCase()}</Avatar.Fallback>
 							</Avatar.Root>
 						</a>
 						<div class="ml-2 space-y-1">
@@ -121,7 +121,7 @@
 									{item.id}-{item.name}
 								</p>
 							</a>
-							{#if item.parentItems[0]}
+							{#if item.parentItems && item.parentItems[0]}
 								<p class="text-sm text-muted-foreground">
 									<a href="/item/{item.parentItems[0]?.parent?.id}" class="hover:underline">
 										<span

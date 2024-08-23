@@ -19,7 +19,7 @@ export const load = async ({ url }) => {
 			active: true
 		},
 		omit: {
-			// thumb: true,
+			thumb: true,
 			content: true
 		},
 		include: {
@@ -40,6 +40,7 @@ export const load = async ({ url }) => {
 						{ NOT: { status: { status: 'done' } } }
 					]
 				},
+				orderBy: [{ type: { type: 'desc' } }, { startDate: 'asc' }],
 				include: { type: true, status: true }
 			}
 		}

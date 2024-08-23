@@ -22,8 +22,8 @@
 </script>
 
 <div
-	style="grid-column:{start + 1}/{end + 2};
-    grid-row:{row}; "
+	style="grid-column:{start + 2}/{end + 3};
+    grid-row:{row + 1}; "
 	class="z-10 px-1 py-2 {start == 0 ? 'pl-[1px]' : ''} {endOver ? 'pr-0' : ''}"
 >
 	<div

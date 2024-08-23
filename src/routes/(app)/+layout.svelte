@@ -35,7 +35,7 @@
 <div class=" grid min-h-dvh w-full lg:grid-cols-[220px_1fr]">
 	<div class=" hidden border-r bg-muted/40 lg:block">
 		<div class="flex max-h-screen flex-col gap-2">
-			<div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+			<div class="flex h-14 items-center border-b px-4 lg:px-6">
 				<a href="/" class="flex items-center gap-2 font-semibold">
 					<img src="/kettu.png" alt="" class="h-8 w-8 object-contain" />
 					<span class="">GF Vihko</span>
@@ -48,7 +48,8 @@
 	</div>
 
 	<div class=" flex max-h-dvh min-w-full flex-col">
-		<header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+		<!-- mobile navigation -->
+		<header class="flex h-14 min-h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:px-6">
 			<Sheet.Root bind:open={menuOpen}>
 				<Sheet.Trigger asChild let:builder>
 					<Button variant="outline" size="icon" class="shrink-0 lg:hidden" builders={[builder]}>
@@ -118,7 +119,7 @@
 				</div>
 			</div>
 		</header>
-		<main class="flex flex-auto flex-col gap-4 overflow-auto p-2">
+		<main class="flex flex-col gap-4 overflow-auto p-2">
 			<!-- <slot></slot> -->
 			<!-- <div class="p-2"> -->
 			{@render children()}
