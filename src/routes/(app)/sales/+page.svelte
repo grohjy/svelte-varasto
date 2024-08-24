@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TimelineSales from '$lib/components/timelineSales.svelte';
+	import TimelineSales2 from '$lib/components/timelineSales2.svelte';
 	import { search } from '$lib/stores.svelte.js';
 	import groupby from 'core-js/actual/array/group-by';
 
@@ -7,20 +8,8 @@
 	search.active = true;
 	search.value = '';
 	let items = $derived.by(() => {
-		const filteredItems = data.items.filter((item) => {
-			const found = search.cleanedValues.every((value) => {
-				return (
-					item.name.toLowerCase().includes(value) ||
-					item.parentItems[0]?.parent.name.toLowerCase().includes(value) ||
-					item.parentItems[0]?.parent.type?.type?.toLowerCase().includes(value) ||
-					item.parentItems[0]?.parent.type?.subtype?.toLowerCase().includes(value)
-				);
-			});
-			return found;
-		});
-
 		let newGroups = [];
-		filteredItems.forEach((group) => {
+		data.items.forEach((group) => {
 			let tasks = group.tasks;
 			const tasksByType = groupby(tasks, ({ type }) => type.type);
 
@@ -29,9 +18,7 @@
 			});
 
 			taskByType2.forEach((type) => {
-				let subgroups = [{ ...group, group: group.tasks[0]?.type?.type, tasks: [] }];
-				// console.log('aasa', type.type);
-				// if (type.type == 'factory') {
+				let subgroups = [{ ...group, first: true, group: group.tasks[0]?.type?.type, tasks: [] }];
 				type.tasks.forEach((nextTask) => {
 					let fits = true;
 					let handled = false;
@@ -53,23 +40,44 @@
 						}
 					});
 					let newEl = { ...group, group: nextTask.type?.type, tasks: [nextTask] };
-					// console.log('newEL', newEl);
-
-					// subgroups.push(newEl);
 					!fits && subgroups.push(newEl);
 				});
 				newGroups.push(...subgroups);
-				// console.log('sss2', ...subgroups);
-				// }
 			});
 		});
-		// console.log('newgrr', JSON.stringify(newGroups, null, 2));
+		let firstItem;
+		newGroups = newGroups.map((group) => {
+			// if (group.id != firstItem) {
+			// 	firstItem = group.id;
+			// 	group.first = true;
+			// }
+			if (group.tasks[0].type.type == 'order') group.order = true;
+			return group;
+		});
 
-		return newGroups;
+		const filteredItems = newGroups.filter((item) => {
+			const found = search.cleanedValues.every((value) => {
+				return (
+					item.name.toLowerCase().includes(value) ||
+					item.parentItems[0]?.parent.name.toLowerCase().includes(value) ||
+					item.tasks[0].type.type.toLowerCase().includes(value)
+				);
+			});
+			return found;
+		});
+
+		// return newGroups;
+		console.log('fff', filteredItems);
+
 		return filteredItems;
 	});
 </script>
 
-<div class="border-2">
-	<TimelineSales {items} nbWeeks={data.nbWeeks} nbWeeksBefore={data.nbWeeksBefore} />
+<div class="relative h-full border-2">
+	<!-- <pre>{JSON.stringify(tasksByType2, null, 2)}</pre> -->
+	<TimelineSales2 {items} nbWeeks={data.nbWeeks} nbWeeksBefore={data.nbWeeksBefore} />
 </div>
+
+<!-- <div class="border-2">
+	<TimelineSales {items} nbWeeks={data.nbWeeks} nbWeeksBefore={data.nbWeeksBefore} />
+</div> -->

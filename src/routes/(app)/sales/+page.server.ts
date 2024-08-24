@@ -19,7 +19,7 @@ export const load = async ({ url }) => {
 			active: true
 		},
 		omit: {
-			thumb: true,
+			// thumb: true,
 			content: true
 		},
 		include: {
